@@ -171,7 +171,7 @@ async function collectPublishedFiles(outputs) {
     })
   }
 
-  return dedupeByRelativePath(files, pipelineId)
+  return dedupeByRelativePath(files)
 }
 
 function dedupeByRelativePath(files) {
