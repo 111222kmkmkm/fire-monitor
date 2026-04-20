@@ -1,0 +1,20 @@
+{
+  "scenePath": "./data-store/algorithm-input/himawari-scene.json",
+  "outputDir": "./public/data/algorithm/latest",
+  "databasePath": "./fire_monitor.geodatabase",
+  "windowSizes": [7, 9, 11, 19],
+  "thresholds": {
+    "suspiciousOffsetK": 20,
+    "suspiciousVisibleFactor": 100,
+    "minValidRatio": 0.2,
+    "minStdT713K": 2,
+    "maxStdT713K": 4,
+    "nightAbsoluteT7K": 360,
+    "nightVisibleMax": 0.7,
+    "nightZenithDeg": 87,
+    "cloudVisibleDelta": 0.15,
+    "cloudT13DeltaK": 5,
+    "edgeThresholdC": 8,
+    "scoreScaleK": 10
+  }
+}

@@ -1,0 +1,915 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          94.652229,
+          37.094738
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 4.167,
+        "btTir": 291.72,
+        "btDif": 21.01,
+        "sceneId": "202604200030",
+        "dynamicFactor": 4.167,
+        "pc": 0.625,
+        "pv": 1.0,
+        "t7Bg": 284.38,
+        "stdT7": 1.23,
+        "rvis": 0.1312,
+        "rvisBg": 0.0769,
+        "t13Bg": 276.57,
+        "t713Bg": 7.81,
+        "stdT713": 1.36,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          119.676231,
+          45.691059
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 4.063,
+        "btTir": 298.78,
+        "btDif": 27.78,
+        "sceneId": "202604200030",
+        "dynamicFactor": 4.063,
+        "pc": 0.562,
+        "pv": 0.0,
+        "t7Bg": 290.29,
+        "stdT7": 0.97,
+        "rvis": 0.1506,
+        "rvisBg": 0.1117,
+        "t13Bg": 273.91,
+        "t713Bg": 16.38,
+        "stdT713": 1.12,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.597427,
+          31.073217
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 4.007,
+        "btTir": 298.68,
+        "btDif": 20.15,
+        "sceneId": "202604200030",
+        "dynamicFactor": 4.007,
+        "pc": 0.542,
+        "pv": 0.0,
+        "t7Bg": 291.11,
+        "stdT7": 0.74,
+        "rvis": 0.2782,
+        "rvisBg": 0.0972,
+        "t13Bg": 281.79,
+        "t713Bg": 9.32,
+        "stdT713": 1.37,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.829781,
+          34.936966
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 3.993,
+        "btTir": 294.43,
+        "btDif": 21.62,
+        "sceneId": "202604200030",
+        "dynamicFactor": 3.993,
+        "pc": 0.562,
+        "pv": 0.0,
+        "t7Bg": 288.04,
+        "stdT7": 1.45,
+        "rvis": 0.2,
+        "rvisBg": 0.103,
+        "t13Bg": 276.5,
+        "t713Bg": 11.54,
+        "stdT713": 1.24,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.79425,
+          34.720135
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 3.647,
+        "btTir": 298.57,
+        "btDif": 27.67,
+        "sceneId": "202604200030",
+        "dynamicFactor": 3.647,
+        "pc": 0.5,
+        "pv": 0.0,
+        "t7Bg": 290.79,
+        "stdT7": 1.48,
+        "rvis": 0.2206,
+        "rvisBg": 0.1119,
+        "t13Bg": 279.02,
+        "t713Bg": 11.76,
+        "stdT713": 1.21,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.666977,
+          34.70232
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 3.643,
+        "btTir": 298.0,
+        "btDif": 26.63,
+        "sceneId": "202604200030",
+        "dynamicFactor": 3.643,
+        "pc": 0.5,
+        "pv": 0.0,
+        "t7Bg": 292.05,
+        "stdT7": 1.21,
+        "rvis": 0.2176,
+        "rvisBg": 0.1093,
+        "t13Bg": 280.87,
+        "t713Bg": 11.18,
+        "stdT713": 1.23,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.90062,
+          46.263062
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 3.389,
+        "btTir": 294.51,
+        "btDif": 24.04,
+        "sceneId": "202604200030",
+        "dynamicFactor": 3.389,
+        "pc": 0.438,
+        "pv": 0.0,
+        "t7Bg": 288.33,
+        "stdT7": 0.51,
+        "rvis": 0.14,
+        "rvisBg": 0.1309,
+        "t13Bg": 274.07,
+        "t713Bg": 14.26,
+        "stdT713": 1.0,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.130707,
+          34.751488
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 3.36,
+        "btTir": 297.53,
+        "btDif": 22.63,
+        "sceneId": "202604200030",
+        "dynamicFactor": 3.36,
+        "pc": 0.438,
+        "pv": 0.0,
+        "t7Bg": 292.34,
+        "stdT7": 1.02,
+        "rvis": 0.1506,
+        "rvisBg": 0.1059,
+        "t13Bg": 282.63,
+        "t713Bg": 9.71,
+        "stdT713": 1.39,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.994232,
+          34.566444
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 3.326,
+        "btTir": 297.79,
+        "btDif": 25.66,
+        "sceneId": "202604200030",
+        "dynamicFactor": 3.326,
+        "pc": 0.438,
+        "pv": 0.0,
+        "t7Bg": 291.99,
+        "stdT7": 0.7,
+        "rvis": 0.1688,
+        "rvisBg": 0.0976,
+        "t13Bg": 281.86,
+        "t713Bg": 10.12,
+        "stdT713": 2.13,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          128.172653,
+          46.297623
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 3.112,
+        "btTir": 293.09,
+        "btDif": 22.41,
+        "sceneId": "202604200030",
+        "dynamicFactor": 3.112,
+        "pc": 0.333,
+        "pv": 0.0,
+        "t7Bg": 288.48,
+        "stdT7": 0.53,
+        "rvis": 0.1053,
+        "rvisBg": 0.1021,
+        "t13Bg": 272.36,
+        "t713Bg": 16.12,
+        "stdT713": 1.26,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          123.842407,
+          48.002594
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 3.106,
+        "btTir": 298.0,
+        "btDif": 27.56,
+        "sceneId": "202604200030",
+        "dynamicFactor": 3.106,
+        "pc": 0.354,
+        "pv": 0.0,
+        "t7Bg": 287.53,
+        "stdT7": 1.73,
+        "rvis": 0.1806,
+        "rvisBg": 0.0889,
+        "t13Bg": 277.06,
+        "t713Bg": 10.47,
+        "stdT713": 1.72,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.76889,
+          40.568279
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 2.866,
+        "btTir": 306.3,
+        "btDif": 24.92,
+        "sceneId": "202604200030",
+        "dynamicFactor": 2.866,
+        "pc": 0.0,
+        "pv": 1.0,
+        "t7Bg": 298.42,
+        "stdT7": 0.5,
+        "rvis": 0.1224,
+        "rvisBg": 0.1275,
+        "t13Bg": 280.92,
+        "t713Bg": 17.5,
+        "stdT713": 1.0,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.226624,
+          46.133724
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 2.693,
+        "btTir": 295.12,
+        "btDif": 23.58,
+        "sceneId": "202604200030",
+        "dynamicFactor": 2.693,
+        "pc": 0.271,
+        "pv": 0.0,
+        "t7Bg": 288.68,
+        "stdT7": 0.84,
+        "rvis": 0.1412,
+        "rvisBg": 0.1171,
+        "t13Bg": 274.31,
+        "t713Bg": 14.37,
+        "stdT713": 1.13,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.339371,
+          46.286381
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 2.606,
+        "btTir": 294.27,
+        "btDif": 24.06,
+        "sceneId": "202604200030",
+        "dynamicFactor": 2.606,
+        "pc": 0.25,
+        "pv": 0.0,
+        "t7Bg": 288.51,
+        "stdT7": 1.41,
+        "rvis": 0.1682,
+        "rvisBg": 0.1109,
+        "t13Bg": 274.73,
+        "t713Bg": 13.78,
+        "stdT713": 1.16,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          119.802383,
+          45.809608
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 2.515,
+        "btTir": 294.68,
+        "btDif": 24.4,
+        "sceneId": "202604200030",
+        "dynamicFactor": 2.515,
+        "pc": 0.229,
+        "pv": 0.0,
+        "t7Bg": 288.08,
+        "stdT7": 0.68,
+        "rvis": 0.1335,
+        "rvisBg": 0.1102,
+        "t13Bg": 273.93,
+        "t713Bg": 14.15,
+        "stdT713": 1.0,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.973976,
+          35.159424
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 2.437,
+        "btTir": 296.49,
+        "btDif": 25.61,
+        "sceneId": "202604200030",
+        "dynamicFactor": 2.437,
+        "pc": 0.688,
+        "pv": 0.0,
+        "t7Bg": 287.24,
+        "stdT7": 1.24,
+        "rvis": 0.1776,
+        "rvisBg": 0.1091,
+        "t13Bg": 271.19,
+        "t713Bg": 16.05,
+        "stdT713": 1.03,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.401947,
+          48.448029
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 2.392,
+        "btTir": 293.05,
+        "btDif": 21.25,
+        "sceneId": "202604200030",
+        "dynamicFactor": 2.392,
+        "pc": 0.188,
+        "pv": 0.0,
+        "t7Bg": 283.96,
+        "stdT7": 1.09,
+        "rvis": 0.1088,
+        "rvisBg": 0.0921,
+        "t13Bg": 276.07,
+        "t713Bg": 7.88,
+        "stdT713": 1.95,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.56041,
+          35.272278
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 2.268,
+        "btTir": 292.35,
+        "btDif": 21.27,
+        "sceneId": "202604200030",
+        "dynamicFactor": 2.268,
+        "pc": 0.562,
+        "pv": 0.0,
+        "t7Bg": 286.28,
+        "stdT7": 0.71,
+        "rvis": 0.1712,
+        "rvisBg": 0.1104,
+        "t13Bg": 272.2,
+        "t713Bg": 14.08,
+        "stdT713": 1.0,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.193222,
+          50.209686
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 1.855,
+        "btTir": 292.04,
+        "btDif": 21.76,
+        "sceneId": "202604200030",
+        "dynamicFactor": 1.855,
+        "pc": 0.042,
+        "pv": 0.0,
+        "t7Bg": 281.29,
+        "stdT7": 1.63,
+        "rvis": 0.1882,
+        "rvisBg": 0.1557,
+        "t13Bg": 272.49,
+        "t713Bg": 8.81,
+        "stdT713": 1.6,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          102.898811,
+          29.107878
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 1.8,
+        "btTir": 299.82,
+        "btDif": 24.63,
+        "sceneId": "202604200030",
+        "dynamicFactor": 1.8,
+        "pc": 0.292,
+        "pv": 0.0,
+        "t7Bg": 292.12,
+        "stdT7": 0.95,
+        "rvis": 0.2053,
+        "rvisBg": 0.2159,
+        "t13Bg": 275.58,
+        "t713Bg": 16.55,
+        "stdT713": 1.72,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.540077,
+          45.690964
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 1.791,
+        "btTir": 295.87,
+        "btDif": 25.36,
+        "sceneId": "202604200030",
+        "dynamicFactor": 1.791,
+        "pc": 0.042,
+        "pv": 0.0,
+        "t7Bg": 288.15,
+        "stdT7": 1.64,
+        "rvis": 0.1635,
+        "rvisBg": 0.1288,
+        "t13Bg": 274.72,
+        "t713Bg": 13.43,
+        "stdT713": 1.49,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.606056,
+          46.316853
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 1.753,
+        "btTir": 297.05,
+        "btDif": 25.28,
+        "sceneId": "202604200030",
+        "dynamicFactor": 1.753,
+        "pc": 0.021,
+        "pv": 0.0,
+        "t7Bg": 292.43,
+        "stdT7": 1.51,
+        "rvis": 0.1553,
+        "rvisBg": 0.1087,
+        "t13Bg": 278.75,
+        "t713Bg": 13.68,
+        "stdT713": 1.45,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.742218,
+          46.322781
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 1.726,
+        "btTir": 291.99,
+        "btDif": 20.06,
+        "sceneId": "202604200030",
+        "dynamicFactor": 1.726,
+        "pc": 0.0,
+        "pv": 0.0,
+        "t7Bg": 286.52,
+        "stdT7": 1.07,
+        "rvis": 0.1082,
+        "rvisBg": 0.0949,
+        "t13Bg": 277.16,
+        "t713Bg": 9.36,
+        "stdT713": 1.0,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.537689,
+          48.987972
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 1.693,
+        "btTir": 293.05,
+        "btDif": 21.58,
+        "sceneId": "202604200030",
+        "dynamicFactor": 1.693,
+        "pc": 0.0,
+        "pv": 0.0,
+        "t7Bg": 281.88,
+        "stdT7": 1.93,
+        "rvis": 0.1618,
+        "rvisBg": 0.1033,
+        "t13Bg": 275.63,
+        "t713Bg": 6.24,
+        "stdT713": 1.24,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          110.18399,
+          34.668148
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 1.486,
+        "btTir": 297.71,
+        "btDif": 24.32,
+        "sceneId": "202604200030",
+        "dynamicFactor": 1.486,
+        "pc": 0.0,
+        "pv": 0.0,
+        "t7Bg": 291.75,
+        "stdT7": 1.03,
+        "rvis": 0.1806,
+        "rvisBg": 0.0976,
+        "t13Bg": 281.26,
+        "t713Bg": 10.49,
+        "stdT713": 1.29,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          110.135681,
+          34.769699
+        ]
+      },
+      "properties": {
+        "sourceSat": "H09",
+        "acqTimeUtc": "2026-04-20T00:30:00Z",
+        "daynight": "D",
+        "fireStatus": "confirmed",
+        "confidence": "high",
+        "score": 1.485,
+        "btTir": 298.85,
+        "btDif": 22.98,
+        "sceneId": "202604200030",
+        "dynamicFactor": 1.485,
+        "pc": 0.0,
+        "pv": 0.0,
+        "t7Bg": 292.62,
+        "stdT7": 1.0,
+        "rvis": 0.15,
+        "rvisBg": 0.1013,
+        "t13Bg": 282.17,
+        "t713Bg": 10.46,
+        "stdT713": 1.09,
+        "windowSize": 7,
+        "absoluteThresholdPassed": false,
+        "dynamicThresholdPassed": true,
+        "staticThermalSourceRejected": false
+      }
+    }
+  ]
+}

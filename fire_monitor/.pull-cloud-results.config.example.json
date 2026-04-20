@@ -1,0 +1,8 @@
+{
+  "scheduleMinutes": 1,
+  "manifestUrl": "https://your-cloud-host/data/cloud-pipelines/himawari-fire/manifest.json",
+  "targetRoot": "./public/data/published/himawari-fire",
+  "statePath": "./data-store/cloud-results/himawari-fire-manifest.json",
+  "requestTimeoutMs": 30000,
+  "maxParallelDownloads": 6
+}

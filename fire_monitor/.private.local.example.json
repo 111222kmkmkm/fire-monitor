@@ -1,0 +1,11 @@
+{
+  "sync": {
+    "ftp": {
+      "user": "replace-with-your-ftp-user",
+      "password": "replace-with-your-ftp-password"
+    }
+  },
+  "frontend": {
+    "VITE_MAPTILER_WEATHER_KEY": "replace-with-your-maptiler-weather-key"
+  }
+}

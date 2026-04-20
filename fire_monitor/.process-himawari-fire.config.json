@@ -1,0 +1,40 @@
+{
+  "paperStrictMode": true,
+  "visibleBand": "03",
+  "visibleReflectancePath": "",
+  "groundThermalSourcePath": "./public/data/support/china_static_thermal_sources.geojson",
+  "nonVegetationMaskPath": "./public/data/support/china_non_vegetation_mask.geojson",
+  "inputRoot": "../相关数据/实时数据/himawari9_ahi",
+  "outputDir": "./public/data/algorithm/latest",
+  "statePath": "./data-store/algorithm-state/himawari-fire.json",
+  "chinaBoundaryPath": "./public/data/china-boundary.geojson",
+  "viirsPath": "./public/data/published/viirs_noaa20_nrt/viirs_noaa20_nrt_20260418.csv",
+  "databasePath": "./fire_monitor.geodatabase",
+  "sourceSat": "H09",
+  "bands": ["03", "07", "13", "14"],
+  "minSegmentsPerBand": 4,
+  "maxSnapshotAgeMinutes": 20,
+  "cropMarginPixels": 24,
+  "roi": {
+    "minLon": 73.0,
+    "maxLon": 135.5,
+    "minLat": 18.0,
+    "maxLat": 54.0
+  },
+  "windowSizes": [7, 9, 11, 19],
+  "thresholds": {
+    "suspiciousOffsetK": 20,
+    "suspiciousVisibleFactor": 100,
+    "minValidRatio": 0.2,
+    "nightAbsoluteT7K": 360,
+    "nightVisibleMax": 0.7,
+    "nightZenithDeg": 87,
+    "cloudVisibleReflectance": 0.28,
+    "cloudZenithLimitDeg": 70,
+    "cloudVisibleDelta": 0.15,
+    "cloudT13DeltaK": 5,
+    "edgeThresholdC": 8,
+    "thermalSourceRadiusKm": 4.0,
+    "minBackgroundPixels": 4
+  }
+}

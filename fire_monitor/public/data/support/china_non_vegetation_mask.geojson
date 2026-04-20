@@ -1,0 +1,71 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Taklamakan Desert",
+        "class": "desert"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[76.8, 36.2], [80.2, 41.4], [88.4, 42.2], [91.9, 39.3], [90.3, 36.0], [83.0, 35.3], [76.8, 36.2]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Gurbantunggut Desert",
+        "class": "desert"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[84.0, 47.7], [89.9, 48.0], [91.7, 45.7], [90.2, 44.3], [85.5, 44.0], [83.8, 46.2], [84.0, 47.7]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Qaidam Basin",
+        "class": "basin"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[89.8, 39.7], [98.8, 39.4], [98.5, 35.1], [91.0, 35.0], [89.3, 37.1], [89.8, 39.7]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Western Tibetan Barren Zone",
+        "class": "bare_land"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[78.0, 36.8], [90.4, 36.7], [92.8, 31.8], [88.7, 28.6], [81.4, 28.1], [77.9, 31.2], [78.0, 36.8]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Alxa Tengger Badain Jaran",
+        "class": "desert"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[96.0, 42.6], [106.6, 42.7], [107.9, 38.5], [105.1, 37.1], [98.3, 37.2], [95.9, 40.0], [96.0, 42.6]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hetao Hobq Ulan Buh",
+        "class": "desert"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[105.8, 41.3], [111.8, 41.1], [111.7, 38.1], [107.0, 37.7], [105.9, 39.5], [105.8, 41.3]]]
+      }
+    }
+  ]
+}

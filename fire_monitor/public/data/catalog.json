@@ -1,0 +1,92 @@
+{
+  "generatedAt": "2026-04-20T02:33:50.980Z",
+  "dataRoot": "D:\\js\\webgis\\火情监测\\相关数据\\实时数据",
+  "sources": [
+    {
+      "id": "himawari9_wlf",
+      "name": "Himawari-9 活跃火点",
+      "provider": "JAXA P-Tree",
+      "kind": "fire-points",
+      "enabled": true,
+      "status": "error",
+      "message": "unsupported source type: ftp-latest (showing last available files)",
+      "latestSnapshot": null,
+      "acquisitionTime": null,
+      "downloadedAt": null,
+      "latestFiles": [
+        {
+          "fileName": "H09_20260418_1240_L2WLF010_FLDK.06001_06001.csv",
+          "localPath": "D:\\js\\webgis\\火情监测\\fire_monitor\\public\\data\\published\\himawari9_wlf\\H09_20260418_1240_L2WLF010_FLDK.06001_06001.csv",
+          "size": 25850,
+          "webPath": "/data/published/himawari9_wlf/H09_20260418_1240_L2WLF010_FLDK.06001_06001.csv",
+          "publishedPath": "D:\\js\\webgis\\火情监测\\fire_monitor\\public\\data\\published\\himawari9_wlf\\H09_20260418_1240_L2WLF010_FLDK.06001_06001.csv"
+        }
+      ],
+      "overlay": null
+    },
+    {
+      "id": "viirs_noaa20_nrt",
+      "name": "VIIRS NOAA-20 活跃火点",
+      "provider": "NASA FIRMS",
+      "kind": "fire-points",
+      "enabled": true,
+      "status": "error",
+      "message": "unsupported source type: http-single (showing last available files)",
+      "latestSnapshot": null,
+      "acquisitionTime": null,
+      "downloadedAt": null,
+      "latestFiles": [
+        {
+          "fileName": "viirs_noaa20_nrt_20260418.csv",
+          "localPath": "D:\\js\\webgis\\火情监测\\fire_monitor\\public\\data\\published\\viirs_noaa20_nrt\\viirs_noaa20_nrt_20260418.csv",
+          "size": 1431349,
+          "webPath": "/data/published/viirs_noaa20_nrt/viirs_noaa20_nrt_20260418.csv",
+          "publishedPath": "D:\\js\\webgis\\火情监测\\fire_monitor\\public\\data\\published\\viirs_noaa20_nrt\\viirs_noaa20_nrt_20260418.csv"
+        }
+      ],
+      "overlay": null
+    },
+    {
+      "id": "himawari9_ahi_b07_b13_b14",
+      "name": "Himawari-9 AHI 热红外原始波段",
+      "provider": "NOAA Open Data on AWS",
+      "kind": "satellite-thermal",
+      "enabled": true,
+      "status": "error",
+      "message": "The value of \"timeout\" is out of range. It must be an unsigned integer. Received {\n  cwd: 'D:\\\\js\\\\webgis\\\\火情监测\\\\fire_monitor',\n  env: {\n    AGSDESKTOPJAVA: 'E:\\\\arcgis\\\\Desktop10.8\\\\',\n    ALLUSERSPROFILE: 'C:\\\\ProgramData',\n    APPCODE_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\appcode.vmoptions',\n    APPDATA: 'C:\\\\Users\\\\chen\\\\AppData\\\\Roaming',\n    BUNDLED_DEBUGPY_PATH: 'c:\\\\Users\\\\chen\\\\.vscode\\\\extensions\\\\ms-python.debugpy-2025.18.0-win32-x64\\\\bundled\\\\libs\\\\debugpy',\n    CHROME_CRASHPAD_PIPE_NAME: '\\\\\\\\.\\\\pipe\\\\crashpad_21920_PWICTQCSTOGINMKQ',\n    CLAUDE_CODE_SSE_PORT: '44378',\n    CLION_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\clion.vmoptions',\n    COLOR: '1',\n    COLORTERM: 'truecolor',\n    CommonProgramFiles: 'C:\\\\Program Files\\\\Common Files',\n    'CommonProgramFiles(x86)': 'C:\\\\Program Files (x86)\\\\Common Files',\n    CommonProgramW6432: 'C:\\\\Program Files\\\\Common Files',\n    COMPUTERNAME: 'DESKTOP-QN139J6',\n    ComSpec: 'C:\\\\Windows\\\\system32\\\\cmd.exe',\n    CUDA_PATH: 'C:\\\\Program Files\\\\NVIDIA GPU Computing Toolkit\\\\CUDA\\\\v12.1',\n    CUDA_PATH_V12_1: 'C:\\\\Program Files\\\\NVIDIA GPU Computing Toolkit\\\\CUDA\\\\v12.1',\n    DATAGRIP_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\datagrip.vmoptions',\n    DATASPELL_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\dataspell.vmoptions',\n    DEVECOSTUDIO_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\devecostudio.vmoptions',\n    DriverData: 'C:\\\\Windows\\\\System32\\\\Drivers\\\\DriverData',\n    EDITOR: 'C:\\\\Windows\\\\notepad.exe',\n    EFC_7992: '1',\n    GATEWAY_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\gateway.vmoptions',\n    GIT_ASKPASS: 'c:\\\\Users\\\\chen\\\\AppData\\\\Roaming\\\\Code\\\\User\\\\globalStorage\\\\vscode.git\\\\askpass\\\\493597c785d4c5cb\\\\askpass.sh',\n    GOLAND_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\goland.vmoptions',\n    HF_TOKEN: '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',\n    HOME: 'C:\\\\Users\\\\chen',\n    HOMEDRIVE: 'C:',\n    HOMEPATH: '\\\\Users\\\\chen',\n    IDEA_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\idea.vmoptions',\n    INIT_CWD: 'D:\\\\js\\\\webgis\\\\火情监测\\\\fire_monitor',\n    JETBRAINSCLIENT_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\jetbrainsclient.vmoptions',\n    JETBRAINS_CLIENT_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\jetbrains_client.vmoptions',\n    LANG: 'en_US.UTF-8',\n    LOCALAPPDATA: 'C:\\\\Users\\\\chen\\\\AppData\\\\Local',\n    LOGONSERVER: '\\\\\\\\DESKTOP-QN139J6',\n    NODE: 'E:\\\\nodeJS\\\\node.exe',\n    npm_command: 'run-script',\n    npm_config_cache: 'C:\\\\Users\\\\chen\\\\AppData\\\\Local\\\\npm-cache',\n    npm_config_globalconfig: 'C:\\\\Users\\\\chen\\\\AppData\\\\Roaming\\\\npm\\\\etc\\\\npmrc',\n    npm_config_global_prefix: 'C:\\\\Users\\\\chen\\\\AppData\\\\Roaming\\\\npm',\n    npm_config_init_module: 'C:\\\\Users\\\\chen\\\\.npm-init.js',\n    npm_config_local_prefix: 'D:\\\\js\\\\webgis\\\\火情监测\\\\fire_monitor',\n    npm_config_node_gyp: 'E:\\\\nodeJS\\\\node_modules\\\\npm\\\\node_modules\\\\node-gyp\\\\bin\\\\node-gyp.js',\n    npm_config_noproxy: '',\n    npm_config_npm_version: '10.9.2',\n    npm_config_prefix: 'C:\\\\Users\\\\chen\\\\AppData\\\\Roaming\\\\npm',\n    npm_config_registry: 'https://registry.npmjs.org',\n    npm_config_userconfig: 'C:\\\\Users\\\\chen\\\\.npmrc',\n    npm_config_user_agent: 'npm/10.9.2 node/v22.16.0 win32 x64 workspaces/false',\n    npm_execpath: 'E:\\\\nodeJS\\\\node_modules\\\\npm\\\\bin\\\\npm-cli.js',\n    npm_lifecycle_event: 'dev:sync',\n    npm_lifecycle_script: 'node ./scripts/sync-data.mjs',\n    npm_node_execpath: 'E:\\\\nodeJS\\\\node.exe',\n    npm_package_engines_node: '^20.19.0 || >=22.12.0',\n    npm_package_json: 'D:\\\\js\\\\webgis\\\\火情监测\\\\fire_monitor\\\\package.json',\n    npm_package_name: 'fire_monitor',\n    npm_package_version: '0.0.0',\n    NUMBER_OF_PROCESSORS: '24',\n    OneDrive: 'C:\\\\Users\\\\chen\\\\OneDrive',\n    OneDriveConsumer: 'C:\\\\Users\\\\chen\\\\OneDrive',\n    OS: 'Windows_NT',\n    Path: 'D:\\\\js\\\\webgis\\\\火情监测\\\\fire_monitor\\\\node_modules\\\\.bin;D:\\\\js\\\\webgis\\\\火情监测\\\\node_modules\\\\.bin;D:\\\\js\\\\webgis\\\\node_modules\\\\.bin;D:\\\\js\\\\node_modules\\\\.bin;D:\\\\node_modules\\\\.bin;E:\\\\nodeJS\\\\node_modules\\\\npm\\\\node_modules\\\\@npmcli\\\\run-script\\\\lib\\\\node-gyp-bin;D:\\\\js\\\\webgis\\\\火情监测\\\\fire_monitor\\\\node_modules\\\\.bin;D:\\\\js\\\\webgis\\\\火情监测\\\\node_modules\\\\.bin;D:\\\\js\\\\webgis\\\\node_modules\\\\.bin;D:\\\\js\\\\node_modules\\\\.bin;D:\\\\node_modules\\\\.bin;E:\\\\nodeJS\\\\node_modules\\\\npm\\\\node_modules\\\\@npmcli\\\\run-script\\\\lib\\\\node-gyp-bin;c:\\\\Users\\\\chen\\\\AppData\\\\Roaming\\\\Code\\\\User\\\\globalStorage\\\\github.copilot-chat\\\\debugCommand;c:\\\\Users\\\\chen\\\\AppData\\\\Roaming\\\\Code\\\\User\\\\globalStorage\\\\github.copilot-chat\\\\copilotCli;D:\\\\VS Code;C:\\\\Program Files\\\\Common Files\\\\Oracle\\\\Java\\\\javapath;C:\\\\Program Files\\\\NVIDIA GPU Computing Toolkit\\\\CUDA\\\\v12.1\\\\bin;C:\\\\Program Files\\\\NVIDIA GPU Computing Toolkit\\\\CUDA\\\\v12.1\\\\libnvvp;C:\\\\ProgramData\\\\Oracle\\\\Java\\\\javapath;C:\\\\Windows\\\\system32;C:\\\\Windows;C:\\\\Windows\\\\System32\\\\Wbem;C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\;C:\\\\Windows\\\\System32\\\\OpenSSH\\\\;C:\\\\Program Files\\\\dotnet\\\\;C:\\\\Program Files (x86)\\\\NVIDIA Corporation\\\\PhysX\\\\Common;C:\\\\Program Files\\\\NVIDIA Corporation\\\\NVIDIA app\\\\NvDLISR;C:\\\\Program Files\\\\CMake\\\\bin;E:\\\\nodeJS\\\\;C:\\\\Program Files\\\\Git\\\\cmd;C:\\\\Program Files\\\\NVIDIA Corporation\\\\Nsight Compute 2023.1.1\\\\;C:\\\\Program Files\\\\NVIDIA Corporation\\\\NVIDIA NvDLISR;E:\\\\MATLAB\\\\runtime\\\\win64;E:\\\\MATLAB\\\\bin;C:\\\\Users\\\\chen\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\Scripts\\\\;C:\\\\Users\\\\chen\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\;C:\\\\Users\\\\chen\\\\AppData\\\\Local\\\\Microsoft\\\\WindowsApps;D:\\\\VS Code\\\\bin;C:\\\\Users\\\\chen\\\\AppData\\\\Roaming\\\\npm;E:\\\\Bandizip\\\\;C:\\\\Windows\\\\System32\\\\;c:\\\\Users\\\\chen\\\\.vscode\\\\extensions\\\\ms-python.debugpy-2025.18.0-win32-x64\\\\bundled\\\\scripts\\\\noConfigScripts',\n    PATHEXT: '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL',\n    PHPSTORM_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\phpstorm.vmoptions',\n    PROCESSOR_ARCHITECTURE: 'AMD64',\n    PROCESSOR_IDENTIFIER: 'Intel64 Family 6 Model 151 Stepping 2, GenuineIntel',\n    PROCESSOR_LEVEL: '6',\n    PROCESSOR_REVISION: '9702',\n    ProgramData: 'C:\\\\ProgramData',\n    ProgramFiles: 'C:\\\\Program Files',\n    'ProgramFiles(x86)': 'C:\\\\Program Files (x86)',\n    ProgramW6432: 'C:\\\\Program Files',\n    PROMPT: '$P$G',\n    PSModulePath: 'C:\\\\Users\\\\chen\\\\Documents\\\\WindowsPowerShell\\\\Modules;C:\\\\Program Files\\\\WindowsPowerShell\\\\Modules;C:\\\\Windows\\\\system32\\\\WindowsPowerShell\\\\v1.0\\\\Modules',\n    PUBLIC: 'C:\\\\Users\\\\Public',\n    PYCHARM_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\pycharm.vmoptions',\n    PYDEVD_DISABLE_FILE_VALIDATION: '1',\n    PYTHONSTARTUP: 'c:\\\\Users\\\\chen\\\\AppData\\\\Roaming\\\\Code\\\\User\\\\workspaceStorage\\\\2b55438bab706e4a4604fa4881d441eb\\\\ms-python.python\\\\pythonrc.py',\n    PYTHON_BASIC_REPL: '1',\n    RIDER_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\rider.vmoptions',\n    RUBYMINE_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\rubymine.vmoptions',\n    SESSIONNAME: 'Console',\n    STUDIO_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\studio.vmoptions',\n    SystemDrive: 'C:',\n    SystemRoot: 'C:\\\\Windows',\n    TEMP: 'C:\\\\Users\\\\chen\\\\AppData\\\\Local\\\\Temp',\n    TERM_PROGRAM: 'vscode',\n    TERM_PROGRAM_VERSION: '1.116.0',\n    TMP: 'C:\\\\Users\\\\chen\\\\AppData\\\\Local\\\\Temp',\n    USERDOMAIN: 'DESKTOP-QN139J6',\n    USERDOMAIN_ROAMINGPROFILE: 'DESKTOP-QN139J6',\n    USERNAME: 'chen',\n    USERPROFILE: 'C:\\\\Users\\\\chen',\n    VSCODE_DEBUGPY_ADAPTER_ENDPOINTS: 'c:\\\\Users\\\\chen\\\\.vscode\\\\extensions\\\\ms-python.debugpy-2025.18.0-win32-x64\\\\.noConfigDebugAdapterEndpoints\\\\endpoint-466b50acb6424905.txt',\n    VSCODE_GIT_ASKPASS_EXTRA_ARGS: '',\n    VSCODE_GIT_ASKPASS_MAIN: 'c:\\\\Users\\\\chen\\\\AppData\\\\Roaming\\\\Code\\\\User\\\\globalStorage\\\\vscode.git\\\\askpass\\\\493597c785d4c5cb\\\\askpass-main.js',\n    VSCODE_GIT_ASKPASS_NODE: 'D:\\\\VS Code\\\\Code.exe',\n    VSCODE_GIT_IPC_HANDLE: '\\\\\\\\.\\\\pipe\\\\vscode-git-c25a1badc6-sock',\n    VSCODE_INJECTION: '1',\n    VSCODE_PYTHON_AUTOACTIVATE_GUARD: '1',\n    WEBIDE_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\webide.vmoptions',\n    WEBSTORM_VM_OPTIONS: 'D:\\\\winWebStorm\\\\win2024\\\\vmoptions\\\\webstorm.vmoptions',\n    windir: 'C:\\\\Windows',\n    ZES_ENABLE_SYSMAN: '1',\n    SOURCE_ID: 'himawari9_ahi_b07_b13_b14',\n    SOURCE_ROOT: 'D:\\\\js\\\\webgis\\\\火情监测\\\\相关数据\\\\实时数据\\\\himawari9_ahi',\n    SNAPSHOT_KEY: '202604200220',\n    ACQ_TIME: '2026-04-20T02:20:00Z'\n  },\n  timeout: 600000\n}",
+      "latestSnapshot": null,
+      "acquisitionTime": null,
+      "downloadedAt": null,
+      "latestFiles": [],
+      "overlay": null
+    },
+    {
+      "id": "himawari9_ahi_b03",
+      "name": "Himawari-9 AHI 可见光 B03",
+      "provider": "JAXA P-Tree",
+      "kind": "satellite-visible",
+      "enabled": true,
+      "status": "error",
+      "message": "himawari9_ahi_b03 timed out after 900000ms",
+      "latestSnapshot": null,
+      "acquisitionTime": null,
+      "downloadedAt": null,
+      "latestFiles": [],
+      "overlay": null
+    },
+    {
+      "id": "windy_environment",
+      "name": "Windy 火险环境场",
+      "provider": "Windy Point Forecast API",
+      "kind": "environment-grid",
+      "enabled": true,
+      "status": "error",
+      "message": "Windy Point Forecast API rejected the configured key. Confirm this is a Point Forecast API key, not another Windy product key. Detail: Invalid API key",
+      "latestSnapshot": null,
+      "acquisitionTime": null,
+      "downloadedAt": null,
+      "latestFiles": [],
+      "overlay": null
+    }
+  ]
+}

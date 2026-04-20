@@ -1,0 +1,34 @@
+{
+  "generatedAt": "2026-04-20T01:57:52.467203Z",
+  "snapshotKey": "202604200030",
+  "acquisitionTime": "2026-04-20T00:30:00Z",
+  "sourceSat": "H09",
+  "fireCount": 26,
+  "cloudPixelCount": 1690754,
+  "stale": true,
+  "snapshotAgeMinutes": 87.2,
+  "confidenceCounts": {
+    "high": 26,
+    "medium": 0,
+    "low": 0
+  },
+  "paperStrictMode": true,
+  "roi": {
+    "minLon": 73.0,
+    "maxLon": 135.5,
+    "minLat": 18.0,
+    "maxLat": 54.0
+  },
+  "crop": {
+    "lineStart": 348,
+    "lineEnd": 1905,
+    "colStart": 222,
+    "colEnd": 2616,
+    "height": 1558,
+    "width": 2395
+  },
+  "notes": [
+    "strict paper mode: ESSD-2022-435 Table 2 and Eq. (3)-(11) are used for Himawari fire detection.",
+    "latest usable snapshot is stale: age=87.2 min, threshold=20 min"
+  ]
+}

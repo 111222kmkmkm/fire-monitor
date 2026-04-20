@@ -1,0 +1,28 @@
+{
+  "pipelineId": "himawari-fire",
+  "scheduleMinutes": 10,
+  "publishRoot": "./public/data/cloud-pipelines/himawari-fire",
+  "download": {
+    "enabled": true,
+    "command": ["node", "./scripts/sync-data.mjs", "--once", "--source", "himawari9_ahi_b07_b13_b14"],
+    "workdir": ".",
+    "timeoutMs": 900000
+  },
+  "steps": [
+    {
+      "enabled": true,
+      "command": ["node", "./scripts/run-algorithm.example.mjs"],
+      "workdir": ".",
+      "timeoutMs": 900000
+    }
+  ],
+  "outputs": [
+    {
+      "path": "./public/data/algorithm/latest"
+    },
+    {
+      "path": "./public/data/algorithm/manifest.json",
+      "targetPath": "algorithm-manifest.json"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    { "type": "Feature", "properties": { "name": "Karamay", "radiusKm": 6 }, "geometry": { "type": "Point", "coordinates": [84.87, 45.59] } },
+    { "type": "Feature", "properties": { "name": "Dushanzi", "radiusKm": 6 }, "geometry": { "type": "Point", "coordinates": [84.89, 44.32] } },
+    { "type": "Feature", "properties": { "name": "Urumqi Midong", "radiusKm": 5 }, "geometry": { "type": "Point", "coordinates": [87.66, 43.98] } },
+    { "type": "Feature", "properties": { "name": "Lanzhou Petrochemical", "radiusKm": 6 }, "geometry": { "type": "Point", "coordinates": [103.62, 36.15] } },
+    { "type": "Feature", "properties": { "name": "Jiayuguan Steel", "radiusKm": 7 }, "geometry": { "type": "Point", "coordinates": [98.27, 39.80] } },
+    { "type": "Feature", "properties": { "name": "Baotou Steel", "radiusKm": 8 }, "geometry": { "type": "Point", "coordinates": [109.84, 40.65] } },
+    { "type": "Feature", "properties": { "name": "Wuhai Industrial", "radiusKm": 6 }, "geometry": { "type": "Point", "coordinates": [106.82, 39.68] } },
+    { "type": "Feature", "properties": { "name": "Ordos Coal Chemical", "radiusKm": 7 }, "geometry": { "type": "Point", "coordinates": [109.78, 39.61] } },
+    { "type": "Feature", "properties": { "name": "Yulin Coal Chemical", "radiusKm": 6 }, "geometry": { "type": "Point", "coordinates": [109.73, 38.29] } },
+    { "type": "Feature", "properties": { "name": "Tangshan Steel", "radiusKm": 8 }, "geometry": { "type": "Point", "coordinates": [118.18, 39.63] } },
+    { "type": "Feature", "properties": { "name": "Handan Steel", "radiusKm": 7 }, "geometry": { "type": "Point", "coordinates": [114.48, 36.61] } },
+    { "type": "Feature", "properties": { "name": "Jinan Laiwu Steel", "radiusKm": 6 }, "geometry": { "type": "Point", "coordinates": [117.67, 36.21] } },
+    { "type": "Feature", "properties": { "name": "Zibo Petrochemical", "radiusKm": 5 }, "geometry": { "type": "Point", "coordinates": [118.05, 36.78] } },
+    { "type": "Feature", "properties": { "name": "Dongying Petrochemical", "radiusKm": 6 }, "geometry": { "type": "Point", "coordinates": [118.67, 37.43] } },
+    { "type": "Feature", "properties": { "name": "Anshan Steel", "radiusKm": 8 }, "geometry": { "type": "Point", "coordinates": [123.00, 41.11] } },
+    { "type": "Feature", "properties": { "name": "Benxi Steel", "radiusKm": 7 }, "geometry": { "type": "Point", "coordinates": [123.76, 41.30] } },
+    { "type": "Feature", "properties": { "name": "Dalian Petrochemical", "radiusKm": 6 }, "geometry": { "type": "Point", "coordinates": [121.75, 38.95] } },
+    { "type": "Feature", "properties": { "name": "Maanshan Steel", "radiusKm": 6 }, "geometry": { "type": "Point", "coordinates": [118.51, 31.67] } },
+    { "type": "Feature", "properties": { "name": "Shanghai Petrochemical", "radiusKm": 6 }, "geometry": { "type": "Point", "coordinates": [121.34, 30.74] } },
+    { "type": "Feature", "properties": { "name": "Ningbo Zhenhai", "radiusKm": 6 }, "geometry": { "type": "Point", "coordinates": [121.72, 29.96] } },
+    { "type": "Feature", "properties": { "name": "Wuhan Steel", "radiusKm": 8 }, "geometry": { "type": "Point", "coordinates": [114.49, 30.63] } },
+    { "type": "Feature", "properties": { "name": "Panzhihua Steel", "radiusKm": 8 }, "geometry": { "type": "Point", "coordinates": [101.72, 26.58] } },
+    { "type": "Feature", "properties": { "name": "Liuzhou Steel", "radiusKm": 6 }, "geometry": { "type": "Point", "coordinates": [109.40, 24.32] } }
+  ]
+}
