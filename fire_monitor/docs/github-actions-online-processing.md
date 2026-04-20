@@ -10,7 +10,7 @@ This project can run the Himawari fire-processing pipeline on GitHub Actions and
 
 ## How It Works
 
-1. GitHub Actions starts every 10 minutes, or you trigger it manually.
+1. GitHub Actions starts every 5 minutes, or you trigger it manually.
 2. The workflow installs Node and Python dependencies.
 3. It generates CI-only runtime config files:
    - `.sync.config.github.json`

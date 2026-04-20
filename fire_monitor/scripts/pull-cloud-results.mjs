@@ -94,7 +94,7 @@ async function syncCloudResults(config) {
     await downloadFile(fileUrl, localPath, requestTimeoutMs)
   })
 
-  await pruneMissingFiles(targetRoot, files)
+  await pruneMissingFiles(targetRoot, files, previousState)
   await fs.mkdir(path.dirname(statePath), { recursive: true })
   await fs.writeFile(statePath, JSON.stringify(manifest, null, 2), 'utf8')
 
@@ -119,14 +119,22 @@ async function shouldDownloadFile(file, previousState, targetRoot) {
   return !(await pathExists(localPath))
 }
 
-async function pruneMissingFiles(targetRoot, files) {
-  const keep = new Set(files.map((file) => path.normalize(file.path)))
-  const existing = await walkFiles(targetRoot).catch(() => [])
-  for (const filePath of existing) {
-    const relative = path.normalize(path.relative(targetRoot, filePath))
-    if (keep.has(relative)) {
+async function pruneMissingFiles(targetRoot, files, previousState) {
+  const managedNow = new Set(files.map((file) => path.normalize(file.path)))
+  const previouslyManaged = new Set(
+    Array.isArray(previousState?.files)
+      ? previousState.files
+          .map((file) => file?.path)
+          .filter((filePath) => typeof filePath === 'string')
+          .map((filePath) => path.normalize(filePath))
+      : [],
+  )
+
+  for (const relative of previouslyManaged) {
+    if (managedNow.has(relative)) {
       continue
     }
+    const filePath = path.join(targetRoot, relative)
     await fs.rm(filePath, { force: true })
   }
 }

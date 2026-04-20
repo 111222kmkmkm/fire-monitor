@@ -40,6 +40,7 @@ const WEATHER_LAYER_OPTIONS: Array<{ id: WeatherLayerId; label: string }> = [
 ]
 
 const WEATHER_AUTOPLAY_STEP_HOURS = 3
+const CLOUD_PULL_INTERVAL_MS = 30_000
 
 const catalog = ref<CatalogResponse>({ generatedAt: null, sources: [] })
 const loading = ref(false)
@@ -58,6 +59,7 @@ const weatherFrameLoading = ref(false)
 const weatherAutoplayAwaitingHour = ref<number | null>(null)
 
 let refreshTimer: number | null = null
+let cloudPullTimer: number | null = null
 let weatherAutoplayTimer: number | null = null
 
 const staleMinutes = computed(() => {
@@ -94,8 +96,12 @@ async function loadCatalog() {
 }
 
 async function triggerRealtimeSync() {
+  if (syncInProgress.value) {
+    return
+  }
+
   syncInProgress.value = true
-  syncMessage.value = '正在同步最新数据...'
+  syncMessage.value = '正在拉取云端最新结果...'
 
   try {
     const response = await fetch('/api/local/sync-now', {
@@ -108,7 +114,7 @@ async function triggerRealtimeSync() {
       throw new Error(payload?.message ?? `sync request failed: ${response.status}`)
     }
 
-    syncMessage.value = '最新数据已同步'
+    syncMessage.value = '云端结果已更新到本地'
     await loadCatalog()
     candidateFireRefreshNonce.value += 1
   } catch (error) {
@@ -216,6 +222,9 @@ onMounted(() => {
   void loadCatalog()
   void triggerRealtimeSync()
   refreshTimer = window.setInterval(loadCatalog, 60_000)
+  cloudPullTimer = window.setInterval(() => {
+    void triggerRealtimeSync()
+  }, CLOUD_PULL_INTERVAL_MS)
 })
 
 watch(
@@ -230,6 +239,9 @@ watch(
 onUnmounted(() => {
   if (refreshTimer !== null) {
     window.clearInterval(refreshTimer)
+  }
+  if (cloudPullTimer !== null) {
+    window.clearInterval(cloudPullTimer)
   }
   stopWeatherAutoplay()
 })

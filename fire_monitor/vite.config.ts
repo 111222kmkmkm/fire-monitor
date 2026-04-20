@@ -146,26 +146,24 @@ function mapTilerProxy() {
 
 function localRealtimeSync() {
   const projectRoot = fileURLToPath(new URL('.', import.meta.url))
-  const syncScriptPath = path.join(projectRoot, 'scripts', 'sync-data.mjs')
+  const pullCloudResultsScriptPath = path.join(projectRoot, 'scripts', 'pull-cloud-results.mjs')
+  const pullCloudResultsConfigPath = path.join(projectRoot, '.pull-cloud-results.github-pages.example.json')
   type SyncResult = {
     startedAt: string
     finishedAt: string
     stdout: string
     stderr: string
+    mode: 'cloud-pull'
   }
 
   let runningSync: Promise<SyncResult> | null = null
 
-  const runSyncOnce = () => {
-    if (runningSync) {
-      return runningSync
-    }
-
+  const execNodeScript = (args: string[]) => {
     const startedAt = new Date().toISOString()
-    runningSync = new Promise<SyncResult>((resolve, reject) => {
+    return new Promise<SyncResult>((resolve, reject) => {
       execFile(
         process.execPath,
-        [syncScriptPath, '--once'],
+        args,
         {
           cwd: projectRoot,
           windowsHide: true,
@@ -178,6 +176,7 @@ function localRealtimeSync() {
             finishedAt,
             stdout,
             stderr,
+            mode: 'cloud-pull' as const,
           }
 
           if (error) {
@@ -188,7 +187,15 @@ function localRealtimeSync() {
           resolve(payload)
         },
       )
-    }).finally(() => {
+    })
+  }
+
+  const runSyncOnce = () => {
+    if (runningSync) {
+      return runningSync
+    }
+
+    runningSync = execNodeScript([pullCloudResultsScriptPath, '--once', '--config', pullCloudResultsConfigPath]).finally(() => {
       runningSync = null
     })
 

@@ -4,9 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "run-p dev:ui dev:sync",
+    "dev": "npm run dev:ui",
     "dev:ui": "vite",
-    "dev:sync": "node ./scripts/sync-data.mjs",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
