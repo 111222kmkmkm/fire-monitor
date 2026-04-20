@@ -16,10 +16,14 @@ coverage
 .sync.config.json
 .private.local.json
 .env.sync
+.sync.config.github.json
+.process-himawari-fire.github.json
+.cloud-pipeline.config.github.json
 *.geodatabase
 __pycache__/
 *.pyc
 .venv/
+cloud-build/
 
 # Editor directories and files
 .vscode/*

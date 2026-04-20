@@ -1,0 +1,8 @@
+{
+  "scheduleMinutes": 5,
+  "manifestUrl": "https://111222kmkmkm.github.io/fire-monitor/manifest.json",
+  "targetRoot": "./public/data",
+  "statePath": "./data-store/cloud-results/github-pages-manifest.json",
+  "requestTimeoutMs": 30000,
+  "maxParallelDownloads": 6
+}

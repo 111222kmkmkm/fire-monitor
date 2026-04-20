@@ -12,6 +12,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "config:apply": "node ./scripts/apply-private-config.mjs",
+    "config:github-actions": "node ./scripts/write-github-actions-config.mjs",
     "sync:data": "node ./scripts/sync-data.mjs",
     "sync:data:once": "node ./scripts/sync-data.mjs --once",
     "db:init": "node ./scripts/init-mobile-geodatabase.mjs",
