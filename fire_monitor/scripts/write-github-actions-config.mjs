@@ -188,6 +188,7 @@ function readEnv(key) {
 }
 
 async function writeJson(filePath, value) {
+  await fs.mkdir(path.dirname(filePath), { recursive: true })
   await fs.writeFile(filePath, `${JSON.stringify(value, null, 2)}\n`, 'utf8')
 }
 
