@@ -9,9 +9,12 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const projectRoot = path.resolve(__dirname, '..')
 
-const githubSyncConfigPath = path.join(projectRoot, '.sync.config.github.json')
-const githubProcessConfigPath = path.join(projectRoot, '.process-himawari-fire.github.json')
-const githubCloudConfigPath = path.join(projectRoot, '.cloud-pipeline.config.github.json')
+const githubSyncConfigPath = path.join(projectRoot, 'config', 'sync.github.json')
+const githubProcessConfigPath = path.join(projectRoot, 'config', 'process-himawari-fire.github.json')
+const githubCloudConfigPath = path.join(projectRoot, 'config', 'cloud-pipeline.github.json')
+const legacyGithubSyncConfigPath = path.join(projectRoot, '.sync.config.github.json')
+const legacyGithubProcessConfigPath = path.join(projectRoot, '.process-himawari-fire.github.json')
+const legacyGithubCloudConfigPath = path.join(projectRoot, '.cloud-pipeline.config.github.json')
 
 async function main() {
   const ftpUser = readEnv('JAXA_FTP_USER')
@@ -64,7 +67,7 @@ async function main() {
         sensor: 'AHI',
         roiCode: 'CN',
         databasePath: './fire_monitor.geodatabase',
-        postProcessCommand: ['python', './scripts/process-himawari-fire.py', '--config', './.process-himawari-fire.github.json'],
+        postProcessCommand: ['python', './scripts/process-himawari-fire.py', '--config', './config/process-himawari-fire.github.json'],
         postProcessFailureMode: 'warn',
         postProcessOnceKey: 'github-actions-himawari-fire',
         postProcessTimeoutMs: 900000,
@@ -130,15 +133,33 @@ async function main() {
     publishRoot: './cloud-build/pages',
     download: {
       enabled: true,
-      command: ['node', './scripts/sync-data.mjs', '--once', '--config', './.sync.config.github.json', '--source', 'himawari9_ahi_b03_b07_b13_b14'],
+      command: ['node', './scripts/sync-data.mjs', '--once', '--config', './config/sync.github.json', '--source', 'himawari9_ahi_b03_b07_b13_b14'],
       workdir: '.',
       timeoutMs: 900000,
     },
-    steps: [],
+    steps: [
+      {
+        enabled: true,
+        command: [
+          'node',
+          './scripts/update-candidate-fire-history.mjs',
+          '--manifestUrl',
+          'https://111222kmkmkm.github.io/fire-monitor/manifest.json',
+          '--keepSnapshots',
+          '6',
+        ],
+        workdir: '.',
+        timeoutMs: 120000,
+      },
+    ],
     outputs: [
       {
         path: './public/data/algorithm/latest',
         targetDir: 'algorithm/latest',
+      },
+      {
+        path: './public/data/algorithm/history/candidate_fire_recent.json',
+        targetPath: 'algorithm/history/candidate_fire_recent.json',
       },
       {
         path: './public/data/catalog.json',
@@ -150,10 +171,14 @@ async function main() {
   await writeJson(githubSyncConfigPath, syncConfig)
   await writeJson(githubProcessConfigPath, processConfig)
   await writeJson(githubCloudConfigPath, cloudPipelineConfig)
+  await writeJson(legacyGithubSyncConfigPath, syncConfig)
+  await writeJson(legacyGithubProcessConfigPath, processConfig)
+  await writeJson(legacyGithubCloudConfigPath, cloudPipelineConfig)
 
   console.log(`[github-actions-config] wrote ${path.basename(githubSyncConfigPath)}`)
   console.log(`[github-actions-config] wrote ${path.basename(githubProcessConfigPath)}`)
   console.log(`[github-actions-config] wrote ${path.basename(githubCloudConfigPath)}`)
+  console.log('[github-actions-config] wrote legacy root config aliases for existing workflow paths')
   console.log(`[github-actions-config] JAXA FTP fallback ${ftpEnabled ? 'enabled' : 'disabled'}`)
 }
 
