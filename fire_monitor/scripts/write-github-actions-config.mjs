@@ -137,29 +137,11 @@ async function main() {
       workdir: '.',
       timeoutMs: 900000,
     },
-    steps: [
-      {
-        enabled: true,
-        command: [
-          'node',
-          './scripts/update-candidate-fire-history.mjs',
-          '--manifestUrl',
-          'https://111222kmkmkm.github.io/fire-monitor/manifest.json',
-          '--keepSnapshots',
-          '6',
-        ],
-        workdir: '.',
-        timeoutMs: 120000,
-      },
-    ],
+    steps: [],
     outputs: [
       {
         path: './public/data/algorithm/latest',
         targetDir: 'algorithm/latest',
-      },
-      {
-        path: './public/data/algorithm/history/candidate_fire_recent.json',
-        targetPath: 'algorithm/history/candidate_fire_recent.json',
       },
       {
         path: './public/data/catalog.json',
