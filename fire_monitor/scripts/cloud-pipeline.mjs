@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const projectRoot = path.resolve(__dirname, '..')
-const defaultConfigPath = path.resolve(projectRoot, '.cloud-pipeline.config.json')
+const defaultConfigPath = path.resolve(projectRoot, 'config', 'cloud-pipeline.json')
 
 async function main() {
   const options = parseCliArgs(process.argv.slice(2))
@@ -107,10 +107,34 @@ async function runPipeline(config) {
   }
 
   await fs.writeFile(path.join(tmpRoot, 'manifest.json'), JSON.stringify(manifest, null, 2), 'utf8')
-  await fs.rm(publishRoot, { recursive: true, force: true })
-  await fs.rename(tmpRoot, publishRoot)
+  await replacePublishedDirectory(tmpRoot, publishRoot)
 
   console.log(`[cloud-pipeline] published ${manifestFiles.length} file(s) to ${publishRoot}`)
+}
+
+async function replacePublishedDirectory(sourcePath, targetPath) {
+  await fs.rm(targetPath, { recursive: true, force: true })
+
+  let lastError = null
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      await fs.rename(sourcePath, targetPath)
+      return
+    } catch (error) {
+      lastError = error
+      if (!['EPERM', 'EACCES', 'EXDEV'].includes(error?.code)) {
+        throw error
+      }
+      await sleep(attempt * 100)
+    }
+  }
+
+  // Windows可能短暂占用目录句柄，重命名失败时回退为复制发布。
+  await fs.cp(sourcePath, targetPath, { recursive: true, force: true })
+  await fs.rm(sourcePath, { recursive: true, force: true })
+  if (lastError) {
+    console.warn(`[cloud-pipeline] directory rename failed (${lastError.code}); published with copy fallback`)
+  }
 }
 
 async function runCommandStep(step, extraEnv = {}) {
@@ -134,7 +158,8 @@ async function runCommandStep(step, extraEnv = {}) {
     ...extraEnv,
   }
 
-  console.log(`[cloud-pipeline] exec ${file} ${args.join(' ')}`)
+  const stepName = String(step.name ?? file)
+  console.log(`[cloud-pipeline] exec ${stepName}: ${file} ${args.join(' ')}`)
   await execFileAsync(file, args, {
     cwd: workdir,
     env,
@@ -148,6 +173,9 @@ async function collectPublishedFiles(outputs) {
     const outputPath = resolvePath(projectRoot, output.path)
     const stats = await fs.stat(outputPath).catch(() => null)
     if (!stats) {
+      if (output.required === true) {
+        throw new Error(`required output missing: ${outputPath}`)
+      }
       console.warn(`[cloud-pipeline] output missing: ${outputPath}`)
       continue
     }

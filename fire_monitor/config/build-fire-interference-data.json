@@ -1,0 +1,13 @@
+{
+  "globalPowerPlantCsvPath": "./data-store/evaluation/gppd-repo/output_database/global_power_plant_database.csv",
+  "viirsCsvPath": "./data-store/evaluation/firms/J1_VIIRS_C2_Global_7d.csv",
+  "chinaBoundaryPath": "./public/data/china-boundary.geojson",
+  "existingThermalSourcePath": "./public/data/support/china_static_thermal_sources.geojson",
+  "photovoltaicOutputPath": "./public/data/support/china_photovoltaic_facilities.geojson",
+  "persistentThermalOutputPath": "./public/data/support/china_persistent_thermal_candidates.geojson",
+  "summaryOutputPath": "./public/data/support/fire_interference_data_summary.json",
+  "persistentClusterKm": 1.5,
+  "persistentMinDistinctDays": 4,
+  "persistentMinDetectionCount": 4,
+  "acceptedViirsConfidence": ["nominal", "high", "n", "h"]
+}

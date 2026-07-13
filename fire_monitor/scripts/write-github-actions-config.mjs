@@ -67,10 +67,6 @@ async function main() {
         sensor: 'AHI',
         roiCode: 'CN',
         databasePath: './fire_monitor.geodatabase',
-        postProcessCommand: ['python', './scripts/process-himawari-fire.py', '--config', './config/process-himawari-fire.github.json'],
-        postProcessFailureMode: 'warn',
-        postProcessOnceKey: 'github-actions-himawari-fire',
-        postProcessTimeoutMs: 900000,
       },
     ],
   }
@@ -88,10 +84,15 @@ async function main() {
   }
 
   const processConfig = {
-    paperStrictMode: true,
+    paperStrictMode: false,
+    algorithmMode: 'paper-adapted',
     visibleBand: '03',
     visibleReflectancePath: '',
     groundThermalSourcePath: './public/data/support/china_static_thermal_sources.geojson',
+    groundThermalSourcePaths: [
+      './public/data/support/china_static_thermal_sources.geojson',
+      './public/data/support/china_photovoltaic_facilities.geojson',
+    ],
     nonVegetationMaskPath: './public/data/support/china_non_vegetation_mask.geojson',
     inputRoot: './data-store/runtime-data/himawari9_ahi',
     outputDir: './public/data/algorithm/latest',
@@ -101,7 +102,9 @@ async function main() {
     sourceSat: 'H09',
     bands: ['03', '07', '13', '14'],
     minSegmentsPerBand: 4,
+    requiredSegments: ['01', '02', '03', '04'],
     maxSnapshotAgeMinutes: 30,
+    failOnStaleSnapshot: true,
     cropMarginPixels: 24,
     roi: {
       minLon: 73.0,
@@ -124,6 +127,11 @@ async function main() {
       edgeThresholdC: 8,
       thermalSourceRadiusKm: 4.0,
       minBackgroundPixels: 4,
+      minStdT713K: 2.0,
+      maxStdT713K: 4.0,
+      absoluteScoreScaleK: 10.0,
+      confidenceMediumScore: 2.0,
+      confidenceHighScore: 3.5,
     },
   }
 
@@ -137,15 +145,29 @@ async function main() {
       workdir: '.',
       timeoutMs: 900000,
     },
-    steps: [],
+    steps: [
+      {
+        name: 'process-himawari-fire',
+        command: ['python', './scripts/process-himawari-fire.py', '--config', './config/process-himawari-fire.github.json'],
+        workdir: '.',
+        timeoutMs: 900000,
+      },
+    ],
     outputs: [
       {
-        path: './public/data/algorithm/latest',
-        targetDir: 'algorithm/latest',
+        path: './public/data/algorithm/latest/candidate_fire.geojson',
+        targetPath: 'algorithm/latest/candidate_fire.geojson',
+        required: true,
+      },
+      {
+        path: './public/data/algorithm/latest/candidate_fire_summary.json',
+        targetPath: 'algorithm/latest/candidate_fire_summary.json',
+        required: true,
       },
       {
         path: './public/data/catalog.json',
         targetPath: 'catalog.json',
+        required: true,
       },
     ],
   }

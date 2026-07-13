@@ -1,0 +1,86 @@
+{
+  "generatedAt": "2026-07-13T12:19:48.439564Z",
+  "status": "evaluated",
+  "evaluationType": "apparent-object-level-validation",
+  "candidateSource": "D:\\js\\webgis\\火情监测\\fire_monitor\\public\\data\\algorithm\\latest\\candidate_fire.geojson",
+  "candidateCount": 45,
+  "candidateAcquisitionTimes": [
+    "2026-07-13T11:30:00Z"
+  ],
+  "referenceObservationCount": 52,
+  "referenceSensors": [
+    "VIIRS_NOAA20"
+  ],
+  "spatialMatchKm": 5.0,
+  "referenceClusterKm": 2.5,
+  "referenceClusterMinutes": 30.0,
+  "primaryTimeWindowHours": 3.0,
+  "metricsByTimeWindow": [
+    {
+      "timeWindowHours": 1.0,
+      "status": "no_reference_detections",
+      "candidateCount": 45,
+      "referenceClusterCount": 0,
+      "truePositive": null,
+      "falsePositive": null,
+      "falseNegative": null,
+      "precision": null,
+      "recall": null,
+      "commissionRate": null,
+      "omissionRate": null,
+      "spatialMatchKm": 5.0,
+      "note": "No accepted reference fire detections fall inside this time window; FIRMS CSV alone cannot prove whether the candidate locations were inside a clear-sky reference-sensor swath."
+    },
+    {
+      "timeWindowHours": 3.0,
+      "status": "no_reference_detections",
+      "candidateCount": 45,
+      "referenceClusterCount": 0,
+      "truePositive": null,
+      "falsePositive": null,
+      "falseNegative": null,
+      "precision": null,
+      "recall": null,
+      "commissionRate": null,
+      "omissionRate": null,
+      "spatialMatchKm": 5.0,
+      "note": "No accepted reference fire detections fall inside this time window; FIRMS CSV alone cannot prove whether the candidate locations were inside a clear-sky reference-sensor swath."
+    },
+    {
+      "timeWindowHours": 6.0,
+      "status": "provisional",
+      "candidateCount": 45,
+      "referenceClusterCount": 30,
+      "truePositive": 0,
+      "falsePositive": 45,
+      "falseNegative": 30,
+      "precision": 0.0,
+      "recall": 0.0,
+      "commissionRate": 1.0,
+      "omissionRate": 1.0,
+      "spatialMatchKm": 5.0,
+      "candidateToReferenceDistanceKm": {
+        "min": 90.436,
+        "median": 735.939,
+        "max": 1088.596
+      },
+      "candidateBBox": [
+        80.061165,
+        22.343159,
+        104.667236,
+        46.143047
+      ],
+      "referenceBBox": [
+        83.77769,
+        23.83818,
+        125.84845,
+        48.2342
+      ]
+    }
+  ],
+  "limitations": [
+    "FIRMS active-fire CSV contains detections but not complete satellite swath or cloud-obscuration masks; unmatched Himawari candidates are apparent false positives, not confirmed false alarms.",
+    "Himawari and polar-orbiting sensors observe at different times and spatial resolutions; longer time windows increase temporal mismatch.",
+    "The evaluation uses VIIRS/MODIS detections as reference observations rather than field-confirmed ground truth."
+  ]
+}

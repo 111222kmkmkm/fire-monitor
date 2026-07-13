@@ -1,0 +1,3619 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          90.939656,
+          44.848639
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 82",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 36,
+        "distinctDayCount": 8,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 3.015,
+        "maxFrpMw": 8.48,
+        "dayDetectionCount": 7,
+        "nightDetectionCount": 29,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.820526,
+          38.287399
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 21",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 16,
+        "distinctDayCount": 7,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.679,
+        "maxFrpMw": 8.23,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 15,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.049174,
+          36.212019
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 57",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 14,
+        "distinctDayCount": 7,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.32,
+        "maxFrpMw": 4.99,
+        "dayDetectionCount": 2,
+        "nightDetectionCount": 12,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.827749,
+          30.189876
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 73",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 10,
+        "distinctDayCount": 7,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.427,
+        "maxFrpMw": 3.4,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 10,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.606632,
+          29.831089
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 74",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 10,
+        "distinctDayCount": 7,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.684,
+        "maxFrpMw": 6.41,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 9,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.068946,
+          44.7176
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 94",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 9,
+        "distinctDayCount": 7,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.484,
+        "maxFrpMw": 2.02,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 9,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.794424,
+          27.443394
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 79",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 7,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.083,
+        "maxFrpMw": 1.96,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.981758,
+          30.19044
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 72",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 7,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.371,
+        "maxFrpMw": 4.37,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          95.017513,
+          43.68222
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 84",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 75,
+        "distinctDayCount": 6,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 4.628,
+        "maxFrpMw": 14.15,
+        "dayDetectionCount": 16,
+        "nightDetectionCount": 59,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          109.74593,
+          40.635709
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 14",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 43,
+        "distinctDayCount": 6,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 2.449,
+        "maxFrpMw": 12.12,
+        "dayDetectionCount": 3,
+        "nightDetectionCount": 40,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.446731,
+          30.631221
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 119",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 23,
+        "distinctDayCount": 6,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.09,
+        "maxFrpMw": 3.82,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 23,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          102.210565,
+          27.731007
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 95",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 18,
+        "distinctDayCount": 6,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 4.179,
+        "maxFrpMw": 12.24,
+        "dayDetectionCount": 10,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.039765,
+          29.781885
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 75",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 15,
+        "distinctDayCount": 6,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 3.694,
+        "maxFrpMw": 11.36,
+        "dayDetectionCount": 2,
+        "nightDetectionCount": 13,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          86.078346,
+          44.45336
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 4",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 13,
+        "distinctDayCount": 6,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 4.208,
+        "maxFrpMw": 13.59,
+        "dayDetectionCount": 2,
+        "nightDetectionCount": 11,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.871528,
+          35.66305
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 63",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 12,
+        "distinctDayCount": 6,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 2.167,
+        "maxFrpMw": 3.54,
+        "dayDetectionCount": 3,
+        "nightDetectionCount": 9,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.057842,
+          36.191842
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 60",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 9,
+        "distinctDayCount": 6,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 1.997,
+        "maxFrpMw": 3.13,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          105.407,
+          26.26481
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 101",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 9,
+        "distinctDayCount": 6,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.316,
+        "maxFrpMw": 2.28,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 9,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.964079,
+          34.004958
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 65",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 6,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.795,
+        "maxFrpMw": 5.74,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.327892,
+          30.850175
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 69",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 6,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 2.58,
+        "maxFrpMw": 4.46,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.866463,
+          30.478838
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 71",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 6,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 3.085,
+        "maxFrpMw": 8.62,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.257514,
+          37.571988
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 38",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 29,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 2.49,
+        "maxFrpMw": 8.18,
+        "dayDetectionCount": 3,
+        "nightDetectionCount": 26,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          119.037541,
+          35.193506
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 103",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 18,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 1.909,
+        "maxFrpMw": 4.12,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 17,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.113898,
+          36.460356
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 54",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 15,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.588,
+        "maxFrpMw": 8.07,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 14,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.576412,
+          33.613444
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 106",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 15,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 2.149,
+        "maxFrpMw": 3.76,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 15,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.170595,
+          31.13731
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 113",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 15,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 3.929,
+        "maxFrpMw": 10.39,
+        "dayDetectionCount": 4,
+        "nightDetectionCount": 11,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.241863,
+          45.743966
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 98",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 12,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 3.394,
+        "maxFrpMw": 9.57,
+        "dayDetectionCount": 3,
+        "nightDetectionCount": 9,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.531024,
+          35.046696
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 105",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 11,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 3.154,
+        "maxFrpMw": 5.08,
+        "dayDetectionCount": 3,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          115.840148,
+          36.220075
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 127",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 11,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-08",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.408,
+        "maxFrpMw": 6.11,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 10,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.973237,
+          36.361592
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 3",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 10,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 1.749,
+        "maxFrpMw": 6.01,
+        "dayDetectionCount": 2,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.063262,
+          36.350899
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 59",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 9,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.486,
+        "maxFrpMw": 2.75,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 9,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.462396,
+          41.036075
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 8",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.26,
+        "maxFrpMw": 1.95,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.682563,
+          38.948369
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 23",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.939,
+        "maxFrpMw": 4.49,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.195922,
+          36.390263
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 61",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 1.664,
+        "maxFrpMw": 5.89,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.435993,
+          27.087018
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 128",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-08",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.011,
+        "maxFrpMw": 1.61,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.50874,
+          26.64507
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 129",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-08",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.106,
+        "maxFrpMw": 2.75,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.759383,
+          36.626095
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 48",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 1.143,
+        "maxFrpMw": 1.82,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.196228,
+          24.864006
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 81",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 1.599,
+        "maxFrpMw": 2.33,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.679872,
+          29.795761
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 96",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 7.776,
+        "maxFrpMw": 14.31,
+        "dayDetectionCount": 7,
+        "nightDetectionCount": 0,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          109.682803,
+          40.600689
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 16",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.028,
+        "maxFrpMw": 3.89,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          104.506395,
+          29.729468
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 76",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 2.502,
+        "maxFrpMw": 4.82,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          93.370629,
+          42.707918
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 88",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.888,
+        "maxFrpMw": 2.55,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          93.342044,
+          42.70649
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 89",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.192,
+        "maxFrpMw": 2.99,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.911535,
+          30.175351
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 120",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 2.073,
+        "maxFrpMw": 4.44,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.430921,
+          29.591465
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 121",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.575,
+        "maxFrpMw": 3.18,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.101493,
+          37.688974
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 20",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 1.918,
+        "maxFrpMw": 3.42,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.060948,
+          36.243151
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 56",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 1.558,
+        "maxFrpMw": 2.15,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.454853,
+          30.506745
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 70",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.188,
+        "maxFrpMw": 1.73,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.072643,
+          44.754902
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 85",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 0.87,
+        "maxFrpMw": 1.44,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          89.447457,
+          43.174133
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 91",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 5,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.942,
+        "maxFrpMw": 2.65,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.552339,
+          38.248763
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 40",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 32,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 3.74,
+        "maxFrpMw": 6.23,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 32,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.438726,
+          38.913136
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 35",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 24,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.613,
+        "maxFrpMw": 5.57,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 24,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.787645,
+          30.995204
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 116",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 23,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 2.175,
+        "maxFrpMw": 6.7,
+        "dayDetectionCount": 2,
+        "nightDetectionCount": 21,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          81.958236,
+          43.529076
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 93",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 22,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.228,
+        "maxFrpMw": 4.11,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 22,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.545987,
+          37.922979
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 36",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 19,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-09",
+        "meanFrpMw": 1.944,
+        "maxFrpMw": 4.12,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 18,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.981629,
+          39.332233
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 28",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 18,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.762,
+        "maxFrpMw": 3.75,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 18,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          93.27037,
+          44.333077
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 83",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 17,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.651,
+        "maxFrpMw": 3.29,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 17,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.237918,
+          30.449149
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 118",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 17,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 2.326,
+        "maxFrpMw": 4.73,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 17,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.414697,
+          24.267206
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 125",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 15,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-08",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.629,
+        "maxFrpMw": 7.23,
+        "dayDetectionCount": 4,
+        "nightDetectionCount": 11,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.463275,
+          39.434551
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 1",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 14,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-09",
+        "meanFrpMw": 3.996,
+        "maxFrpMw": 6.1,
+        "dayDetectionCount": 7,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          119.140373,
+          42.263643
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 5",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 14,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.98,
+        "maxFrpMw": 3.6,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 14,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.147867,
+          38.399685
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 29",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 14,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.948,
+        "maxFrpMw": 3.68,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 14,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.099609,
+          36.732917
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 44",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 14,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 2.439,
+        "maxFrpMw": 6.1,
+        "dayDetectionCount": 5,
+        "nightDetectionCount": 9,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.844014,
+          40.966483
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 13",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 13,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.289,
+        "maxFrpMw": 2.23,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 13,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.901462,
+          39.384519
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 26",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 13,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.2,
+        "maxFrpMw": 4.05,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 13,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          93.563949,
+          42.705754
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 87",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 13,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.739,
+        "maxFrpMw": 2.96,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 13,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          105.97735,
+          38.514863
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 37",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 12,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.712,
+        "maxFrpMw": 2.04,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 12,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          86.055384,
+          44.368143
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 134",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 12,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-09",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.502,
+        "maxFrpMw": 5.43,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 12,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.705882,
+          39.463419
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 25",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 11,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.274,
+        "maxFrpMw": 3.59,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 11,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.417154,
+          36.597805
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 46",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 11,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 2.23,
+        "maxFrpMw": 5.01,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 10,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.762097,
+          36.336128
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 62",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 11,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.64,
+        "maxFrpMw": 2.45,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 10,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          80.751764,
+          44.162353
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 90",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 11,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.318,
+        "maxFrpMw": 1.62,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 11,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.817051,
+          37.068053
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 102",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 11,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.821,
+        "maxFrpMw": 3.73,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 10,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          88.902268,
+          41.822849
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 135",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 11,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-09",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.28,
+        "maxFrpMw": 3.06,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 11,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.995998,
+          39.19003
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 30",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 10,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.582,
+        "maxFrpMw": 4.94,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 10,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.147959,
+          37.396528
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 41",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 10,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 1.516,
+        "maxFrpMw": 2.96,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 10,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.973386,
+          37.103521
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 43",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 10,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.054,
+        "maxFrpMw": 1.48,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 10,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.958789,
+          39.618767
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 11",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 9,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-09",
+        "meanFrpMw": 1.651,
+        "maxFrpMw": 3.53,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 9,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.710011,
+          39.414982
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 86",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 9,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.589,
+        "maxFrpMw": 2.61,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 9,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.030841,
+          34.665784
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 2",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 3.186,
+        "maxFrpMw": 6.21,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          109.357239,
+          40.579375
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 18",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.905,
+        "maxFrpMw": 6.43,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.125297,
+          36.621379
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 47",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 2.311,
+        "maxFrpMw": 4.08,
+        "dayDetectionCount": 3,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.257416,
+          35.586307
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 64",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 3.495,
+        "maxFrpMw": 6.14,
+        "dayDetectionCount": 3,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.488238,
+          31.742932
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 109",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 2.252,
+        "maxFrpMw": 5.71,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.898405,
+          31.520842
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 111",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 2.326,
+        "maxFrpMw": 3.94,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          86.104676,
+          44.458714
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 133",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-09",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.136,
+        "maxFrpMw": 2.68,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          87.328088,
+          43.853985
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 138",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 8,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-09",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.896,
+        "maxFrpMw": 4.46,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 8,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.100814,
+          41.860159
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 6",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.756,
+        "maxFrpMw": 3.3,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.040144,
+          40.390258
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 12",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 0.947,
+        "maxFrpMw": 1.82,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.916504,
+          39.370803
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 27",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.569,
+        "maxFrpMw": 2.04,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.177895,
+          37.579788
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 39",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-09",
+        "meanFrpMw": 2.43,
+        "maxFrpMw": 4.39,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          105.028515,
+          37.607804
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 50",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.626,
+        "maxFrpMw": 3.04,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.238839,
+          36.730607
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 51",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.806,
+        "maxFrpMw": 2.85,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.035061,
+          36.449226
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 55",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.376,
+        "maxFrpMw": 4.34,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          119.63574,
+          26.733362
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 77",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 5.721,
+        "maxFrpMw": 10.85,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.339931,
+          31.966553
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 107",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 1.363,
+        "maxFrpMw": 1.83,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          117.777071,
+          30.846622
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 117",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 3.804,
+        "maxFrpMw": 6.31,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.853589,
+          30.531812
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 124",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-08",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 6.356,
+        "maxFrpMw": 9.29,
+        "dayDetectionCount": 7,
+        "nightDetectionCount": 0,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          89.190935,
+          44.90678
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 136",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 7,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-09",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.289,
+        "maxFrpMw": 2.07,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 7,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.415065,
+          40.16764
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 19",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 3.473,
+        "maxFrpMw": 11.51,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.78628,
+          39.819947
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 22",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.192,
+        "maxFrpMw": 1.49,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.951609,
+          39.053295
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 33",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.615,
+        "maxFrpMw": 2.09,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.063214,
+          39.06302
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 34",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 1.198,
+        "maxFrpMw": 1.97,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.048524,
+          37.127908
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 42",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.225,
+        "maxFrpMw": 3.88,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.54278,
+          33.269168
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 66",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 3.263,
+        "maxFrpMw": 6.52,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.721479,
+          25.184316
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 80",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 1.3,
+        "maxFrpMw": 1.96,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.914295,
+          33.903862
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 97",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 3.257,
+        "maxFrpMw": 4.36,
+        "dayDetectionCount": 4,
+        "nightDetectionCount": 2,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          111.407596,
+          27.172989
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 100",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.372,
+        "maxFrpMw": 4.02,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.024463,
+          31.099172
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 114",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 2.083,
+        "maxFrpMw": 3.23,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          76.170833,
+          38.658538
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 122",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.552,
+        "maxFrpMw": 1.95,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          81.855188,
+          43.284012
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 130",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-08",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 0.812,
+        "maxFrpMw": 1.15,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 6,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          108.408342,
+          21.680377
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 132",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-09",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 3.723,
+        "maxFrpMw": 9.76,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          109.385919,
+          24.386453
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 139",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 6,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-10",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 3.257,
+        "maxFrpMw": 5.49,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.253079,
+          40.781949
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 9",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.37,
+        "maxFrpMw": 2.4,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          110.086743,
+          40.973493
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 10",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.284,
+        "maxFrpMw": 1.96,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.787624,
+          40.934467
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 15",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.088,
+        "maxFrpMw": 3.0,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.236429,
+          38.180657
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 31",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.192,
+        "maxFrpMw": 3.96,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.230246,
+          36.531928
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 49",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 2.356,
+        "maxFrpMw": 3.31,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.352885,
+          36.475946
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 53",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.112,
+        "maxFrpMw": 5.41,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.015486,
+          36.372153
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 58",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.372,
+        "maxFrpMw": 1.69,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.700912,
+          31.042244
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 68",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 2.214,
+        "maxFrpMw": 2.58,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.798367,
+          43.828203
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 92",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.138,
+        "maxFrpMw": 1.52,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          115.267824,
+          40.142721
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 99",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 0.942,
+        "maxFrpMw": 1.19,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.794117,
+          35.182796
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 104",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 1.302,
+        "maxFrpMw": 2.0,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.46707,
+          31.696227
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 110",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 2.676,
+        "maxFrpMw": 4.63,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          106.771903,
+          32.405799
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 115",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.116,
+        "maxFrpMw": 2.28,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.375625,
+          30.902164
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 123",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 1.692,
+        "maxFrpMw": 3.44,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.364122,
+          31.123587
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 131",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 5,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-09",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.938,
+        "maxFrpMw": 3.57,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 5,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          110.107362,
+          41.878417
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 7",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 4,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.535,
+        "maxFrpMw": 2.02,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          109.779814,
+          40.585886
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 17",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 4,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.688,
+        "maxFrpMw": 2.6,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.762358,
+          38.789775
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 24",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 4,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.475,
+        "maxFrpMw": 2.03,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.313535,
+          38.136888
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 32",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 4,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.357,
+        "maxFrpMw": 2.49,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.926364,
+          36.731144
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 45",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 4,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-13",
+        "meanFrpMw": 2.24,
+        "maxFrpMw": 5.51,
+        "dayDetectionCount": 1,
+        "nightDetectionCount": 3,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.618972,
+          36.515307
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 52",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 4,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 0.605,
+        "maxFrpMw": 0.88,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          112.420711,
+          31.741291
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 67",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 4,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.988,
+        "maxFrpMw": 4.33,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          108.769724,
+          27.238818
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 78",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 4,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-06",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 0.96,
+        "maxFrpMw": 1.14,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.61529,
+          31.91778
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 108",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 4,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 2.692,
+        "maxFrpMw": 4.05,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.151119,
+          31.225644
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 112",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 4,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-07",
+        "lastDate": "2026-07-10",
+        "meanFrpMw": 2.228,
+        "maxFrpMw": 4.32,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          116.344233,
+          36.483956
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 126",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 4,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-08",
+        "lastDate": "2026-07-11",
+        "meanFrpMw": 2.973,
+        "maxFrpMw": 4.67,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          89.239087,
+          44.896125
+        ]
+      },
+      "properties": {
+        "name": "VIIRS persistent candidate 137",
+        "interferenceType": "persistent-thermal-candidate",
+        "verificationStatus": "requires-imagery-or-infrastructure-review",
+        "autoReject": false,
+        "radiusKm": 1.5,
+        "detectionCount": 4,
+        "distinctDayCount": 4,
+        "firstDate": "2026-07-09",
+        "lastDate": "2026-07-12",
+        "meanFrpMw": 1.768,
+        "maxFrpMw": 2.1,
+        "dayDetectionCount": 0,
+        "nightDetectionCount": 4,
+        "sourceDataset": "NASA FIRMS NOAA-20 VIIRS C2 NRT Global 7d"
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "pipelineId": "himawari-fire",
+  "scheduleMinutes": 10,
+  "publishRoot": "./cloud-build/pages",
+  "download": {
+    "enabled": true,
+    "command": [
+      "node",
+      "./scripts/sync-data.mjs",
+      "--once",
+      "--config",
+      "./config/sync.github.json",
+      "--source",
+      "himawari9_ahi_b03_b07_b13_b14"
+    ],
+    "workdir": ".",
+    "timeoutMs": 900000
+  },
+  "steps": [
+    {
+      "name": "process-himawari-fire",
+      "command": [
+        "python",
+        "./scripts/process-himawari-fire.py",
+        "--config",
+        "./config/process-himawari-fire.github.json"
+      ],
+      "workdir": ".",
+      "timeoutMs": 900000
+    }
+  ],
+  "outputs": [
+    {
+      "path": "./public/data/algorithm/latest/candidate_fire.geojson",
+      "targetPath": "algorithm/latest/candidate_fire.geojson",
+      "required": true
+    },
+    {
+      "path": "./public/data/algorithm/latest/candidate_fire_summary.json",
+      "targetPath": "algorithm/latest/candidate_fire_summary.json",
+      "required": true
+    },
+    {
+      "path": "./public/data/catalog.json",
+      "targetPath": "catalog.json",
+      "required": true
+    }
+  ]
+}

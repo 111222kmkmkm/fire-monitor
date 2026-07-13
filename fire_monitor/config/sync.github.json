@@ -1,0 +1,59 @@
+{
+  "scheduleMinutes": 1,
+  "dataRoot": "./data-store/runtime-data",
+  "catalogOutput": "./public/data/catalog.json",
+  "sources": [
+    {
+      "id": "himawari9_ahi_b03_b07_b13_b14",
+      "name": "Himawari-9 AHI fire inputs",
+      "type": "noaa-aws-s3-himawari",
+      "enabled": true,
+      "timeoutMs": 900000,
+      "provider": "NOAA Open Data on AWS",
+      "kind": "satellite-thermal",
+      "targetDir": "himawari9_ahi",
+      "keepSnapshots": 2,
+      "publishLatest": false,
+      "timelineMinutes": 10,
+      "lookbackSlots": 2,
+      "slotAvailabilityLagMinutes": 12,
+      "requestTimeoutMs": 30000,
+      "downloadTimeoutMs": 180000,
+      "listMaxKeys": 1000,
+      "maxParallelDownloads": 36,
+      "bandParallelDownloads": 3,
+      "bandDownloadTimeoutMs": 180000,
+      "maxDownloadRetries": 2,
+      "downloadRetryDelayMs": 500,
+      "skipMd5WhenEtag": true,
+      "progressLogEvery": 10,
+      "bucket": "noaa-himawari9",
+      "bucketRegion": "us-east-1",
+      "productPrefix": "AHI-L1b-FLDK",
+      "preferLatestCompleteSlot": true,
+      "requireAllBandsInSlot": true,
+      "targetSegments": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "minSegmentsPerBand": 4,
+      "deterministicSlotDownload": true,
+      "skipMd5": true,
+      "retentionMinutes": 60,
+      "storeFileBlobInDatabase": false,
+      "acqTimePattern": "(?<date>\\d{8})_(?<time>\\d{4})",
+      "bands": [
+        "03",
+        "07",
+        "13",
+        "14"
+      ],
+      "satellite": "H09",
+      "sensor": "AHI",
+      "roiCode": "CN",
+      "databasePath": "./fire_monitor.geodatabase"
+    }
+  ]
+}

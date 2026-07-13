@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 
 from __future__ import annotations
 
@@ -19,12 +19,19 @@ import numpy as np
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_CONFIG_PATH = PROJECT_ROOT / ".process-himawari-fire.config.json"
+DEFAULT_CONFIG_PATH = PROJECT_ROOT / "config" / "process-himawari-fire.json"
 SEGMENT_PATTERN = re.compile(
     r"^HS_H09_(?P<date>\d{8})_(?P<time>\d{4})_B(?P<band>\d{2})_FLDK_.*_S(?P<segment>\d{2})10\.DAT\.bz2$"
 )
 PLANCK_C1 = 1.191042972e8
 PLANCK_C2 = 1.4387769e4
+ALGORITHM_VERSION = "nsmc-himawari-contextual-v2"
+METHOD_REFERENCES = [
+    "https://doi.org/10.5194/essd-15-1911-2023",
+    "https://doi.org/10.5194/essd-14-3489-2022",
+    "https://doi.org/10.1016/j.rse.2016.02.054",
+    "https://doi.org/10.1016/j.rse.2013.12.008",
+]
 
 
 @dataclass
@@ -80,7 +87,7 @@ def parse_args() -> argparse.Namespace:
 
 def process_latest_snapshot(config: dict[str, Any]) -> None:
     validate_paper_strict_inputs(config)
-    input_root = resolve_path(PROJECT_ROOT, config.get("inputRoot", "../相关数据/实时数据/himawari9_ahi"))
+    input_root = resolve_path(PROJECT_ROOT, config.get("inputRoot", "./data-source/runtime-data/himawari9_ahi"))
     output_dir = resolve_path(PROJECT_ROOT, config.get("outputDir", "./public/data/algorithm/latest"))
     state_path = resolve_path(PROJECT_ROOT, config.get("statePath", "./data-store/algorithm-state/himawari-fire.json"))
     china_boundary_path = resolve_path(PROJECT_ROOT, config.get("chinaBoundaryPath", "./public/data/china-boundary.geojson"))
@@ -90,11 +97,20 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
     bands = [str(item).zfill(2) for item in config.get("bands", ["03", "07", "13", "14"])]
     thermal_bands = ["07", "13", "14"]
     min_segments_per_band = max(int(config.get("minSegmentsPerBand", 10)), 1)
+    required_segments = {
+        int(str(item)) for item in config.get("requiredSegments", [])
+        if str(item).strip()
+    }
     max_snapshot_age_minutes = max(int(config.get("maxSnapshotAgeMinutes", 20)), 1)
     output_dir.mkdir(parents=True, exist_ok=True)
     state_path.parent.mkdir(parents=True, exist_ok=True)
 
-    snapshot_key, snapshot_files = find_latest_complete_snapshot(input_root, bands, min_segments_per_band)
+    snapshot_key, snapshot_files = find_latest_complete_snapshot(
+        input_root,
+        bands,
+        min_segments_per_band,
+        required_segments,
+    )
     acquisition_time = snapshot_to_utc(snapshot_key)
     acquisition_dt = datetime.fromisoformat(acquisition_time.replace("Z", "+00:00"))
     snapshot_age_minutes = (datetime.now(timezone.utc) - acquisition_dt).total_seconds() / 60.0
@@ -107,7 +123,10 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
     }
     china_polygons = load_china_polygons(china_boundary_path)
     non_vegetation_mask_path = resolve_path(PROJECT_ROOT, config["nonVegetationMaskPath"])
-    ground_thermal_source_path = resolve_path(PROJECT_ROOT, config["groundThermalSourcePath"])
+    thermal_source_values = config.get("groundThermalSourcePaths")
+    if not isinstance(thermal_source_values, list) or not thermal_source_values:
+        thermal_source_values = [config["groundThermalSourcePath"]]
+    ground_thermal_source_paths = [resolve_path(PROJECT_ROOT, value) for value in thermal_source_values]
     margin_pixels = max(int(config.get("cropMarginPixels", 24)), 0)
 
     sample_segment = decode_segment(snapshot_files["07"][0])
@@ -151,7 +170,7 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
 
     solar = build_solar_geometry(acquisition_time, lon_grid, lat_grid)
     non_vegetation_mask = load_support_mask(non_vegetation_mask_path, lon_grid, lat_grid, roi_mask, "non-vegetation mask")
-    thermal_source_db = load_static_thermal_source_database(ground_thermal_source_path)
+    thermal_source_db = load_static_thermal_source_databases(ground_thermal_source_paths)
     thresholds = {
         "suspiciousOffsetK": float(config.get("thresholds", {}).get("suspiciousOffsetK", 20)),
         "suspiciousVisibleFactor": float(config.get("thresholds", {}).get("suspiciousVisibleFactor", 100)),
@@ -166,6 +185,11 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
         "edgeThresholdC": float(config.get("thresholds", {}).get("edgeThresholdC", 8)),
         "thermalSourceRadiusKm": float(config.get("thresholds", {}).get("thermalSourceRadiusKm", 4.0)),
         "minBackgroundPixels": float(config.get("thresholds", {}).get("minBackgroundPixels", 4)),
+        "minStdT713K": float(config.get("thresholds", {}).get("minStdT713K", 2.0)),
+        "maxStdT713K": float(config.get("thresholds", {}).get("maxStdT713K", 4.0)),
+        "absoluteScoreScaleK": float(config.get("thresholds", {}).get("absoluteScoreScaleK", 10.0)),
+        "confidenceHighScore": float(config.get("thresholds", {}).get("confidenceHighScore", 3.5)),
+        "confidenceMediumScore": float(config.get("thresholds", {}).get("confidenceMediumScore", 2.0)),
     }
     window_sizes = [int(size) for size in config.get("windowSizes", [7, 9, 11, 19])]
 
@@ -193,6 +217,12 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
     detection["fires"] = filtered_fires
 
     stale = snapshot_age_minutes > max_snapshot_age_minutes
+    if stale and bool(config.get("failOnStaleSnapshot", False)):
+        raise RuntimeError(
+            f"latest usable snapshot is stale: age={snapshot_age_minutes:.1f} min, "
+            f"threshold={max_snapshot_age_minutes} min"
+        )
+
     notes = list(detection["notes"])
     if stale:
         notes.append(
@@ -213,7 +243,11 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
         "stale": stale,
         "snapshotAgeMinutes": round(snapshot_age_minutes, 1),
         "confidenceCounts": summarize_confidence_counts(detection["fires"]),
-        "paperStrictMode": True,
+        "algorithmVersion": ALGORITHM_VERSION,
+        "algorithmMode": str(config.get("algorithmMode", "paper-adapted")),
+        "methodReferences": METHOD_REFERENCES,
+        "paperStrictMode": bool(config.get("paperStrictMode", True)),
+        "thresholds": thresholds,
         "roi": roi_bbox,
         "crop": crop,
         "notes": notes,
@@ -231,8 +265,13 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
     print(f"[process-himawari-fire] snapshot={snapshot_key} fire_count={len(detection['fires'])}")
 
 
-def find_latest_complete_snapshot(input_root: Path, bands: list[str], min_segments_per_band: int) -> tuple[str, dict[str, list[Path]]]:
-    return find_recent_complete_snapshots(input_root, bands, min_segments_per_band, 1)[0]
+def find_latest_complete_snapshot(
+    input_root: Path,
+    bands: list[str],
+    min_segments_per_band: int,
+    required_segments: set[int] | None = None,
+) -> tuple[str, dict[str, list[Path]]]:
+    return find_recent_complete_snapshots(input_root, bands, min_segments_per_band, 1, required_segments)[0]
 
 
 def find_recent_complete_snapshots(
@@ -240,6 +279,7 @@ def find_recent_complete_snapshots(
     bands: list[str],
     min_segments_per_band: int,
     limit: int,
+    required_segments: set[int] | None = None,
 ) -> list[tuple[str, dict[str, list[Path]]]]:
     if not input_root.exists():
         raise FileNotFoundError(f"input root not found: {input_root}")
@@ -256,7 +296,12 @@ def find_recent_complete_snapshots(
             if band not in grouped:
                 continue
             grouped[band].append((int(match.group("segment")), file_path))
-        if all(len(grouped[band]) >= min_segments_per_band for band in bands):
+        has_minimum_count = all(len(grouped[band]) >= min_segments_per_band for band in bands)
+        has_required_segments = not required_segments or all(
+            required_segments.issubset({segment for segment, _ in grouped[band]})
+            for band in bands
+        )
+        if has_minimum_count and has_required_segments:
             resolved = {
                 band: [item[1] for item in sorted(grouped[band], key=lambda value: value[0])]
                 for band in bands
@@ -582,22 +627,26 @@ def detect_fire_pixels(
     thermal_source_db: dict[str, Any],
 ) -> dict[str, Any]:
     notes = [
-        "strict paper mode: ESSD-2022-435 Table 2 and Eq. (3)-(11) are used for Himawari fire detection."
+        "NSMC-Himawari contextual tests follow ESSD 15, 1911-1931 (2023), with an engineering nighttime fallback when visible reflectance is unavailable."
     ]
     t713 = b07 - b13
-    valid = roi_mask & np.isfinite(b07) & np.isfinite(b13) & np.isfinite(b14) & np.isfinite(rvis)
+    thermal_valid = roi_mask & np.isfinite(b07) & np.isfinite(b13) & np.isfinite(b14)
+    night_mask = solar["zenithDeg"] > thresholds["nightZenithDeg"]
+    visible_valid = np.isfinite(rvis)
+    valid = thermal_valid & (night_mask | visible_valid)
     cloud_mask = valid & (
         (t713 < 4)
         | ((t713 > 20) & ((b07 < 275) | (b13 < 270)))
-        | ((rvis > thresholds["cloudVisibleReflectance"]) & (solar["zenithDeg"] < thresholds["cloudZenithLimitDeg"]))
+        | (visible_valid & (rvis > thresholds["cloudVisibleReflectance"]) & (solar["zenithDeg"] < thresholds["cloudZenithLimitDeg"]))
         | (b14 < 265)
         | ((b13 < 270) & (((b13 - b14) < 4) | ((b13 - b14) > 60)))
     )
-    suspicious_mask = valid & ~cloud_mask & (t713 > thresholds["suspiciousOffsetK"]) & (
-        b07 > (rvis * thresholds["suspiciousVisibleFactor"] + thresholds["suspiciousOffsetK"])
+    suspicious_mask = valid & visible_valid & ~cloud_mask & (
+        b07 >= b13 + rvis * thresholds["suspiciousVisibleFactor"] + thresholds["suspiciousOffsetK"]
     )
-    night_absolute_mask = valid & ~cloud_mask & (solar["zenithDeg"] > thresholds["nightZenithDeg"]) & (
-        (b07 > thresholds["nightAbsoluteT7K"]) & (rvis < thresholds["nightVisibleMax"])
+    night_absolute_mask = valid & ~cloud_mask & night_mask & (
+        (b07 > thresholds["nightAbsoluteT7K"])
+        & (~visible_valid | (rvis < thresholds["nightVisibleMax"]))
     )
     seed_mask = suspicious_mask | night_absolute_mask
 
@@ -633,8 +682,10 @@ def detect_fire_pixels(
         if not night_hot and not relative_hot:
             continue
 
-        cloud_rejected = (
-            float(rvis[row, col]) >= background["rvisBg"] + thresholds["cloudVisibleDelta"]
+        cloud_rejected = bool(
+            np.isfinite(rvis[row, col])
+            and background["rvisFiniteCount"] > 0
+            and float(rvis[row, col]) >= background["rvisBg"] + thresholds["cloudVisibleDelta"]
             and float(b13[row, col]) <= background["t13Bg"] - thresholds["cloudT13DeltaK"]
         )
         if cloud_rejected:
@@ -656,6 +707,15 @@ def detect_fire_pixels(
         if static_source_rejected:
             continue
 
+        evidence = compute_fire_evidence_score(
+            t7=float(b07[row, col]),
+            t713=float(t713[row, col]),
+            background=background,
+            dynamic_factor=dynamic_factor,
+            night_hot=night_hot,
+            thresholds=thresholds,
+        )
+
         fires.append(
             {
                 "row": int(row),
@@ -663,9 +723,8 @@ def detect_fire_pixels(
                 "sourceSat": source_sat,
                 "acqTimeUtc": acquisition_time,
                 "daynight": "N" if zenith > thresholds["nightZenithDeg"] else "D",
-                "fireStatus": "confirmed",
-                "confidence": "high",
-                "score": round(float(dynamic_factor), 3),
+                "fireStatus": "suspected",
+                "score": evidence["score"],
                 "btTir": round(float(b07[row, col]), 2),
                 "btDif": round(float(t713[row, col]), 2),
                 "lon": round(float(lon_grid[row, col]), 6),
@@ -682,8 +741,8 @@ def detect_fire_pixels(
                     "pv": round(background["pv"], 3),
                     "t7Bg": round(background["t7Bg"], 2),
                     "stdT7": round(background["stdT7"], 2),
-                    "rvis": round(float(rvis[row, col]), 4),
-                    "rvisBg": round(background["rvisBg"], 4),
+                    "rvis": round(float(rvis[row, col]), 4) if np.isfinite(rvis[row, col]) else None,
+                    "rvisBg": round(background["rvisBg"], 4) if background["rvisFiniteCount"] > 0 else None,
                     "t13Bg": round(background["t13Bg"], 2),
                     "t713Bg": round(background["t713Bg"], 2),
                     "stdT713": round(background["stdT713"], 2),
@@ -691,9 +750,13 @@ def detect_fire_pixels(
                     "absoluteThresholdPassed": night_hot,
                     "dynamicThresholdPassed": relative_hot,
                     "staticThermalSourceRejected": static_source_rejected,
+                    "t7ThresholdExcessSigma": evidence["t7ThresholdExcessSigma"],
+                    "t713ThresholdExcessSigma": evidence["t713ThresholdExcessSigma"],
                 },
             }
         )
+
+        fires[-1]["confidence"] = classify_confidence_from_score(fires[-1]["score"], thresholds)
 
     deduped_fires = suppress_nearby_duplicates(fires, radius_pixels=2)
     return {
@@ -771,7 +834,7 @@ def sample_background_window(
     window_t713 = t713[row_start:row_end, col_start:col_end]
     window_cloud = cloud_mask[row_start:row_end, col_start:col_end]
     window_non_vegetation = non_vegetation_mask[row_start:row_end, col_start:col_end]
-    clear_candidates = window_valid & ~window_cloud & np.isfinite(window_b07) & np.isfinite(window_b13) & np.isfinite(window_b14) & np.isfinite(window_rvis)
+    clear_candidates = window_valid & ~window_cloud & np.isfinite(window_b07) & np.isfinite(window_b13) & np.isfinite(window_b14)
     candidate_count = int(np.count_nonzero(window_valid))
     if candidate_count <= 0:
         return None
@@ -781,8 +844,9 @@ def sample_background_window(
         return None
 
     t7_threshold = float(np.nanpercentile(window_b07[clear_candidates], 80))
+    rvis_for_threshold = np.where(np.isfinite(window_rvis), window_rvis, 0.0)
     suspicious = clear_candidates & (window_b07 >= t7_threshold) & (
-        window_b07 > (window_rvis * thresholds["suspiciousVisibleFactor"] + thresholds["suspiciousOffsetK"])
+        window_b07 >= window_b13 + rvis_for_threshold * thresholds["suspiciousVisibleFactor"] + thresholds["suspiciousOffsetK"]
     )
     available = clear_candidates & ~suspicious
     available_count = int(np.count_nonzero(available))
@@ -798,6 +862,7 @@ def sample_background_window(
         window_non_vegetation,
         available,
         radius * 2 + 1,
+        thresholds,
     )
 
 
@@ -811,19 +876,25 @@ def summarize_background_pixels(
     window_non_vegetation: np.ndarray,
     available: np.ndarray,
     window_size: int,
+    thresholds: dict[str, float],
 ) -> dict[str, float]:
     t7_values = window_b07[available]
     t13_values = window_b13[available]
-    rvis_values = window_rvis[available]
+    rvis_available = available & np.isfinite(window_rvis)
+    rvis_values = window_rvis[rvis_available]
     t713_values = window_t713[available]
     total_window = max(int(np.count_nonzero(window_valid)), 1)
     return {
         "t7Bg": float(np.nanmean(t7_values)),
         "t13Bg": float(np.nanmean(t13_values)),
-        "rvisBg": float(np.nanmean(rvis_values)),
+        "rvisBg": float(np.nanmean(rvis_values)) if rvis_values.size > 0 else 0.0,
         "t713Bg": float(np.nanmean(t713_values)),
         "stdT7": max(float(np.nanstd(t7_values)), 0.5),
-        "stdT713": max(float(np.nanstd(t713_values)), 1.0),
+        "stdT713": min(
+            max(float(np.nanstd(t713_values)), thresholds["minStdT713K"]),
+            thresholds["maxStdT713K"],
+        ),
+        "rvisFiniteCount": int(rvis_values.size),
         "pv": float(np.count_nonzero(window_non_vegetation & window_valid)) / total_window,
         "pc": float(np.count_nonzero(window_cloud & window_valid)) / total_window,
         "windowSize": window_size,
@@ -844,9 +915,53 @@ def suppress_nearby_duplicates(fires: list[dict[str, Any]], radius_pixels: int) 
 
 def compute_dynamic_threshold_factor(altitude_deg: float, pv: float, pc: float) -> float:
     sin_altitude = max(math.sin(math.radians(max(altitude_deg, 0.0))), 0.0)
-    if altitude_deg < 30.0:
+    if altitude_deg < 60.0:
         return (sin_altitude + 1.0) * (1.0 + pv) * (1.0 + pc)
     return (1.2 * sin_altitude + 1.0) * (1.0 + pv) * ((1.0 + pc) ** 2)
+
+
+def compute_fire_evidence_score(
+    *,
+    t7: float,
+    t713: float,
+    background: dict[str, float],
+    dynamic_factor: float,
+    night_hot: bool,
+    thresholds: dict[str, float],
+) -> dict[str, float]:
+    std_t7 = max(float(background["stdT7"]), 0.1)
+    std_t713 = max(float(background["stdT713"]), 0.1)
+    t7_excess = (t7 - (float(background["t7Bg"]) + dynamic_factor * std_t7)) / std_t7
+    t713_excess = (t713 - (float(background["t713Bg"]) + dynamic_factor * std_t713)) / std_t713
+    weaker_excess = max(min(t7_excess, t713_excess), 0.0)
+    mean_excess = max((t7_excess + t713_excess) / 2.0, 0.0)
+    relative_score = weaker_excess + 0.25 * mean_excess
+
+    absolute_score = 0.0
+    if night_hot:
+        scale_k = max(float(thresholds.get("absoluteScoreScaleK", 10.0)), 0.1)
+        absolute_score = 2.0 + max((t7 - float(thresholds["nightAbsoluteT7K"])) / scale_k, 0.0)
+
+    return {
+        "score": round(min(max(relative_score, absolute_score), 10.0), 3),
+        "t7ThresholdExcessSigma": round(t7_excess, 3),
+        "t713ThresholdExcessSigma": round(t713_excess, 3),
+    }
+
+
+def classify_confidence_from_score(score: float, thresholds: dict[str, float]) -> str:
+    high_threshold = float(thresholds.get("confidenceHighScore", 3.5))
+    medium_threshold = float(thresholds.get("confidenceMediumScore", 2.0))
+
+    # Guard against misconfigured thresholds: medium should not exceed high.
+    if medium_threshold > high_threshold:
+        medium_threshold = high_threshold
+
+    if score >= high_threshold:
+        return "high"
+    if score >= medium_threshold:
+        return "medium"
+    return "low"
 
 
 def summarize_confidence_counts(fires: list[dict[str, Any]]) -> dict[str, int]:
@@ -908,6 +1023,17 @@ def load_static_thermal_source_database(file_path: Path) -> dict[str, Any]:
     if not database["points"] and not database["polygons"]:
         raise RuntimeError(f"static thermal source database is empty: {file_path}")
     return database
+
+
+def load_static_thermal_source_databases(file_paths: list[Path]) -> dict[str, Any]:
+    combined: dict[str, list[Any]] = {"points": [], "polygons": []}
+    for file_path in file_paths:
+        database = load_static_thermal_source_database(file_path)
+        combined["points"].extend(database["points"])
+        combined["polygons"].extend(database["polygons"])
+    if not combined["points"] and not combined["polygons"]:
+        raise RuntimeError("static thermal source databases are empty")
+    return combined
 
 
 def rasterize_polygon_mask(
@@ -1018,7 +1144,8 @@ def matches_static_thermal_source(
             return True
     for point in thermal_source_db["points"]:
         radius_km = float(point.get("radiusKm", 0.0) or 0.0)
-        if haversine_km(lon, lat, point["lon"], point["lat"]) <= max(radius_km, default_radius_km):
+        effective_radius_km = radius_km if radius_km > 0 else default_radius_km
+        if haversine_km(lon, lat, point["lon"], point["lat"]) <= effective_radius_km:
             return True
     return False
 
@@ -1204,7 +1331,10 @@ def validate_paper_strict_inputs(config: dict[str, Any]) -> None:
     bands = [str(item).zfill(2) for item in config.get("bands", [])]
     visible_band = str(config.get("visibleBand", "")).strip()
     visible_reflectance_path = str(config.get("visibleReflectancePath", "")).strip()
-    thermal_source_path = str(config.get("groundThermalSourcePath", "")).strip()
+    thermal_source_values = config.get("groundThermalSourcePaths")
+    if not isinstance(thermal_source_values, list) or not thermal_source_values:
+        thermal_source_values = [config.get("groundThermalSourcePath", "")]
+    thermal_source_paths = [str(value).strip() for value in thermal_source_values if str(value).strip()]
     non_vegetation_mask_path = str(config.get("nonVegetationMaskPath", "")).strip()
 
     for required_band in ("07", "13", "14"):
@@ -1225,10 +1355,11 @@ def validate_paper_strict_inputs(config: dict[str, Any]) -> None:
         if not resolved_visible.exists():
             missing.append(f"visibleReflectancePath not found: {resolved_visible}")
 
-    if thermal_source_path:
-        resolved_thermal = resolve_path(PROJECT_ROOT, thermal_source_path)
-        if not resolved_thermal.exists():
-            missing.append(f"groundThermalSourcePath not found: {resolved_thermal}")
+    if thermal_source_paths:
+        for thermal_source_path in thermal_source_paths:
+            resolved_thermal = resolve_path(PROJECT_ROOT, thermal_source_path)
+            if not resolved_thermal.exists():
+                missing.append(f"ground thermal source path not found: {resolved_thermal}")
     else:
         missing.append(
             "ground thermal source database is required by Section 3.3.3 of the paper"

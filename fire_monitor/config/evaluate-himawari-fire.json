@@ -1,0 +1,19 @@
+{
+  "candidateFirePath": "./public/data/algorithm/latest/candidate_fire.geojson",
+  "chinaBoundaryPath": "./public/data/china-boundary.geojson",
+  "referenceDatasets": [
+    {
+      "sensor": "VIIRS_NOAA20",
+      "path": "./data-store/evaluation/firms/J1_VIIRS_C2_Global_7d.csv"
+    }
+  ],
+  "outputSummaryPath": "./public/data/algorithm/evaluation/himawari_vs_firms_latest.json",
+  "outputMatchesPath": "./public/data/algorithm/evaluation/himawari_vs_firms_matches.geojson",
+  "timeWindowsHours": [1, 3, 6],
+  "primaryTimeWindowHours": 3,
+  "spatialMatchKm": 5.0,
+  "referenceClusterKm": 2.5,
+  "referenceClusterMinutes": 30,
+  "acceptedViirsConfidence": ["nominal", "high", "n", "h"],
+  "minModisConfidence": 30
+}

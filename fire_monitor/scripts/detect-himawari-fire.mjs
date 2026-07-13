@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const projectRoot = path.resolve(__dirname, '..')
-const defaultConfigPath = path.resolve(projectRoot, '.detect-himawari-fire.config.json')
+const defaultConfigPath = path.resolve(projectRoot, 'config', 'detect-himawari-fire.json')
 
 async function main() {
   const options = parseCliArgs(process.argv.slice(2))
@@ -59,7 +59,9 @@ async function runDetection(config) {
     cloudVisibleDelta: Number(config.thresholds?.cloudVisibleDelta ?? 0.15),
     cloudT13DeltaK: Number(config.thresholds?.cloudT13DeltaK ?? 5),
     edgeThresholdC: Number(config.thresholds?.edgeThresholdC ?? 8),
-    scoreScaleK: Number(config.thresholds?.scoreScaleK ?? 10),
+    absoluteScoreScaleK: Number(config.thresholds?.absoluteScoreScaleK ?? 10),
+    confidenceHighScore: Number(config.thresholds?.confidenceHighScore ?? 3.5),
+    confidenceMediumScore: Number(config.thresholds?.confidenceMediumScore ?? 2),
   }
 
   const detection = detectFirePixels(raster, {
@@ -83,6 +85,7 @@ async function runDetection(config) {
         width: raster.width,
         height: raster.height,
         fireCount: detection.fires.length,
+        confidenceCounts: summarizeConfidenceCounts(detection.fires),
         cloudPixelCount: detection.cloudPixelCount,
         notes: detection.notes,
       },
@@ -208,7 +211,7 @@ function detectFirePixels(raster, options) {
   }
 
   for (let index = 0; index < size; index += 1) {
-    cloudMask[index] = isCloudPixel(index, raster, solar.altitudeDeg, t713) ? 1 : 0
+    cloudMask[index] = isCloudPixel(index, raster, solar.zenithDeg, t713) ? 1 : 0
   }
 
   const fires = []
@@ -273,7 +276,8 @@ function detectFirePixels(raster, options) {
       background.stdT7,
       background.stdT713,
       dynamicFactor,
-      options.thresholds.scoreScaleK,
+      nightHot,
+      options.thresholds,
     )
     fires.push({
       index,
@@ -281,6 +285,7 @@ function detectFirePixels(raster, options) {
       acqTimeUtc: raster.acquisitionTime,
       daynight: solar.zenithDeg[index] > 85 ? 'N' : 'D',
       fireStatus: 'suspected',
+      confidence: classifyConfidenceFromScore(score, options.thresholds),
       score,
       btTir: roundNumber(b07[index], 2),
       btDif: roundNumber(t713[index], 2),
@@ -393,16 +398,16 @@ function sampleBackgroundWindow(centerIndex, raster, altitudeDeg, cloudMask, t71
   }
 }
 
-function isCloudPixel(index, raster, altitudeDeg, t713) {
+function isCloudPixel(index, raster, zenithDeg, t713) {
   const t7 = raster.b07[index]
   const t13 = raster.b13[index]
   const t14 = raster.b14[index]
   const rvis = raster.rvis[index]
-  const altitude = altitudeDeg[index]
+  const zenith = zenithDeg[index]
 
   return t713[index] < 4
     || (t713[index] > 20 && (t7 < 275 || t13 < 270))
-    || (rvis > 0.28 && altitude < 70)
+    || (rvis > 0.28 && zenith < 70)
     || t14 < 265
     || (t13 < 270 && (t13 - t14 < 4 || t13 - t14 > 60))
 }
@@ -443,10 +448,47 @@ function pixelToLonLat(index, raster) {
   }
 }
 
-function computeFireScore(t7, t713, t7Bg, t713Bg, stdT7, stdT713, dynamicFactor, scoreScaleK) {
-  const z1 = (t7 - (t7Bg + dynamicFactor * stdT7)) / Math.max(scoreScaleK, 0.1)
-  const z2 = (t713 - (t713Bg + dynamicFactor * stdT713)) / Math.max(scoreScaleK, 0.1)
-  return roundNumber(Math.max(0, 0.5 + z1 + z2), 3)
+function computeFireScore(t7, t713, t7Bg, t713Bg, stdT7, stdT713, dynamicFactor, nightHot, thresholds) {
+  const t7Excess = (t7 - (t7Bg + dynamicFactor * stdT7)) / Math.max(stdT7, 0.1)
+  const t713Excess = (t713 - (t713Bg + dynamicFactor * stdT713)) / Math.max(stdT713, 0.1)
+  const weakerExcess = Math.max(Math.min(t7Excess, t713Excess), 0)
+  const meanExcess = Math.max((t7Excess + t713Excess) / 2, 0)
+  const relativeScore = weakerExcess + 0.25 * meanExcess
+  const absoluteScore = nightHot
+    ? 2 + Math.max((t7 - thresholds.nightAbsoluteT7K) / Math.max(thresholds.absoluteScoreScaleK, 0.1), 0)
+    : 0
+  return roundNumber(Math.min(Math.max(relativeScore, absoluteScore), 10), 3)
+}
+
+function classifyConfidenceFromScore(score, thresholds) {
+  const highThreshold = Number(thresholds?.confidenceHighScore ?? 3.5)
+  const mediumThresholdRaw = Number(thresholds?.confidenceMediumScore ?? 2)
+  const mediumThreshold = Math.min(mediumThresholdRaw, highThreshold)
+
+  if (score >= highThreshold) {
+    return 'high'
+  }
+  if (score >= mediumThreshold) {
+    return 'medium'
+  }
+  return 'low'
+}
+
+function summarizeConfidenceCounts(fires) {
+  const counts = {
+    high: 0,
+    medium: 0,
+    low: 0,
+  }
+
+  for (const fire of fires) {
+    const confidence = String(fire?.confidence ?? 'low').toLowerCase()
+    if (confidence in counts) {
+      counts[confidence] += 1
+    }
+  }
+
+  return counts
 }
 
 function toGeoJsonFeature(fire) {
@@ -461,6 +503,7 @@ function toGeoJsonFeature(fire) {
       acqTimeUtc: fire.acqTimeUtc,
       daynight: fire.daynight,
       fireStatus: fire.fireStatus,
+      confidence: fire.confidence,
       score: fire.score,
       btTir: fire.btTir,
       btDif: fire.btDif,

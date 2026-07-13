@@ -16,6 +16,8 @@
     "sync:data:once": "node ./scripts/sync-data.mjs --once",
     "db:init": "node ./scripts/init-mobile-geodatabase.mjs",
     "process:himawari-fire": "python ./scripts/process-himawari-fire.py",
+    "evaluate:himawari-fire": "python ./scripts/evaluate-himawari-fire.py --config ./config/evaluate-himawari-fire.json",
+    "build:fire-interference-data": "python ./scripts/build-fire-interference-data.py --config ./config/build-fire-interference-data.json",
     "detect:himawari-fire": "node ./scripts/detect-himawari-fire.mjs",
     "cloud:pipeline": "node ./scripts/cloud-pipeline.mjs",
     "cloud:pipeline:once": "node ./scripts/cloud-pipeline.mjs --once",

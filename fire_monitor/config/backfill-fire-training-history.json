@@ -1,0 +1,8 @@
+{
+  "processScriptPath": "./scripts/process-himawari-fire.py",
+  "processConfigPath": "./config/process-himawari-fire.json",
+  "inputRoot": "./data-source/runtime-data/himawari9_ahi",
+  "databasePath": "./fire_monitor.geodatabase",
+  "limitSnapshots": 12,
+  "skipExisting": true
+}

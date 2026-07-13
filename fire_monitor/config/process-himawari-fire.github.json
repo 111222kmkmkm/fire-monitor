@@ -1,0 +1,66 @@
+{
+  "paperStrictMode": false,
+  "algorithmMode": "paper-adapted",
+  "visibleBand": "03",
+  "visibleReflectancePath": "",
+  "groundThermalSourcePath": "./public/data/support/china_static_thermal_sources.geojson",
+  "groundThermalSourcePaths": [
+    "./public/data/support/china_static_thermal_sources.geojson",
+    "./public/data/support/china_photovoltaic_facilities.geojson"
+  ],
+  "nonVegetationMaskPath": "./public/data/support/china_non_vegetation_mask.geojson",
+  "inputRoot": "./data-store/runtime-data/himawari9_ahi",
+  "outputDir": "./public/data/algorithm/latest",
+  "statePath": "./data-store/algorithm-state/himawari-fire.json",
+  "chinaBoundaryPath": "./public/data/china-boundary.geojson",
+  "databasePath": "./fire_monitor.geodatabase",
+  "sourceSat": "H09",
+  "bands": [
+    "03",
+    "07",
+    "13",
+    "14"
+  ],
+  "minSegmentsPerBand": 4,
+  "requiredSegments": [
+    "01",
+    "02",
+    "03",
+    "04"
+  ],
+  "maxSnapshotAgeMinutes": 30,
+  "failOnStaleSnapshot": true,
+  "cropMarginPixels": 24,
+  "roi": {
+    "minLon": 73,
+    "maxLon": 135.5,
+    "minLat": 18,
+    "maxLat": 54
+  },
+  "windowSizes": [
+    7,
+    9,
+    11,
+    19
+  ],
+  "thresholds": {
+    "suspiciousOffsetK": 20,
+    "suspiciousVisibleFactor": 100,
+    "minValidRatio": 0.2,
+    "nightAbsoluteT7K": 360,
+    "nightVisibleMax": 0.7,
+    "nightZenithDeg": 87,
+    "cloudVisibleReflectance": 0.28,
+    "cloudZenithLimitDeg": 70,
+    "cloudVisibleDelta": 0.15,
+    "cloudT13DeltaK": 5,
+    "edgeThresholdC": 8,
+    "thermalSourceRadiusKm": 4,
+    "minBackgroundPixels": 4,
+    "minStdT713K": 2,
+    "maxStdT713K": 4,
+    "absoluteScoreScaleK": 10,
+    "confidenceMediumScore": 2,
+    "confidenceHighScore": 3.5
+  }
+}
