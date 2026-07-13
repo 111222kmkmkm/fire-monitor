@@ -3,7 +3,8 @@ name: Fire Monitor Cloud Pipeline
 on:
   workflow_dispatch:
   schedule:
-    - cron: '2,7,12,17,22,27,32,37,42,47,52,57 * * * *'
+    # GitHub cron 可能延迟或漏触发，自续调度会在每轮结束后补排下一轮。
+    - cron: '*/5 * * * *'
 
 permissions:
   contents: read
@@ -19,12 +20,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
+    outputs:
+      cycle-started-at: ${{ steps.cycle.outputs.epoch }}
+
     defaults:
       run:
         shell: bash
         working-directory: fire_monitor
 
     steps:
+      - name: Record cycle start time
+        id: cycle
+        run: echo "epoch=$(date +%s)" >> "$GITHUB_OUTPUT"
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -84,3 +92,78 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  schedule-next:
+    # GitHub 托管 cron 不保证准时触发；无论本轮成功或失败，都尝试续排下一轮。
+    if: ${{ always() }}
+    needs: [build, deploy]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    permissions:
+      actions: write
+
+    steps:
+      - name: Wait until the next five-minute cycle
+        env:
+          CYCLE_STARTED_AT: ${{ needs.build.outputs.cycle-started-at }}
+        run: |
+          now=$(date +%s)
+          started_at="${CYCLE_STARTED_AT:-$now}"
+          next_cycle=$((started_at + 300))
+          delay=$((next_cycle - now))
+          if (( delay > 0 )); then
+            echo "Waiting ${delay}s before scheduling the next cycle"
+            sleep "$delay"
+          fi
+
+      - name: Dispatch the next cycle when none is queued
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW_FILE: fire-monitor-cloud.yml
+        run: |
+          runs_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/${WORKFLOW_FILE}/runs?per_page=20"
+          other_active_runs=$(
+            curl --fail-with-body --silent --show-error --location \
+              --header "Accept: application/vnd.github+json" \
+              --header "Authorization: Bearer ${GH_TOKEN}" \
+              --header "X-GitHub-Api-Version: 2022-11-28" \
+              "$runs_url" |
+              jq --argjson current "$GITHUB_RUN_ID" '
+                [.workflow_runs[] |
+                  select(
+                    .id != $current and
+                    (.status == "queued" or
+                     .status == "in_progress" or
+                     .status == "waiting" or
+                     .status == "pending")
+                  )
+                ] | length
+              '
+          )
+
+          if (( other_active_runs > 0 )); then
+            echo "Another workflow run is already active; skipping self-dispatch"
+            exit 0
+          fi
+
+          dispatch_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/${WORKFLOW_FILE}/dispatches"
+          http_status=$(
+            curl --silent --show-error --location \
+              --output /tmp/workflow-dispatch-response.json \
+              --write-out "%{http_code}" \
+              --request POST \
+              --header "Accept: application/vnd.github+json" \
+              --header "Authorization: Bearer ${GH_TOKEN}" \
+              --header "X-GitHub-Api-Version: 2022-11-28" \
+              "$dispatch_url" \
+              --data "{\"ref\":\"${GITHUB_REF_NAME}\"}"
+          )
+
+          if [[ "$http_status" != "204" ]]; then
+            echo "Failed to dispatch the next cycle (HTTP ${http_status})"
+            cat /tmp/workflow-dispatch-response.json
+            exit 1
+          fi
+
+          echo "Next five-minute cycle dispatched successfully"
