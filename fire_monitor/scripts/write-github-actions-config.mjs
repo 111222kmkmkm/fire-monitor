@@ -68,6 +68,33 @@ async function main() {
         roiCode: 'CN',
         databasePath: './fire_monitor.geodatabase',
       },
+      {
+        id: 'firms_viirs_nrt',
+        name: 'NASA FIRMS VIIRS Russia and Asia active fires (24h)',
+        type: 'http-static',
+        enabled: true,
+        timeoutMs: 600000,
+        provider: 'NASA FIRMS',
+        kind: 'official-active-fire-reference',
+        targetDir: 'firms_viirs_nrt',
+        keepSnapshots: 1,
+        publishLatest: false,
+        alwaysDownload: true,
+        files: [
+          {
+            name: 'J1_VIIRS_C2_Russia_Asia_24h.csv',
+            url: 'https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-20-viirs-c2/csv/J1_VIIRS_C2_Russia_Asia_24h.csv',
+          },
+          {
+            name: 'J2_VIIRS_C2_Russia_Asia_24h.csv',
+            url: 'https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-21-viirs-c2/csv/J2_VIIRS_C2_Russia_Asia_24h.csv',
+          },
+          {
+            name: 'SUOMI_VIIRS_C2_Russia_Asia_24h.csv',
+            url: 'https://firms.modaps.eosdis.nasa.gov/data/active_fire/suomi-npp-viirs-c2/csv/SUOMI_VIIRS_C2_Russia_Asia_24h.csv',
+          },
+        ],
+      },
     ],
   }
 
@@ -99,6 +126,18 @@ async function main() {
     statePath: './data-store/algorithm-state/himawari-fire.json',
     chinaBoundaryPath: './public/data/china-boundary.geojson',
     databasePath: './fire_monitor.geodatabase',
+    officialFusion: {
+      enabled: true,
+      referenceGlobs: [
+        './data-store/runtime-data/firms_viirs_nrt/**/*.csv',
+        './data-store/runtime-data/viirs_noaa20_nrt/**/*.csv',
+        './public/data/published/viirs_noaa20_nrt/**/*.csv',
+      ],
+      timeWindowHours: 3,
+      spatialMatchKm: 4,
+      acceptedViirsConfidence: ['nominal', 'high', 'n', 'h'],
+      minModisConfidence: 30,
+    },
     sourceSat: 'H09',
     bands: ['03', '07', '13', '14'],
     minSegmentsPerBand: 4,
@@ -141,7 +180,7 @@ async function main() {
     publishRoot: './cloud-build/pages',
     download: {
       enabled: true,
-      command: ['node', './scripts/sync-data.mjs', '--once', '--config', './config/sync.github.json', '--source', 'himawari9_ahi_b03_b07_b13_b14'],
+      command: ['node', './scripts/sync-data.mjs', '--once', '--config', './config/sync.github.json'],
       workdir: '.',
       timeoutMs: 900000,
     },
@@ -157,6 +196,26 @@ async function main() {
       {
         path: './public/data/algorithm/latest/candidate_fire.geojson',
         targetPath: 'algorithm/latest/candidate_fire.geojson',
+        required: true,
+      },
+      {
+        path: './public/data/algorithm/latest/candidate_fire_pixels.geojson',
+        targetPath: 'algorithm/latest/candidate_fire_pixels.geojson',
+        required: true,
+      },
+      {
+        path: './public/data/algorithm/latest/candidate_fire_clusters.geojson',
+        targetPath: 'algorithm/latest/candidate_fire_clusters.geojson',
+        required: true,
+      },
+      {
+        path: './public/data/algorithm/latest/candidate_fire_official.geojson',
+        targetPath: 'algorithm/latest/candidate_fire_official.geojson',
+        required: true,
+      },
+      {
+        path: './public/data/algorithm/latest/candidate_fire_grid.npz',
+        targetPath: 'algorithm/latest/candidate_fire_grid.npz',
         required: true,
       },
       {

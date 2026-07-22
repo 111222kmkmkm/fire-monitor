@@ -10,6 +10,7 @@ import math
 import re
 import sqlite3
 import struct
+from glob import glob
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -210,11 +211,26 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
         non_vegetation_mask=non_vegetation_mask,
         thermal_source_db=thermal_source_db,
     )
-    filtered_fires = [
-        fire for fire in detection["fires"]
+    filtered_fire_pixels = [
+        fire for fire in detection["firePixels"]
         if point_in_any_polygon(fire["lon"], fire["lat"], china_polygons)
     ]
-    detection["fires"] = filtered_fires
+    official_references = load_official_fire_references(
+        config,
+        acquisition_time,
+        roi_bbox,
+        china_polygons,
+    )
+    fuse_official_fire_references(filtered_fire_pixels, official_references, config)
+    detection["firePixels"] = filtered_fire_pixels
+    detection["fires"] = suppress_nearby_duplicates(filtered_fire_pixels, radius_pixels=2)
+
+    pixel_features, cluster_features = build_fire_range_features(
+        filtered_fire_pixels,
+        lon_grid,
+        lat_grid,
+    )
+    official_features = build_official_reference_features(filtered_fire_pixels, official_references)
 
     stale = snapshot_age_minutes > max_snapshot_age_minutes
     if stale and bool(config.get("failOnStaleSnapshot", False)):
@@ -233,12 +249,36 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
         "type": "FeatureCollection",
         "features": [to_feature(item) for item in detection["fires"]],
     }
+    pixel_geojson = {
+        "type": "FeatureCollection",
+        "features": pixel_features,
+    }
+    cluster_geojson = {
+        "type": "FeatureCollection",
+        "features": cluster_features,
+    }
+    official_geojson = {
+        "type": "FeatureCollection",
+        "features": official_features,
+    }
     summary = {
         "generatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "snapshotKey": snapshot_key,
         "acquisitionTime": acquisition_time,
         "sourceSat": source_sat,
         "fireCount": len(detection["fires"]),
+        "firePixelCount": len(filtered_fire_pixels),
+        "fireClusterCount": len(cluster_features),
+        "officialReferenceCount": len(official_references),
+        "officialFootprintCount": len(official_features),
+        "officialMatchedFootprintCount": sum(
+            bool(item["properties"].get("matchedBySelfAlgorithm"))
+            for item in official_features
+        ),
+        "officialConfirmedPixelCount": sum(
+            bool(item["diagnostics"].get("officialConfirmed"))
+            for item in filtered_fire_pixels
+        ),
         "cloudPixelCount": detection["cloudPixelCount"],
         "stale": stale,
         "snapshotAgeMinutes": round(snapshot_age_minutes, 1),
@@ -254,15 +294,33 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
     }
 
     write_json(output_dir / "candidate_fire.geojson", geojson)
+    write_json(output_dir / "candidate_fire_pixels.geojson", pixel_geojson)
+    write_json(output_dir / "candidate_fire_clusters.geojson", cluster_geojson)
+    write_json(output_dir / "candidate_fire_official.geojson", official_geojson)
     write_json(output_dir / "candidate_fire_summary.json", summary)
+    write_fire_grid(
+        output_dir / "candidate_fire_grid.npz",
+        detection,
+        filtered_fire_pixels,
+        crop,
+        acquisition_time,
+    )
     write_json(state_path, {"snapshotKey": snapshot_key, "acquisitionTime": acquisition_time, "fireCount": len(detection["fires"])})
     mirror_public_output_to_dist(output_dir / "candidate_fire.geojson")
+    mirror_public_output_to_dist(output_dir / "candidate_fire_pixels.geojson")
+    mirror_public_output_to_dist(output_dir / "candidate_fire_clusters.geojson")
+    mirror_public_output_to_dist(output_dir / "candidate_fire_official.geojson")
     mirror_public_output_to_dist(output_dir / "candidate_fire_summary.json")
 
     if db_path:
         upsert_candidate_fire_rows(db_path, detection["fires"], acquisition_time, source_sat)
 
-    print(f"[process-himawari-fire] snapshot={snapshot_key} fire_count={len(detection['fires'])}")
+    print(
+        f"[process-himawari-fire] snapshot={snapshot_key} "
+        f"fire_count={len(detection['fires'])} fire_pixels={len(filtered_fire_pixels)} "
+        f"fire_clusters={len(cluster_features)} official_confirmed="
+        f"{summary['officialConfirmedPixelCount']}"
+    )
 
 
 def find_latest_complete_snapshot(
@@ -761,6 +819,12 @@ def detect_fire_pixels(
     deduped_fires = suppress_nearby_duplicates(fires, radius_pixels=2)
     return {
         "fires": deduped_fires,
+        "firePixels": sorted(
+            fires,
+            key=lambda item: (item["acqTimeUtc"], item["row"], item["col"]),
+        ),
+        "cloudMask": cloud_mask,
+        "observationValidMask": valid & ~cloud_mask,
         "cloudPixelCount": int(np.count_nonzero(cloud_mask)),
         "notes": notes,
     }
@@ -911,6 +975,394 @@ def suppress_nearby_duplicates(fires: list[dict[str, Any]], radius_pixels: int) 
             continue
         selected.append(fire)
     return sorted(selected, key=lambda item: (item["acqTimeUtc"], -item["score"], item["lat"], item["lon"]))
+
+
+def load_official_fire_references(
+    config: dict[str, Any],
+    acquisition_time: str,
+    roi: dict[str, float],
+    boundary_polygons: list[Any] | None = None,
+) -> list[dict[str, Any]]:
+    fusion = config.get("officialFusion") if isinstance(config.get("officialFusion"), dict) else {}
+    if fusion.get("enabled", True) is False:
+        return []
+
+    configured_paths: list[str] = []
+    for value in fusion.get("referencePaths", []):
+        if str(value).strip():
+            configured_paths.append(str(value).strip())
+    if str(config.get("viirsPath", "")).strip():
+        configured_paths.append(str(config["viirsPath"]).strip())
+
+    for pattern in fusion.get("referenceGlobs", []):
+        normalized = str(pattern).strip()
+        if not normalized:
+            continue
+        absolute_pattern = normalized if Path(normalized).is_absolute() else str(PROJECT_ROOT / normalized)
+        configured_paths.extend(glob(absolute_pattern, recursive=True))
+
+    unique_paths = sorted({resolve_path(PROJECT_ROOT, value) for value in configured_paths})
+    target_time = parse_utc_time(acquisition_time)
+    max_time_hours = float(fusion.get("timeWindowHours", 3.0))
+    accepted_viirs = {
+        str(value).strip().lower()
+        for value in fusion.get("acceptedViirsConfidence", ["nominal", "high", "n", "h"])
+    }
+    min_modis_confidence = float(fusion.get("minModisConfidence", 30.0))
+    references: list[dict[str, Any]] = []
+    seen_references: set[tuple[str, str, float, float]] = set()
+
+    for file_path in unique_paths:
+        if not file_path.exists() or not file_path.is_file():
+            continue
+        sensor = infer_official_sensor(file_path.name)
+        try:
+            stream = file_path.open("r", encoding="utf-8-sig", newline="")
+        except OSError:
+            continue
+        with stream:
+            for row_index, row in enumerate(csv.DictReader(stream), start=1):
+                try:
+                    lon = float(row.get("longitude", ""))
+                    lat = float(row.get("latitude", ""))
+                    reference_time = parse_firms_time(row.get("acq_date", ""), row.get("acq_time", ""))
+                except (TypeError, ValueError):
+                    continue
+                if not (roi["minLon"] <= lon <= roi["maxLon"] and roi["minLat"] <= lat <= roi["maxLat"]):
+                    continue
+                if boundary_polygons and not point_in_any_polygon(lon, lat, boundary_polygons):
+                    continue
+                time_delta_hours = abs((reference_time - target_time).total_seconds()) / 3600.0
+                if time_delta_hours > max_time_hours:
+                    continue
+                confidence = str(row.get("confidence", "")).strip().lower()
+                if "VIIRS" in sensor and confidence not in accepted_viirs:
+                    continue
+                if "MODIS" in sensor:
+                    try:
+                        if float(confidence) < min_modis_confidence:
+                            continue
+                    except ValueError:
+                        continue
+                fire_type = str(row.get("type", "0")).strip()
+                if fire_type and fire_type not in {"0", "0.0"}:
+                    continue
+                reference_key = (
+                    sensor,
+                    reference_time.isoformat(),
+                    round(lon, 6),
+                    round(lat, 6),
+                )
+                if reference_key in seen_references:
+                    continue
+                seen_references.add(reference_key)
+                references.append({
+                    "id": f"{sensor}-{file_path.stem}-{row_index}",
+                    "sensor": sensor,
+                    "lon": lon,
+                    "lat": lat,
+                    "acquisitionTime": reference_time,
+                    "confidence": confidence,
+                    "frp": finite_float(row.get("frp")),
+                    "scanKm": finite_float(row.get("scan")),
+                    "trackKm": finite_float(row.get("track")),
+                })
+    return references
+
+
+def fuse_official_fire_references(
+    fires: list[dict[str, Any]],
+    references: list[dict[str, Any]],
+    config: dict[str, Any],
+) -> None:
+    fusion = config.get("officialFusion") if isinstance(config.get("officialFusion"), dict) else {}
+    spatial_match_km = float(fusion.get("spatialMatchKm", 4.0))
+    time_window_hours = float(fusion.get("timeWindowHours", 3.0))
+
+    for fire in fires:
+        fire_time = parse_utc_time(fire["acqTimeUtc"])
+        possible: list[tuple[float, float, dict[str, Any]]] = []
+        for reference in references:
+            time_delta_hours = abs((reference["acquisitionTime"] - fire_time).total_seconds()) / 3600.0
+            if time_delta_hours > time_window_hours:
+                continue
+            distance_km = haversine_km(fire["lon"], fire["lat"], reference["lon"], reference["lat"])
+            if distance_km <= spatial_match_km:
+                possible.append((distance_km, time_delta_hours, reference))
+
+        diagnostics = fire["diagnostics"]
+        diagnostics["officialConfirmed"] = False
+        diagnostics["fusionStatus"] = "self-detected-unconfirmed"
+        if not possible:
+            continue
+
+        distance_km, time_delta_hours, reference = min(possible, key=lambda item: (item[0], item[1]))
+        fire["fireStatus"] = "confirmed"
+        fire["confidence"] = "official"
+        diagnostics.update({
+            "officialConfirmed": True,
+            "fusionStatus": "official-confirmed",
+            "officialSensor": reference["sensor"],
+            "officialDetectionId": reference["id"],
+            "officialDistanceKm": round(distance_km, 3),
+            "officialTimeDeltaMinutes": round(time_delta_hours * 60.0, 1),
+            "officialConfidence": reference["confidence"],
+            "officialFrp": reference["frp"],
+        })
+
+
+def build_official_reference_features(
+    fires: list[dict[str, Any]],
+    references: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    matched_ids = {
+        str(fire["diagnostics"].get("officialDetectionId"))
+        for fire in fires
+        if fire["diagnostics"].get("officialConfirmed")
+    }
+    features: list[dict[str, Any]] = []
+    for reference in references:
+        matched_by_self = reference["id"] in matched_ids
+        width_km = max(float(reference.get("scanKm") or 0.375), 0.1)
+        height_km = max(float(reference.get("trackKm") or 0.375), 0.1)
+        ring = build_meter_aligned_footprint(
+            float(reference["lon"]),
+            float(reference["lat"]),
+            width_km * 1_000.0,
+            height_km * 1_000.0,
+        )
+        features.append({
+            "type": "Feature",
+            "geometry": {"type": "Polygon", "coordinates": [ring]},
+            "properties": {
+                "rangeSource": "official",
+                "sourceSat": reference["sensor"],
+                "acqTimeUtc": reference["acquisitionTime"].isoformat().replace("+00:00", "Z"),
+                "fireStatus": "confirmed",
+                "confidence": reference["confidence"],
+                "officialConfirmed": True,
+                "matchedBySelfAlgorithm": matched_by_self,
+                "fusionStatus": "official-confirmed" if matched_by_self else "official-only",
+                "officialDetectionId": reference["id"],
+                "officialFrp": reference["frp"],
+                "centroidLon": round(float(reference["lon"]), 6),
+                "centroidLat": round(float(reference["lat"]), 6),
+                "pixelWidthKm": round(width_km, 4),
+                "pixelHeightKm": round(height_km, 4),
+                "footprintApproximation": "axis-aligned-from-firms-scan-track",
+            },
+        })
+    return features
+
+
+def build_meter_aligned_footprint(
+    lon: float,
+    lat: float,
+    width_m: float,
+    height_m: float,
+) -> list[list[float]]:
+    latitude_scale = 6_371_000.0 * math.pi / 180.0
+    longitude_scale = latitude_scale * max(math.cos(math.radians(lat)), 1e-6)
+    lon_offset = width_m / 2.0 / longitude_scale
+    lat_offset = height_m / 2.0 / latitude_scale
+    return [
+        [round(lon - lon_offset, 7), round(lat + lat_offset, 7)],
+        [round(lon + lon_offset, 7), round(lat + lat_offset, 7)],
+        [round(lon + lon_offset, 7), round(lat - lat_offset, 7)],
+        [round(lon - lon_offset, 7), round(lat - lat_offset, 7)],
+        [round(lon - lon_offset, 7), round(lat + lat_offset, 7)],
+    ]
+
+
+def build_fire_range_features(
+    fires: list[dict[str, Any]],
+    lon_grid: np.ndarray,
+    lat_grid: np.ndarray,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    pixel_features: list[dict[str, Any]] = []
+    prepared: dict[tuple[int, int], dict[str, Any]] = {}
+    for fire in fires:
+        ring = build_pixel_footprint(lon_grid, lat_grid, fire["row"], fire["col"])
+        area_square_km = pixel_area_square_km(ring)
+        prepared[(fire["row"], fire["col"])] = {
+            "fire": fire,
+            "ring": ring,
+            "areaSquareKm": area_square_km,
+        }
+        pixel_features.append({
+            "type": "Feature",
+            "geometry": {"type": "Polygon", "coordinates": [ring]},
+            "properties": {
+                **fire_properties(fire),
+                "row": fire["row"],
+                "col": fire["col"],
+                "centroidLon": fire["lon"],
+                "centroidLat": fire["lat"],
+                "pixelAreaSquareKm": round(area_square_km, 4),
+            },
+        })
+
+    cluster_features: list[dict[str, Any]] = []
+    remaining = set(prepared)
+    cluster_index = 0
+    while remaining:
+        cluster_index += 1
+        stack = [remaining.pop()]
+        members: list[dict[str, Any]] = []
+        while stack:
+            key = stack.pop()
+            members.append(prepared[key])
+            row, col = key
+            for row_offset in (-1, 0, 1):
+                for col_offset in (-1, 0, 1):
+                    neighbor = (row + row_offset, col + col_offset)
+                    if neighbor in remaining:
+                        remaining.remove(neighbor)
+                        stack.append(neighbor)
+
+        total_score = sum(max(float(item["fire"]["score"]), 0.0) + 1.0 for item in members)
+        centroid_lon = sum(
+            item["fire"]["lon"] * (max(float(item["fire"]["score"]), 0.0) + 1.0)
+            for item in members
+        ) / total_score
+        centroid_lat = sum(
+            item["fire"]["lat"] * (max(float(item["fire"]["score"]), 0.0) + 1.0)
+            for item in members
+        ) / total_score
+        polygons = [[item["ring"]] for item in members]
+        cluster_features.append({
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon" if len(polygons) == 1 else "MultiPolygon",
+                "coordinates": polygons[0] if len(polygons) == 1 else polygons,
+            },
+            "properties": {
+                "clusterId": f"{members[0]['fire']['sceneId']}-{cluster_index}",
+                "sourceSat": members[0]["fire"]["sourceSat"],
+                "acqTimeUtc": members[0]["fire"]["acqTimeUtc"],
+                "fireStatus": "confirmed" if any(
+                    item["fire"]["diagnostics"].get("officialConfirmed") for item in members
+                ) else "suspected",
+                "officialConfirmed": any(
+                    item["fire"]["diagnostics"].get("officialConfirmed") for item in members
+                ),
+                "centroidLon": round(centroid_lon, 6),
+                "centroidLat": round(centroid_lat, 6),
+                "pixelCount": len(members),
+                "areaSquareKm": round(sum(item["areaSquareKm"] for item in members), 4),
+                "maxScore": max(float(item["fire"]["score"]) for item in members),
+                "meanScore": round(sum(float(item["fire"]["score"]) for item in members) / len(members), 4),
+            },
+        })
+
+    return pixel_features, cluster_features
+
+
+def build_pixel_footprint(
+    lon_grid: np.ndarray,
+    lat_grid: np.ndarray,
+    row: int,
+    col: int,
+) -> list[list[float]]:
+    center_lon = float(lon_grid[row, col])
+    center_lat = float(lat_grid[row, col])
+    lon_row_step = grid_axis_step(lon_grid, row, col, 0)
+    lon_col_step = grid_axis_step(lon_grid, row, col, 1)
+    lat_row_step = grid_axis_step(lat_grid, row, col, 0)
+    lat_col_step = grid_axis_step(lat_grid, row, col, 1)
+    ring: list[list[float]] = []
+    for row_sign, col_sign in ((-1, -1), (-1, 1), (1, 1), (1, -1), (-1, -1)):
+        ring.append([
+            round(center_lon + 0.5 * row_sign * lon_row_step + 0.5 * col_sign * lon_col_step, 7),
+            round(center_lat + 0.5 * row_sign * lat_row_step + 0.5 * col_sign * lat_col_step, 7),
+        ])
+    return ring
+
+
+def grid_axis_step(values: np.ndarray, row: int, col: int, axis: int) -> float:
+    center = float(values[row, col])
+    before_index = (row - 1, col) if axis == 0 else (row, col - 1)
+    after_index = (row + 1, col) if axis == 0 else (row, col + 1)
+    before = grid_value_or_none(values, *before_index)
+    after = grid_value_or_none(values, *after_index)
+    if before is not None and after is not None:
+        return (after - before) / 2.0
+    if after is not None:
+        return after - center
+    if before is not None:
+        return center - before
+    return 0.0
+
+
+def grid_value_or_none(values: np.ndarray, row: int, col: int) -> float | None:
+    if row < 0 or col < 0 or row >= values.shape[0] or col >= values.shape[1]:
+        return None
+    value = float(values[row, col])
+    return value if math.isfinite(value) else None
+
+
+def pixel_area_square_km(ring: list[list[float]]) -> float:
+    north_width = haversine_km(ring[0][0], ring[0][1], ring[1][0], ring[1][1])
+    south_width = haversine_km(ring[3][0], ring[3][1], ring[2][0], ring[2][1])
+    west_height = haversine_km(ring[0][0], ring[0][1], ring[3][0], ring[3][1])
+    east_height = haversine_km(ring[1][0], ring[1][1], ring[2][0], ring[2][1])
+    return ((north_width + south_width) / 2.0) * ((west_height + east_height) / 2.0)
+
+
+def write_fire_grid(
+    output_path: Path,
+    detection: dict[str, Any],
+    fires: list[dict[str, Any]],
+    crop: dict[str, int],
+    acquisition_time: str,
+) -> None:
+    shape = detection["cloudMask"].shape
+    fire_mask = np.zeros(shape, dtype=np.uint8)
+    fire_score = np.zeros(shape, dtype=np.float16)
+    for fire in fires:
+        fire_mask[fire["row"], fire["col"]] = 1
+        fire_score[fire["row"], fire["col"]] = float(fire["score"])
+    np.savez_compressed(
+        output_path,
+        fire_mask=fire_mask,
+        fire_score=fire_score,
+        observation_valid=np.asarray(detection["observationValidMask"], dtype=np.uint8),
+        cloud_mask=np.asarray(detection["cloudMask"], dtype=np.uint8),
+        line_start=np.asarray(crop["lineStart"], dtype=np.int32),
+        col_start=np.asarray(crop["colStart"], dtype=np.int32),
+        acquisition_time=np.asarray(acquisition_time),
+    )
+
+
+def parse_firms_time(date_value: Any, time_value: Any) -> datetime:
+    return datetime.strptime(
+        f"{str(date_value).strip()} {str(time_value).strip().zfill(4)}",
+        "%Y-%m-%d %H%M",
+    ).replace(tzinfo=timezone.utc)
+
+
+def parse_utc_time(value: Any) -> datetime:
+    parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+
+
+def infer_official_sensor(file_name: str) -> str:
+    upper = file_name.upper()
+    if "MODIS" in upper:
+        return "MODIS"
+    if "SUOMI" in upper or "SNPP" in upper:
+        return "VIIRS_SNPP"
+    if "NOAA21" in upper or "J2_VIIRS" in upper:
+        return "VIIRS_NOAA21"
+    return "VIIRS_NOAA20"
+
+
+def finite_float(value: Any) -> float | None:
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return None
+    return numeric if math.isfinite(numeric) else None
 
 
 def compute_dynamic_threshold_factor(altitude_deg: float, pv: float, pc: float) -> float:
@@ -1235,18 +1687,22 @@ def to_feature(fire: dict[str, Any]) -> dict[str, Any]:
             "type": "Point",
             "coordinates": [fire["lon"], fire["lat"]],
         },
-        "properties": {
-            "sourceSat": fire["sourceSat"],
-            "acqTimeUtc": fire["acqTimeUtc"],
-            "daynight": fire["daynight"],
-            "fireStatus": fire["fireStatus"],
-            "confidence": fire["confidence"],
-            "score": fire["score"],
-            "btTir": fire["btTir"],
-            "btDif": fire["btDif"],
-            "sceneId": fire["sceneId"],
-            **fire["diagnostics"],
-        },
+        "properties": fire_properties(fire),
+    }
+
+
+def fire_properties(fire: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "sourceSat": fire["sourceSat"],
+        "acqTimeUtc": fire["acqTimeUtc"],
+        "daynight": fire["daynight"],
+        "fireStatus": fire["fireStatus"],
+        "confidence": fire["confidence"],
+        "score": fire["score"],
+        "btTir": fire["btTir"],
+        "btDif": fire["btDif"],
+        "sceneId": fire["sceneId"],
+        **fire["diagnostics"],
     }
 
 
