@@ -26,7 +26,7 @@ SEGMENT_PATTERN = re.compile(
 )
 PLANCK_C1 = 1.191042972e8
 PLANCK_C2 = 1.4387769e4
-ALGORITHM_VERSION = "nsmc-himawari-contextual-v2"
+ALGORITHM_VERSION = "nsmc-himawari-contextual-v3"
 METHOD_REFERENCES = [
     "https://doi.org/10.5194/essd-15-1911-2023",
     "https://doi.org/10.5194/essd-14-3489-2022",
@@ -280,6 +280,7 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
             for item in filtered_fire_pixels
         ),
         "cloudPixelCount": detection["cloudPixelCount"],
+        "detectionStageCounts": detection["stageCounts"],
         "stale": stale,
         "snapshotAgeMinutes": round(snapshot_age_minutes, 1),
         "confidenceCounts": summarize_confidence_counts(detection["fires"]),
@@ -699,8 +700,12 @@ def detect_fire_pixels(
         | (b14 < 265)
         | ((b13 < 270) & (((b13 - b14) < 4) | ((b13 - b14) > 60)))
     )
+    # 日间预筛选是两个独立条件：热红外差值超过偏移量，同时 3.9 微米亮温超过可见光反射阈值。
+    # 不能把 b13 再加到第二个条件中，否则会把反射率项错误叠加到亮温差上并造成大面积漏检。
     suspicious_mask = valid & visible_valid & ~cloud_mask & (
-        b07 >= b13 + rvis * thresholds["suspiciousVisibleFactor"] + thresholds["suspiciousOffsetK"]
+        t713 > thresholds["suspiciousOffsetK"]
+    ) & (
+        b07 > rvis * thresholds["suspiciousVisibleFactor"] + thresholds["suspiciousOffsetK"]
     )
     night_absolute_mask = valid & ~cloud_mask & night_mask & (
         (b07 > thresholds["nightAbsoluteT7K"])
@@ -826,6 +831,15 @@ def detect_fire_pixels(
         "cloudMask": cloud_mask,
         "observationValidMask": valid & ~cloud_mask,
         "cloudPixelCount": int(np.count_nonzero(cloud_mask)),
+        "stageCounts": {
+            "thermalValidPixels": int(np.count_nonzero(thermal_valid)),
+            "clearObservationPixels": int(np.count_nonzero(valid & ~cloud_mask)),
+            "suspiciousSeedPixels": int(np.count_nonzero(suspicious_mask)),
+            "nightAbsoluteSeedPixels": int(np.count_nonzero(night_absolute_mask)),
+            "combinedSeedPixels": int(np.count_nonzero(seed_mask)),
+            "acceptedFirePixels": len(fires),
+            "deduplicatedFires": len(deduped_fires),
+        },
         "notes": notes,
     }
 

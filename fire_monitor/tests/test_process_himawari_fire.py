@@ -45,6 +45,157 @@ def build_thresholds() -> dict[str, float]:
 
 
 class HimawariFireAlgorithmTests(unittest.TestCase):
+    def test_fire_range_features_preserve_adjacent_pixels_as_one_cluster(self) -> None:
+        lon_grid = np.tile(np.linspace(100.0, 100.2, 5, dtype=np.float32), (5, 1))
+        lat_grid = np.tile(np.linspace(30.0, 30.2, 5, dtype=np.float32)[:, np.newaxis], (1, 5))
+
+        def fire(row: int, col: int, score: float) -> dict[str, object]:
+            return {
+                "row": row,
+                "col": col,
+                "sourceSat": "H09",
+                "acqTimeUtc": "2026-01-01T16:00:00Z",
+                "daynight": "N",
+                "fireStatus": "suspected",
+                "confidence": "medium",
+                "score": score,
+                "btTir": 380.0,
+                "btDif": 80.0,
+                "lon": float(lon_grid[row, col]),
+                "lat": float(lat_grid[row, col]),
+                "sceneId": "202601011600",
+                "diagnostics": {"officialConfirmed": False},
+            }
+
+        pixels, clusters = MODULE.build_fire_range_features(
+            [fire(2, 2, 4.0), fire(2, 3, 3.0), fire(0, 0, 2.0)],
+            lon_grid,
+            lat_grid,
+        )
+        self.assertEqual(len(pixels), 3)
+        self.assertEqual(len(clusters), 2)
+        self.assertTrue(all(item["geometry"]["type"] == "Polygon" for item in pixels))
+        self.assertEqual(sum(item["properties"]["pixelCount"] for item in clusters), 3)
+
+    def test_official_reference_match_confirms_without_removing_unmatched_pixels(self) -> None:
+        fires = [{
+            "row": 1,
+            "col": 1,
+            "lon": 110.0,
+            "lat": 30.0,
+            "acqTimeUtc": "2026-01-01T16:00:00Z",
+            "fireStatus": "suspected",
+            "confidence": "medium",
+            "diagnostics": {},
+        }, {
+            "row": 1,
+            "col": 2,
+            "lon": 120.0,
+            "lat": 40.0,
+            "acqTimeUtc": "2026-01-01T16:00:00Z",
+            "fireStatus": "suspected",
+            "confidence": "medium",
+            "diagnostics": {},
+        }]
+        references = [{
+            "id": "VIIRS-1",
+            "sensor": "VIIRS_NOAA20",
+            "lon": 110.01,
+            "lat": 30.0,
+            "acquisitionTime": MODULE.parse_utc_time("2026-01-01T16:10:00Z"),
+            "confidence": "nominal",
+            "frp": 12.0,
+        }]
+
+        MODULE.fuse_official_fire_references(
+            fires,
+            references,
+            {"officialFusion": {"spatialMatchKm": 4.0, "timeWindowHours": 3.0}},
+        )
+        self.assertTrue(fires[0]["diagnostics"]["officialConfirmed"])
+        self.assertEqual(fires[0]["fireStatus"], "confirmed")
+        self.assertFalse(fires[1]["diagnostics"]["officialConfirmed"])
+        self.assertEqual(fires[1]["fireStatus"], "suspected")
+
+    def test_official_reference_features_preserve_matched_and_official_only_footprints(self) -> None:
+        fires = [{
+            "diagnostics": {
+                "officialConfirmed": True,
+                "officialDetectionId": "VIIRS-1",
+            },
+        }, {
+            "diagnostics": {"officialConfirmed": False},
+        }]
+        references = [{
+            "id": "VIIRS-1",
+            "sensor": "VIIRS_NOAA20",
+            "lon": 110.0,
+            "lat": 30.0,
+            "acquisitionTime": MODULE.parse_utc_time("2026-01-01T16:10:00Z"),
+            "confidence": "nominal",
+            "frp": 12.0,
+            "scanKm": 0.4,
+            "trackKm": 0.3,
+        }, {
+            "id": "VIIRS-2",
+            "sensor": "VIIRS_NOAA20",
+            "lon": 111.0,
+            "lat": 31.0,
+            "acquisitionTime": MODULE.parse_utc_time("2026-01-01T16:10:00Z"),
+            "confidence": "high",
+            "frp": 18.0,
+            "scanKm": 0.5,
+            "trackKm": 0.4,
+        }]
+
+        features = MODULE.build_official_reference_features(fires, references)
+
+        self.assertEqual(len(features), 2)
+        feature = features[0]
+        self.assertEqual(feature["geometry"]["type"], "Polygon")
+        self.assertEqual(feature["properties"]["rangeSource"], "official")
+        self.assertEqual(feature["properties"]["officialDetectionId"], "VIIRS-1")
+        self.assertEqual(feature["properties"]["pixelWidthKm"], 0.4)
+        self.assertEqual(feature["properties"]["pixelHeightKm"], 0.3)
+        self.assertTrue(feature["properties"]["matchedBySelfAlgorithm"])
+        self.assertEqual(feature["properties"]["fusionStatus"], "official-confirmed")
+        ring = feature["geometry"]["coordinates"][0]
+        self.assertEqual(len(ring), 5)
+        self.assertEqual(ring[0], ring[-1])
+        self.assertFalse(features[1]["properties"]["matchedBySelfAlgorithm"])
+        self.assertEqual(features[1]["properties"]["fusionStatus"], "official-only")
+
+    def test_official_references_are_clipped_to_boundary_polygon(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            csv_path = Path(temp_dir) / "J1_VIIRS_C2_Russia_Asia_24h.csv"
+            csv_path.write_text(
+                "latitude,longitude,scan,track,acq_date,acq_time,confidence,frp\n"
+                "30.0,110.0,0.4,0.4,2026-01-01,1600,nominal,12.0\n"
+                "30.0,120.0,0.4,0.4,2026-01-01,1600,nominal,18.0\n",
+                encoding="utf-8",
+            )
+            boundary = [[[
+                (109.0, 29.0),
+                (111.0, 29.0),
+                (111.0, 31.0),
+                (109.0, 31.0),
+                (109.0, 29.0),
+            ]]]
+            references = MODULE.load_official_fire_references(
+                {
+                    "officialFusion": {
+                        "referencePaths": [str(csv_path)],
+                        "timeWindowHours": 3,
+                    },
+                },
+                "2026-01-01T16:00:00Z",
+                {"minLon": 73.0, "maxLon": 135.5, "minLat": 18.0, "maxLat": 54.0},
+                boundary,
+            )
+
+        self.assertEqual(len(references), 1)
+        self.assertEqual(references[0]["lon"], 110.0)
+
     def test_explicit_interference_radius_is_not_inflated_to_default(self) -> None:
         database = {
             "points": [{"lon": 110.0, "lat": 30.0, "radiusKm": 0.5}],
@@ -110,6 +261,46 @@ class HimawariFireAlgorithmTests(unittest.TestCase):
         )
         self.assertIsNotNone(context)
         self.assertGreater(context["t7Bg"], 300.2)
+
+    def test_daytime_seed_uses_independent_temperature_difference_and_reflectance_tests(self) -> None:
+        shape = (9, 9)
+        center = (4, 4)
+        b07 = np.full(shape, 300.0, dtype=np.float32)
+        b13 = np.full(shape, 290.0, dtype=np.float32)
+        b14 = np.full(shape, 289.0, dtype=np.float32)
+        rvis = np.full(shape, 0.20, dtype=np.float32)
+        # 该像元符合历史真实检出样本的量级；错误地把 b13 加入反射阈值时会被漏掉。
+        b07[center] = 306.33
+        b13[center] = 271.37
+        b14[center] = 270.50
+        rvis[center] = 0.2771
+        lon_grid = np.tile(np.linspace(100.0, 100.08, shape[1], dtype=np.float32), (shape[0], 1))
+        lat_grid = np.tile(np.linspace(30.0, 30.08, shape[0], dtype=np.float32)[:, np.newaxis], (1, shape[1]))
+
+        result = MODULE.detect_fire_pixels(
+            acquisition_time="2026-01-01T04:00:00Z",
+            source_sat="H09",
+            b07=b07,
+            b13=b13,
+            b14=b14,
+            rvis=rvis,
+            lon_grid=lon_grid,
+            lat_grid=lat_grid,
+            roi_mask=np.ones(shape, dtype=bool),
+            solar={
+                "altitudeDeg": np.full(shape, 45.0, dtype=np.float32),
+                "zenithDeg": np.full(shape, 45.0, dtype=np.float32),
+            },
+            window_sizes=[7, 9],
+            thresholds=build_thresholds(),
+            snapshot_key="202601010400",
+            non_vegetation_mask=np.zeros(shape, dtype=bool),
+            thermal_source_db={"points": [], "polygons": []},
+        )
+
+        self.assertEqual(result["stageCounts"]["suspiciousSeedPixels"], 1)
+        self.assertEqual(len(result["firePixels"]), 1)
+        self.assertAlmostEqual(result["firePixels"][0]["btDif"], 34.96, places=2)
 
     def test_t713_background_standard_deviation_is_clamped_to_paper_range(self) -> None:
         shape = (7, 7)
