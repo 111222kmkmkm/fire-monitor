@@ -9,16 +9,42 @@
     "./public/data/support/china_photovoltaic_facilities.geojson"
   ],
   "nonVegetationMaskPath": "./public/data/support/china_non_vegetation_mask.geojson",
-  "inputRoot": "./data-source/runtime-data/himawari9_ahi",
+  "inputRoot": "./data-store/runtime-data/himawari9_ahi",
   "outputDir": "./public/data/algorithm/latest",
   "statePath": "./data-store/algorithm-state/himawari-fire.json",
   "chinaBoundaryPath": "./public/data/china-boundary.geojson",
-  "viirsPath": "./public/data/published/viirs_noaa20_nrt/viirs_noaa20_nrt_20260418.csv",
+  "officialFusion": {
+    "enabled": true,
+    "referenceGlobs": [
+      "./data-store/runtime-data/firms_viirs_nrt/**/*.csv",
+      "./data-store/runtime-data/viirs_noaa20_nrt/**/*.csv",
+      "./public/data/published/viirs_noaa20_nrt/**/*.csv"
+    ],
+    "timeWindowHours": 3,
+    "spatialMatchKm": 4,
+    "acceptedViirsConfidence": [
+      "nominal",
+      "high",
+      "n",
+      "h"
+    ],
+    "minModisConfidence": 30
+  },
   "databasePath": "./fire_monitor.geodatabase",
   "sourceSat": "H09",
-  "bands": ["03", "07", "13", "14"],
+  "bands": [
+    "03",
+    "07",
+    "13",
+    "14"
+  ],
   "minSegmentsPerBand": 4,
-  "requiredSegments": ["01", "02", "03", "04"],
+  "requiredSegments": [
+    "01",
+    "02",
+    "03",
+    "04"
+  ],
   "maxSnapshotAgeMinutes": 20,
   "cropMarginPixels": 24,
   "roi": {
@@ -27,7 +53,12 @@
     "minLat": 18.0,
     "maxLat": 54.0
   },
-  "windowSizes": [7, 9, 11, 19],
+  "windowSizes": [
+    7,
+    9,
+    11,
+    19
+  ],
   "thresholds": {
     "suspiciousOffsetK": 20,
     "suspiciousVisibleFactor": 100,
@@ -47,5 +78,21 @@
     "absoluteScoreScaleK": 10.0,
     "confidenceMediumScore": 2.0,
     "confidenceHighScore": 3.5
+  },
+  "v15Scorer": {
+    "enabled": true,
+    "modelPath": "./models/himawari-fire-recognition-production/candidate_classifier.txt",
+    "modelCardPath": "./models/himawari-fire-recognition-production/model-card.json",
+    "temporalStatePath": "./data-store/algorithm-state/himawari-v15-online-grid-temporal.parquet",
+    "westLonMax": 105.0,
+    "westBudget": 50,
+    "applyToNonWest": false,
+    "scoreScale": 10.0,
+    "confidenceHighProb": 0.65,
+    "confidenceMediumProb": 0.35,
+    "gridDeg": 0.05,
+    "temporalKeepSlots": 400,
+    "notes": "西部主火识别改用 west-b70 生产模型；非西部仍用物理规则分",
+    "failOpen": false
   }
 }

@@ -1,0 +1,8 @@
+{
+  "modelPath": "./models/himawari-fire-recognition-production/candidate_classifier.txt",
+  "modelCardPath": "./models/himawari-fire-recognition-production/model-card.json",
+  "region": "west",
+  "budget": 50,
+  "minFrpTrainingTarget": 20,
+  "source": "west-b70-F3-best"
+}

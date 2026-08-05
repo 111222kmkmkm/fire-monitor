@@ -9,9 +9,7 @@
       "./scripts/sync-data.mjs",
       "--once",
       "--config",
-      "./config/sync.github.json",
-      "--source",
-      "himawari9_ahi_b03_b07_b13_b14"
+      "./config/sync.github.json"
     ],
     "workdir": ".",
     "timeoutMs": 900000
@@ -36,9 +34,34 @@
       "required": true
     },
     {
+      "path": "./public/data/algorithm/latest/candidate_fire_pixels.geojson",
+      "targetPath": "algorithm/latest/candidate_fire_pixels.geojson",
+      "required": true
+    },
+    {
+      "path": "./public/data/algorithm/latest/candidate_fire_clusters.geojson",
+      "targetPath": "algorithm/latest/candidate_fire_clusters.geojson",
+      "required": true
+    },
+    {
+      "path": "./public/data/algorithm/latest/candidate_fire_official.geojson",
+      "targetPath": "algorithm/latest/candidate_fire_official.geojson",
+      "required": true
+    },
+    {
+      "path": "./public/data/algorithm/latest/candidate_fire_grid.npz",
+      "targetPath": "algorithm/latest/candidate_fire_grid.npz",
+      "required": true
+    },
+    {
       "path": "./public/data/algorithm/latest/candidate_fire_summary.json",
       "targetPath": "algorithm/latest/candidate_fire_summary.json",
       "required": true
+    },
+    {
+      "path": "./public/data/algorithm/latest/candidate_fire_v15_scorer_summary.json",
+      "targetPath": "algorithm/latest/candidate_fire_v15_scorer_summary.json",
+      "required": false
     },
     {
       "path": "./public/data/catalog.json",

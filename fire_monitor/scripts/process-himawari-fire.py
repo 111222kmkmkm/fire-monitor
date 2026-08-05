@@ -18,6 +18,11 @@ from typing import Any
 
 import numpy as np
 
+try:
+    from himawari_fire_v15_online_scorer import apply_v15_west_scorer
+except Exception:  # noqa: BLE001
+    apply_v15_west_scorer = None
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG_PATH = PROJECT_ROOT / "config" / "process-himawari-fire.json"
@@ -26,7 +31,7 @@ SEGMENT_PATTERN = re.compile(
 )
 PLANCK_C1 = 1.191042972e8
 PLANCK_C2 = 1.4387769e4
-ALGORITHM_VERSION = "nsmc-himawari-contextual-v3"
+ALGORITHM_VERSION = "nsmc-himawari-contextual-v3+v15-west-b70"
 METHOD_REFERENCES = [
     "https://doi.org/10.5194/essd-15-1911-2023",
     "https://doi.org/10.5194/essd-14-3489-2022",
@@ -175,6 +180,9 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
     thresholds = {
         "suspiciousOffsetK": float(config.get("thresholds", {}).get("suspiciousOffsetK", 20)),
         "suspiciousVisibleFactor": float(config.get("thresholds", {}).get("suspiciousVisibleFactor", 100)),
+        "suspiciousLocalMaximumWindow": int(
+            config.get("thresholds", {}).get("suspiciousLocalMaximumWindow", 1)
+        ),
         "minValidRatio": float(config.get("thresholds", {}).get("minValidRatio", 0.2)),
         "nightAbsoluteT7K": float(config.get("thresholds", {}).get("nightAbsoluteT7K", 360)),
         "nightVisibleMax": float(config.get("thresholds", {}).get("nightVisibleMax", 0.7)),
@@ -224,6 +232,69 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
     fuse_official_fire_references(filtered_fire_pixels, official_references, config)
     detection["firePixels"] = filtered_fire_pixels
     detection["fires"] = suppress_nearby_duplicates(filtered_fire_pixels, radius_pixels=2)
+
+    # v15 西部生产模型重打分（west-b70）；非西部保留物理规则分
+    v15_summary = {"enabled": False}
+    if apply_v15_west_scorer is not None and bool((config.get("v15Scorer") or {}).get("enabled", True)):
+        try:
+            scored_fires, v15_summary = apply_v15_west_scorer(detection["fires"], config, PROJECT_ROOT)
+            detection["fires"] = scored_fires
+        except Exception as exc:  # noqa: BLE001
+            fail_open = bool((config.get("v15Scorer") or {}).get("failOpen", False))
+            v15_summary = {
+                "enabled": True,
+                "error": str(exc),
+                "failOpen": fail_open,
+                "fallback": "physics-rule" if fail_open else None,
+            }
+            if not fail_open:
+                raise
+            # 云端 failOpen：保留物理规则结果，链路不中断
+            print(f"[v15Scorer] failed, failOpen=true, fallback physics: {exc}")
+            scored_fires = detection["fires"]
+        keep_keys = {
+            (
+                round(float(f.get("lon", 0.0)), 6),
+                round(float(f.get("lat", 0.0)), 6),
+                int(f.get("row", -1)),
+                int(f.get("col", -1)),
+            )
+            for f in scored_fires
+        }
+        score_map = {
+            (
+                round(float(f.get("lon", 0.0)), 6),
+                round(float(f.get("lat", 0.0)), 6),
+                int(f.get("row", -1)),
+                int(f.get("col", -1)),
+            ): f
+            for f in scored_fires
+        }
+        west_lon_max = float((config.get("v15Scorer") or {}).get("westLonMax", 105.0))
+        new_pixels = []
+        for pix in filtered_fire_pixels:
+            key = (
+                round(float(pix.get("lon", 0.0)), 6),
+                round(float(pix.get("lat", 0.0)), 6),
+                int(pix.get("row", -1)),
+                int(pix.get("col", -1)),
+            )
+            is_west = float(pix.get("lon") or 0.0) < west_lon_max
+            if is_west and key not in keep_keys and not bool((pix.get("diagnostics") or {}).get("officialConfirmed")):
+                continue
+            if key in score_map:
+                src = score_map[key]
+                pix = dict(pix)
+                pix["score"] = src.get("score", pix.get("score"))
+                pix["confidence"] = src.get("confidence", pix.get("confidence"))
+                diag = dict(pix.get("diagnostics") or {})
+                diag.update(src.get("diagnostics") or {})
+                pix["diagnostics"] = diag
+            new_pixels.append(pix)
+        filtered_fire_pixels = new_pixels
+        detection["firePixels"] = filtered_fire_pixels
+    elif apply_v15_west_scorer is None and bool((config.get("v15Scorer") or {}).get("enabled", True)):
+        v15_summary = {"enabled": False, "error": "himawari_fire_v15_online_scorer import failed"}
 
     pixel_features, cluster_features = build_fire_range_features(
         filtered_fire_pixels,
@@ -286,6 +357,7 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
         "confidenceCounts": summarize_confidence_counts(detection["fires"]),
         "algorithmVersion": ALGORITHM_VERSION,
         "algorithmMode": str(config.get("algorithmMode", "paper-adapted")),
+        "v15Scorer": v15_summary,
         "methodReferences": METHOD_REFERENCES,
         "paperStrictMode": bool(config.get("paperStrictMode", True)),
         "thresholds": thresholds,
@@ -299,6 +371,7 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
     write_json(output_dir / "candidate_fire_clusters.geojson", cluster_geojson)
     write_json(output_dir / "candidate_fire_official.geojson", official_geojson)
     write_json(output_dir / "candidate_fire_summary.json", summary)
+    write_json(output_dir / "candidate_fire_v15_scorer_summary.json", v15_summary)
     write_fire_grid(
         output_dir / "candidate_fire_grid.npz",
         detection,
@@ -312,6 +385,8 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
     mirror_public_output_to_dist(output_dir / "candidate_fire_clusters.geojson")
     mirror_public_output_to_dist(output_dir / "candidate_fire_official.geojson")
     mirror_public_output_to_dist(output_dir / "candidate_fire_summary.json")
+    if (output_dir / "candidate_fire_v15_scorer_summary.json").exists():
+        mirror_public_output_to_dist(output_dir / "candidate_fire_v15_scorer_summary.json")
 
     if db_path:
         upsert_candidate_fire_rows(db_path, detection["fires"], acquisition_time, source_sat)
@@ -688,18 +763,13 @@ def detect_fire_pixels(
     notes = [
         "NSMC-Himawari contextual tests follow ESSD 15, 1911-1931 (2023), with an engineering nighttime fallback when visible reflectance is unavailable."
     ]
-    t713 = b07 - b13
-    thermal_valid = roi_mask & np.isfinite(b07) & np.isfinite(b13) & np.isfinite(b14)
-    night_mask = solar["zenithDeg"] > thresholds["nightZenithDeg"]
-    visible_valid = np.isfinite(rvis)
-    valid = thermal_valid & (night_mask | visible_valid)
-    cloud_mask = valid & (
-        (t713 < 4)
-        | ((t713 > 20) & ((b07 < 275) | (b13 < 270)))
-        | (visible_valid & (rvis > thresholds["cloudVisibleReflectance"]) & (solar["zenithDeg"] < thresholds["cloudZenithLimitDeg"]))
-        | (b14 < 265)
-        | ((b13 < 270) & (((b13 - b14) < 4) | ((b13 - b14) > 60)))
-    )
+    masks = build_observation_masks(b07, b13, b14, rvis, roi_mask, solar, thresholds)
+    t713 = masks["t713"]
+    thermal_valid = masks["thermalValid"]
+    night_mask = masks["night"]
+    visible_valid = masks["visibleValid"]
+    valid = masks["valid"]
+    cloud_mask = masks["cloud"]
     # 日间预筛选是两个独立条件：热红外差值超过偏移量，同时 3.9 微米亮温超过可见光反射阈值。
     # 不能把 b13 再加到第二个条件中，否则会把反射率项错误叠加到亮温差上并造成大面积漏检。
     suspicious_mask = valid & visible_valid & ~cloud_mask & (
@@ -707,6 +777,9 @@ def detect_fire_pixels(
     ) & (
         b07 > rvis * thresholds["suspiciousVisibleFactor"] + thresholds["suspiciousOffsetK"]
     )
+    local_maximum_window = int(thresholds.get("suspiciousLocalMaximumWindow", 1))
+    if local_maximum_window > 1:
+        suspicious_mask &= local_maximum_mask(t713, local_maximum_window)
     night_absolute_mask = valid & ~cloud_mask & night_mask & (
         (b07 > thresholds["nightAbsoluteT7K"])
         & (~visible_valid | (rvis < thresholds["nightVisibleMax"]))
@@ -715,6 +788,13 @@ def detect_fire_pixels(
 
     candidate_indices = np.argwhere(seed_mask)
     fires: list[dict[str, Any]] = []
+    rejection_counts = {
+        "backgroundContextRejectedPixels": 0,
+        "dynamicThresholdRejectedPixels": 0,
+        "contextualCloudRejectedPixels": 0,
+        "edgeThresholdRejectedPixels": 0,
+        "staticThermalSourceRejectedPixels": 0,
+    }
     for row, col in candidate_indices:
         background = build_background_context(
             row,
@@ -731,6 +811,7 @@ def detect_fire_pixels(
             thresholds,
         )
         if background is None:
+            rejection_counts["backgroundContextRejectedPixels"] += 1
             continue
 
         altitude = float(solar["altitudeDeg"][row, col])
@@ -743,6 +824,7 @@ def detect_fire_pixels(
             and float(t713[row, col]) > background["t713Bg"] + dynamic_factor * background["stdT713"]
         )
         if not night_hot and not relative_hot:
+            rejection_counts["dynamicThresholdRejectedPixels"] += 1
             continue
 
         cloud_rejected = bool(
@@ -752,6 +834,7 @@ def detect_fire_pixels(
             and float(b13[row, col]) <= background["t13Bg"] - thresholds["cloudT13DeltaK"]
         )
         if cloud_rejected:
+            rejection_counts["contextualCloudRejectedPixels"] += 1
             continue
 
         edge_rejected = (
@@ -759,6 +842,7 @@ def detect_fire_pixels(
             and float(t713[row, col]) <= background["t713Bg"] + thresholds["edgeThresholdC"] * background["stdT713"]
         )
         if edge_rejected:
+            rejection_counts["edgeThresholdRejectedPixels"] += 1
             continue
 
         static_source_rejected = matches_static_thermal_source(
@@ -768,6 +852,7 @@ def detect_fire_pixels(
             thresholds["thermalSourceRadiusKm"],
         )
         if static_source_rejected:
+            rejection_counts["staticThermalSourceRejectedPixels"] += 1
             continue
 
         evidence = compute_fire_evidence_score(
@@ -839,9 +924,98 @@ def detect_fire_pixels(
             "combinedSeedPixels": int(np.count_nonzero(seed_mask)),
             "acceptedFirePixels": len(fires),
             "deduplicatedFires": len(deduped_fires),
+            **rejection_counts,
         },
         "notes": notes,
     }
+
+
+def build_observation_masks(
+    b07: np.ndarray,
+    b13: np.ndarray,
+    b14: np.ndarray,
+    rvis: np.ndarray,
+    roi_mask: np.ndarray,
+    solar: dict[str, np.ndarray],
+    thresholds: dict[str, float],
+) -> dict[str, np.ndarray]:
+    """构建线上检测和训练数据共用的有效观测、昼夜及云掩膜。"""
+    t713 = b07 - b13
+    thermal_valid = roi_mask & np.isfinite(b07) & np.isfinite(b13) & np.isfinite(b14)
+    night = solar["zenithDeg"] > thresholds["nightZenithDeg"]
+    visible_valid = np.isfinite(rvis)
+    valid = thermal_valid & (night | visible_valid)
+    cloud = valid & (
+        (~night & (t713 < 4))
+        | ((t713 > 20) & ((b07 < 275) | (b13 < 270)))
+        | (
+            visible_valid
+            & (rvis > thresholds["cloudVisibleReflectance"])
+            & (solar["zenithDeg"] < thresholds["cloudZenithLimitDeg"])
+        )
+        | (b14 < 265)
+        | ((b13 < 270) & (((b13 - b14) < 4) | ((b13 - b14) > 60)))
+    )
+    return {
+        "t713": t713,
+        "thermalValid": thermal_valid,
+        "night": night,
+        "visibleValid": visible_valid,
+        "valid": valid,
+        "cloud": cloud,
+    }
+
+
+def build_permissive_candidate_mask(
+    b07: np.ndarray,
+    rvis: np.ndarray,
+    masks: dict[str, np.ndarray],
+    thresholds: dict[str, float],
+) -> np.ndarray:
+    """构建模型分类器使用的宽松昼夜候选掩膜。"""
+    clear = masks["valid"] & ~masks["cloud"]
+    daytime = (
+        clear
+        & ~masks["night"]
+        & masks["visibleValid"]
+        & (masks["t713"] > thresholds["suspiciousOffsetK"])
+        & (b07 > rvis * thresholds["suspiciousVisibleFactor"] + thresholds["suspiciousOffsetK"])
+    )
+    nighttime = (
+        clear
+        & masks["night"]
+        & (masks["t713"] > thresholds.get("nightCandidateOffsetK", 4.0))
+    )
+    candidate_mask = daytime | nighttime
+    local_maximum_window = int(thresholds.get("suspiciousLocalMaximumWindow", 1))
+    if local_maximum_window > 1:
+        candidate_mask &= local_maximum_mask(masks["t713"], local_maximum_window)
+    return candidate_mask
+
+
+def local_maximum_mask(values: np.ndarray, window_size: int) -> np.ndarray:
+    """返回局部最大值掩膜，用于压缩成片的弱热异常候选。"""
+    size = max(int(window_size), 1)
+    if size % 2 == 0:
+        raise ValueError("局部最大值窗口必须是奇数")
+    if size == 1:
+        return np.isfinite(values)
+
+    radius = size // 2
+    finite_values = np.where(np.isfinite(values), values, -np.inf)
+    padded = np.pad(finite_values, radius, mode="constant", constant_values=-np.inf)
+    local_maximum = np.full(values.shape, -np.inf, dtype=finite_values.dtype)
+    for row_offset in range(size):
+        for col_offset in range(size):
+            np.maximum(
+                local_maximum,
+                padded[
+                    row_offset:row_offset + values.shape[0],
+                    col_offset:col_offset + values.shape[1],
+                ],
+                out=local_maximum,
+            )
+    return np.isfinite(values) & (finite_values >= local_maximum)
 
 
 def build_background_context(

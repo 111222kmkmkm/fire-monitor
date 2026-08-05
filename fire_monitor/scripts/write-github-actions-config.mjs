@@ -172,6 +172,23 @@ async function main() {
       confidenceMediumScore: 2.0,
       confidenceHighScore: 3.5,
     },
+    v15Scorer: {
+      enabled: true,
+      modelPath: './models/himawari-fire-recognition-production/candidate_classifier.txt',
+      modelCardPath: './models/himawari-fire-recognition-production/model-card.json',
+      temporalStatePath: './data-store/algorithm-state/himawari-v15-online-grid-temporal.parquet',
+      westLonMax: 105.0,
+      westBudget: 50,
+      applyToNonWest: false,
+      scoreScale: 10.0,
+      confidenceHighProb: 0.65,
+      confidenceMediumProb: 0.35,
+      gridDeg: 0.05,
+      temporalKeepSlots: 400,
+      // 云端保活：scorer 异常时回退物理规则，避免 5 分钟链路整轮失败
+      failOpen: true,
+      notes: 'GitHub 云端西部打分：west-b70 生产模型；非西部物理规则',
+    },
   }
 
   const cloudPipelineConfig = {
@@ -222,6 +239,11 @@ async function main() {
         path: './public/data/algorithm/latest/candidate_fire_summary.json',
         targetPath: 'algorithm/latest/candidate_fire_summary.json',
         required: true,
+      },
+      {
+        path: './public/data/algorithm/latest/candidate_fire_v15_scorer_summary.json',
+        targetPath: 'algorithm/latest/candidate_fire_v15_scorer_summary.json',
+        required: false,
       },
       {
         path: './public/data/catalog.json',

@@ -14,6 +14,23 @@
   "statePath": "./data-store/algorithm-state/himawari-fire.json",
   "chinaBoundaryPath": "./public/data/china-boundary.geojson",
   "databasePath": "./fire_monitor.geodatabase",
+  "officialFusion": {
+    "enabled": true,
+    "referenceGlobs": [
+      "./data-store/runtime-data/firms_viirs_nrt/**/*.csv",
+      "./data-store/runtime-data/viirs_noaa20_nrt/**/*.csv",
+      "./public/data/published/viirs_noaa20_nrt/**/*.csv"
+    ],
+    "timeWindowHours": 3,
+    "spatialMatchKm": 4,
+    "acceptedViirsConfidence": [
+      "nominal",
+      "high",
+      "n",
+      "h"
+    ],
+    "minModisConfidence": 30
+  },
   "sourceSat": "H09",
   "bands": [
     "03",
@@ -62,5 +79,21 @@
     "absoluteScoreScaleK": 10,
     "confidenceMediumScore": 2,
     "confidenceHighScore": 3.5
+  },
+  "v15Scorer": {
+    "enabled": true,
+    "modelPath": "./models/himawari-fire-recognition-production/candidate_classifier.txt",
+    "modelCardPath": "./models/himawari-fire-recognition-production/model-card.json",
+    "temporalStatePath": "./data-store/algorithm-state/himawari-v15-online-grid-temporal.parquet",
+    "westLonMax": 105,
+    "westBudget": 50,
+    "applyToNonWest": false,
+    "scoreScale": 10,
+    "confidenceHighProb": 0.65,
+    "confidenceMediumProb": 0.35,
+    "gridDeg": 0.05,
+    "temporalKeepSlots": 400,
+    "failOpen": true,
+    "notes": "GitHub 云端西部打分：west-b70 生产模型；非西部物理规则"
   }
 }

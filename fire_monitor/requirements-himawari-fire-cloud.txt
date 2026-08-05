@@ -1,0 +1,5 @@
+# GitHub Actions 云端火点识别最小依赖
+numpy>=1.26
+pandas>=2.0
+pyarrow>=14.0
+lightgbm>=4.0
