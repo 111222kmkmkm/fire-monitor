@@ -163,7 +163,7 @@ async function main() {
       cloudZenithLimitDeg: 70,
       cloudVisibleDelta: 0.15,
       cloudT13DeltaK: 5,
-      edgeThresholdC: 8,
+      edgeThresholdC: 6,
       thermalSourceRadiusKm: 4.0,
       minBackgroundPixels: 4,
       minStdT713K: 2.0,
@@ -171,6 +171,13 @@ async function main() {
       absoluteScoreScaleK: 10.0,
       confidenceMediumScore: 2.0,
       confidenceHighScore: 3.5,
+    },
+    // 仅在完整历史场景与真实 VIIRS 标签回测通过后开启。
+    candidateRescue: {
+      enabled: false,
+      dynamicFactorScale: 0.8,
+      edgeThresholdC: 5.0,
+      maxCandidatesPerScene: 400,
     },
     v15Scorer: {
       enabled: true,
@@ -180,14 +187,25 @@ async function main() {
       westLonMax: 105.0,
       westBudget: 50,
       applyToNonWest: false,
+      mideastEnabled: true,
+      mideastModelPath: './models/himawari-fire-recognition-mideast-production/candidate_classifier.txt',
+      mideastModelCardPath: './models/himawari-fire-recognition-mideast-production/model-card.json',
+      mideastBudget: 50,
       scoreScale: 10.0,
       confidenceHighProb: 0.65,
       confidenceMediumProb: 0.35,
+      rescueMinProbability: 0.35,
       gridDeg: 0.05,
       temporalKeepSlots: 400,
       // 云端保活：scorer 异常时回退物理规则，避免 5 分钟链路整轮失败
       failOpen: true,
-      notes: 'GitHub 云端西部打分：west-b70 生产模型；非西部物理规则',
+      notes: 'GitHub 云端：西部 west-b70；中东部(lon>=105) mideast-phaseb 专模(F3/seed731 recall@B50=0.2316)',
+    },
+    mideastDistilled: {
+      enabled: false,
+      configPath: './config/process-himawari-mideast-distilled.json',
+      failOpen: true,
+      notes: '中东部改用 v15Scorer.mideastEnabled 专模；本规则仅作 failOpen 兜底，默认禁用',
     },
   }
 
