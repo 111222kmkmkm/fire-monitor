@@ -1,6 +1,9 @@
 name: Fire Monitor Cloud Pipeline
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
   schedule:
     # GitHub cron 可能延迟或漏触发，自续调度会在每轮结束后补排下一轮。
