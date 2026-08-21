@@ -64,7 +64,7 @@
     "suspiciousOffsetK": 20,
     "suspiciousVisibleFactor": 100,
     "minValidRatio": 0.2,
-    "nightAbsoluteT7K": 360,
+    "nightAbsoluteT7K": 320,
     "nightVisibleMax": 0.7,
     "nightZenithDeg": 87,
     "cloudVisibleReflectance": 0.28,

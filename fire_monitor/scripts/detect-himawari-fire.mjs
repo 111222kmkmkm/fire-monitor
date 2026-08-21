@@ -53,7 +53,7 @@ async function runDetection(config) {
     minValidRatio: Number(config.thresholds?.minValidRatio ?? 0.2),
     minStdT713K: Number(config.thresholds?.minStdT713K ?? 2),
     maxStdT713K: Number(config.thresholds?.maxStdT713K ?? 4),
-    nightAbsoluteT7K: Number(config.thresholds?.nightAbsoluteT7K ?? 360),
+    nightAbsoluteT7K: Number(config.thresholds?.nightAbsoluteT7K ?? 320),
     nightVisibleMax: Number(config.thresholds?.nightVisibleMax ?? 0.7),
     nightZenithDeg: Number(config.thresholds?.nightZenithDeg ?? 87),
     cloudVisibleDelta: Number(config.thresholds?.cloudVisibleDelta ?? 0.15),
