@@ -23,15 +23,20 @@ try:
 except Exception:  # noqa: BLE001
     apply_v15_west_scorer = None
 
+try:
+    from himawari_fire_mideast_rule_scorer import apply_mideast_distilled_rules
+except Exception:  # noqa: BLE001
+    apply_mideast_distilled_rules = None
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG_PATH = PROJECT_ROOT / "config" / "process-himawari-fire.json"
 SEGMENT_PATTERN = re.compile(
-    r"^HS_H09_(?P<date>\d{8})_(?P<time>\d{4})_B(?P<band>\d{2})_FLDK_.*_S(?P<segment>\d{2})10\.DAT\.bz2$"
+    r"^HS_H(?P<satellite>\d{2})_(?P<date>\d{8})_(?P<time>\d{4})_B(?P<band>\d{2})_FLDK_.*_S(?P<segment>\d{2})10\.DAT\.bz2$"
 )
 PLANCK_C1 = 1.191042972e8
 PLANCK_C2 = 1.4387769e4
-ALGORITHM_VERSION = "nsmc-himawari-contextual-v3+v15-west-b70"
+ALGORITHM_VERSION = "nsmc-himawari-contextual-v3+v15-west-b70+mideast-phaseb"
 METHOD_REFERENCES = [
     "https://doi.org/10.5194/essd-15-1911-2023",
     "https://doi.org/10.5194/essd-14-3489-2022",
@@ -184,7 +189,7 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
             config.get("thresholds", {}).get("suspiciousLocalMaximumWindow", 1)
         ),
         "minValidRatio": float(config.get("thresholds", {}).get("minValidRatio", 0.2)),
-        "nightAbsoluteT7K": float(config.get("thresholds", {}).get("nightAbsoluteT7K", 360)),
+        "nightAbsoluteT7K": float(config.get("thresholds", {}).get("nightAbsoluteT7K", 320)),
         "nightVisibleMax": float(config.get("thresholds", {}).get("nightVisibleMax", 0.7)),
         "nightZenithDeg": float(config.get("thresholds", {}).get("nightZenithDeg", 87)),
         "cloudVisibleReflectance": float(config.get("thresholds", {}).get("cloudVisibleReflectance", 0.28)),
@@ -202,6 +207,7 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
     }
     window_sizes = [int(size) for size in config.get("windowSizes", [7, 9, 11, 19])]
 
+    candidate_rescue = normalize_candidate_rescue_config(config.get("candidateRescue"))
     detection = detect_fire_pixels(
         acquisition_time=acquisition_time,
         source_sat=source_sat,
@@ -215,6 +221,7 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
         solar=solar,
         window_sizes=window_sizes,
         thresholds=thresholds,
+        candidate_rescue=candidate_rescue,
         snapshot_key=snapshot_key,
         non_vegetation_mask=non_vegetation_mask,
         thermal_source_db=thermal_source_db,
@@ -235,6 +242,7 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
 
     # v15 西部生产模型重打分（west-b70）；非西部保留物理规则分
     v15_summary = {"enabled": False}
+    mideast_summary = {"enabled": False}
     if apply_v15_west_scorer is not None and bool((config.get("v15Scorer") or {}).get("enabled", True)):
         try:
             scored_fires, v15_summary = apply_v15_west_scorer(detection["fires"], config, PROJECT_ROOT)
@@ -295,6 +303,60 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
         detection["firePixels"] = filtered_fire_pixels
     elif apply_v15_west_scorer is None and bool((config.get("v15Scorer") or {}).get("enabled", True)):
         v15_summary = {"enabled": False, "error": "himawari_fire_v15_online_scorer import failed"}
+
+    # 中东部蒸馏规则重排（lon>=105）；西部保持 v15 模型结果
+    mideast_summary = {"enabled": False}
+    if apply_mideast_distilled_rules is not None and bool((config.get("mideastDistilled") or {}).get("enabled", False)):
+        try:
+            scored_me, mideast_summary = apply_mideast_distilled_rules(detection["fires"], config, PROJECT_ROOT)
+            detection["fires"] = scored_me
+            # 同步 firePixels 分数（仅中东部）
+            west_lon_max = float((config.get("mideastDistilled") or {}).get("westLonMax", (config.get("v15Scorer") or {}).get("westLonMax", 105.0)))
+            score_map = {}
+            for fire in detection["fires"]:
+                key = (
+                    round(float(fire.get("lon", 0.0)), 6),
+                    round(float(fire.get("lat", 0.0)), 6),
+                    int(fire.get("row", -1)),
+                    int(fire.get("col", -1)),
+                )
+                score_map[key] = fire
+            new_pixels = []
+            for pix in filtered_fire_pixels:
+                key = (
+                    round(float(pix.get("lon", 0.0)), 6),
+                    round(float(pix.get("lat", 0.0)), 6),
+                    int(pix.get("row", -1)),
+                    int(pix.get("col", -1)),
+                )
+                lon = float(pix.get("lon") or 0.0)
+                src = score_map.get(key)
+                if lon >= west_lon_max and src is None and not bool((pix.get("diagnostics") or {}).get("officialConfirmed")):
+                    # 被中东部 budget 截断
+                    continue
+                if src is not None and lon >= west_lon_max:
+                    pix = dict(pix)
+                    pix["score"] = src.get("score", pix.get("score"))
+                    pix["confidence"] = src.get("confidence", pix.get("confidence"))
+                    diag = dict(pix.get("diagnostics") or {})
+                    diag.update(src.get("diagnostics") or {})
+                    pix["diagnostics"] = diag
+                new_pixels.append(pix)
+            filtered_fire_pixels = new_pixels
+            detection["firePixels"] = filtered_fire_pixels
+        except Exception as exc:  # noqa: BLE001
+            fail_open = bool((config.get("mideastDistilled") or {}).get("failOpen", True))
+            mideast_summary = {
+                "enabled": True,
+                "error": str(exc),
+                "failOpen": fail_open,
+                "fallback": "physics-rule" if fail_open else None,
+            }
+            print(f"[mideastDistilled] failed, failOpen={fail_open}: {exc}")
+            if not fail_open:
+                raise
+    elif apply_mideast_distilled_rules is None and bool((config.get("mideastDistilled") or {}).get("enabled", False)):
+        mideast_summary = {"enabled": False, "error": "himawari_fire_mideast_rule_scorer import failed"}
 
     pixel_features, cluster_features = build_fire_range_features(
         filtered_fire_pixels,
@@ -358,6 +420,7 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
         "algorithmVersion": ALGORITHM_VERSION,
         "algorithmMode": str(config.get("algorithmMode", "paper-adapted")),
         "v15Scorer": v15_summary,
+        "mideastDistilled": mideast_summary,
         "methodReferences": METHOD_REFERENCES,
         "paperStrictMode": bool(config.get("paperStrictMode", True)),
         "thresholds": thresholds,
@@ -372,6 +435,7 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
     write_json(output_dir / "candidate_fire_official.geojson", official_geojson)
     write_json(output_dir / "candidate_fire_summary.json", summary)
     write_json(output_dir / "candidate_fire_v15_scorer_summary.json", v15_summary)
+    write_json(output_dir / "candidate_fire_mideast_distill_summary.json", mideast_summary)
     write_fire_grid(
         output_dir / "candidate_fire_grid.npz",
         detection,
@@ -756,6 +820,7 @@ def detect_fire_pixels(
     solar: dict[str, np.ndarray],
     window_sizes: list[int],
     thresholds: dict[str, float],
+    candidate_rescue: dict[str, Any] | None = None,
     snapshot_key: str,
     non_vegetation_mask: np.ndarray,
     thermal_source_db: dict[str, Any],
@@ -787,13 +852,18 @@ def detect_fire_pixels(
     seed_mask = suspicious_mask | night_absolute_mask
 
     candidate_indices = np.argwhere(seed_mask)
+    rescue_config = normalize_candidate_rescue_config(candidate_rescue)
     fires: list[dict[str, Any]] = []
+    rescue_fires: list[dict[str, Any]] = []
     rejection_counts = {
         "backgroundContextRejectedPixels": 0,
         "dynamicThresholdRejectedPixels": 0,
         "contextualCloudRejectedPixels": 0,
         "edgeThresholdRejectedPixels": 0,
         "staticThermalSourceRejectedPixels": 0,
+        "modelRescueEligiblePixels": 0,
+        "modelRescueSelectedPixels": 0,
+        "modelRescueTruncatedPixels": 0,
     }
     for row, col in candidate_indices:
         background = build_background_context(
@@ -823,7 +893,15 @@ def detect_fire_pixels(
             float(b07[row, col]) > background["t7Bg"] + dynamic_factor * background["stdT7"]
             and float(t713[row, col]) > background["t713Bg"] + dynamic_factor * background["stdT713"]
         )
-        if not night_hot and not relative_hot:
+        rescue_dynamic_factor = dynamic_factor * rescue_config["dynamicFactorScale"]
+        rescue_relative_hot = (
+            rescue_config["enabled"]
+            and not night_hot
+            and not relative_hot
+            and float(b07[row, col]) > background["t7Bg"] + rescue_dynamic_factor * background["stdT7"]
+            and float(t713[row, col]) > background["t713Bg"] + rescue_dynamic_factor * background["stdT713"]
+        )
+        if not night_hot and not relative_hot and not rescue_relative_hot:
             rejection_counts["dynamicThresholdRejectedPixels"] += 1
             continue
 
@@ -837,9 +915,10 @@ def detect_fire_pixels(
             rejection_counts["contextualCloudRejectedPixels"] += 1
             continue
 
+        edge_threshold = rescue_config["edgeThresholdC"] if rescue_relative_hot else thresholds["edgeThresholdC"]
         edge_rejected = (
-            float(b07[row, col]) <= background["t7Bg"] + thresholds["edgeThresholdC"] * background["stdT7"]
-            and float(t713[row, col]) <= background["t713Bg"] + thresholds["edgeThresholdC"] * background["stdT713"]
+            float(b07[row, col]) <= background["t7Bg"] + edge_threshold * background["stdT7"]
+            and float(t713[row, col]) <= background["t713Bg"] + edge_threshold * background["stdT713"]
         )
         if edge_rejected:
             rejection_counts["edgeThresholdRejectedPixels"] += 1
@@ -859,12 +938,13 @@ def detect_fire_pixels(
             t7=float(b07[row, col]),
             t713=float(t713[row, col]),
             background=background,
-            dynamic_factor=dynamic_factor,
+            dynamic_factor=rescue_dynamic_factor if rescue_relative_hot else dynamic_factor,
             night_hot=night_hot,
             thresholds=thresholds,
         )
 
-        fires.append(
+        target_fires = rescue_fires if rescue_relative_hot else fires
+        target_fires.append(
             {
                 "row": int(row),
                 "col": int(col),
@@ -885,6 +965,8 @@ def detect_fire_pixels(
                 "sceneId": snapshot_key,
                 "diagnostics": {
                     "dynamicFactor": round(dynamic_factor, 3),
+                    "rescueDynamicFactor": round(rescue_dynamic_factor, 3) if rescue_relative_hot else None,
+                    "candidateTier": "model-rescue" if rescue_relative_hot else "strict",
                     "pc": round(background["pc"], 3),
                     "pv": round(background["pv"], 3),
                     "t7Bg": round(background["t7Bg"], 2),
@@ -897,6 +979,7 @@ def detect_fire_pixels(
                     "windowSize": background["windowSize"],
                     "absoluteThresholdPassed": night_hot,
                     "dynamicThresholdPassed": relative_hot,
+                    "rescueThresholdPassed": rescue_relative_hot,
                     "staticThermalSourceRejected": static_source_rejected,
                     "t7ThresholdExcessSigma": evidence["t7ThresholdExcessSigma"],
                     "t713ThresholdExcessSigma": evidence["t713ThresholdExcessSigma"],
@@ -904,7 +987,17 @@ def detect_fire_pixels(
             }
         )
 
-        fires[-1]["confidence"] = classify_confidence_from_score(fires[-1]["score"], thresholds)
+        target_fires[-1]["confidence"] = classify_confidence_from_score(target_fires[-1]["score"], thresholds)
+
+    rejection_counts["modelRescueEligiblePixels"] = len(rescue_fires)
+    max_rescue = rescue_config["maxCandidatesPerScene"]
+    if max_rescue > 0 and len(rescue_fires) > max_rescue:
+        rescue_fires = sorted(rescue_fires, key=lambda item: float(item.get("score") or 0.0), reverse=True)[:max_rescue]
+    rejection_counts["modelRescueSelectedPixels"] = len(rescue_fires)
+    rejection_counts["modelRescueTruncatedPixels"] = (
+        rejection_counts["modelRescueEligiblePixels"] - rejection_counts["modelRescueSelectedPixels"]
+    )
+    fires.extend(rescue_fires)
 
     deduped_fires = suppress_nearby_duplicates(fires, radius_pixels=2)
     return {
@@ -1394,7 +1487,6 @@ def build_fire_range_features(
     remaining = set(prepared)
     cluster_index = 0
     while remaining:
-        cluster_index += 1
         stack = [remaining.pop()]
         members: list[dict[str, Any]] = []
         while stack:
@@ -1408,6 +1500,12 @@ def build_fire_range_features(
                         remaining.remove(neighbor)
                         stack.append(neighbor)
 
+        # 单个火点只保留点要素，不生成热异常区。
+        if len(members) < 2:
+            continue
+
+        cluster_index += 1
+
         total_score = sum(max(float(item["fire"]["score"]), 0.0) + 1.0 for item in members)
         centroid_lon = sum(
             item["fire"]["lon"] * (max(float(item["fire"]["score"]), 0.0) + 1.0)
@@ -1418,6 +1516,14 @@ def build_fire_range_features(
             for item in members
         ) / total_score
         polygons = [[item["ring"]] for item in members]
+        model_probabilities = [
+            float(probability)
+            for item in members
+            for probability in [
+                (item["fire"].get("diagnostics") or {}).get("v15ModelProb")
+            ]
+            if probability is not None and math.isfinite(float(probability))
+        ]
         cluster_features.append({
             "type": "Feature",
             "geometry": {
@@ -1425,6 +1531,8 @@ def build_fire_range_features(
                 "coordinates": polygons[0] if len(polygons) == 1 else polygons,
             },
             "properties": {
+                "featureType": "thermal-anomaly-area",
+                "isHeatAnomalyArea": True,
                 "clusterId": f"{members[0]['fire']['sceneId']}-{cluster_index}",
                 "sourceSat": members[0]["fire"]["sourceSat"],
                 "acqTimeUtc": members[0]["fire"]["acqTimeUtc"],
@@ -1440,6 +1548,11 @@ def build_fire_range_features(
                 "areaSquareKm": round(sum(item["areaSquareKm"] for item in members), 4),
                 "maxScore": max(float(item["fire"]["score"]) for item in members),
                 "meanScore": round(sum(float(item["fire"]["score"]) for item in members) / len(members), 4),
+                "maxBtTir": round(max(float(item["fire"]["btTir"]) for item in members), 2),
+                "maxBtDif": round(max(float(item["fire"]["btDif"]) for item in members), 2),
+                "maxModelProbability": round(max(model_probabilities), 6) if model_probabilities else None,
+                "meanModelProbability": round(sum(model_probabilities) / len(model_probabilities), 6)
+                if model_probabilities else None,
             },
         })
 
@@ -1558,6 +1671,17 @@ def compute_dynamic_threshold_factor(altitude_deg: float, pv: float, pc: float) 
     if altitude_deg < 60.0:
         return (sin_altitude + 1.0) * (1.0 + pv) * (1.0 + pc)
     return (1.2 * sin_altitude + 1.0) * (1.0 + pv) * ((1.0 + pc) ** 2)
+
+
+def normalize_candidate_rescue_config(raw_config: Any) -> dict[str, Any]:
+    """规范化历史回测后启用的模型补救候选参数。"""
+    config = raw_config if isinstance(raw_config, dict) else {}
+    return {
+        "enabled": bool(config.get("enabled", False)),
+        "dynamicFactorScale": min(max(float(config.get("dynamicFactorScale", 0.8)), 0.4), 1.0),
+        "edgeThresholdC": max(float(config.get("edgeThresholdC", 5.0)), 0.0),
+        "maxCandidatesPerScene": max(int(config.get("maxCandidatesPerScene", 400)), 0),
+    }
 
 
 def compute_fire_evidence_score(

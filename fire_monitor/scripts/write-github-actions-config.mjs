@@ -172,9 +172,9 @@ async function main() {
       confidenceMediumScore: 2.0,
       confidenceHighScore: 3.5,
     },
-    // 仅在完整历史场景与真实 VIIRS 标签回测通过后开启。
+    // 日间严格物理筛选无结果时，提供受控的候选补救；随后由 v15 模型二次筛选并限额。
     candidateRescue: {
-      enabled: false,
+      enabled: true,
       dynamicFactorScale: 0.8,
       edgeThresholdC: 5.0,
       maxCandidatesPerScene: 400,

@@ -80,7 +80,7 @@
     "confidenceHighScore": 3.5
   },
   "candidateRescue": {
-    "enabled": false,
+    "enabled": true,
     "dynamicFactorScale": 0.8,
     "edgeThresholdC": 5.0,
     "maxCandidatesPerScene": 400

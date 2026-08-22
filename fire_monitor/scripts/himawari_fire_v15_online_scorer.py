@@ -176,6 +176,36 @@ def build_base_features(frame: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
     return out, feature_columns
 
 
+def _urban_industrial_suppress(lon: np.ndarray, lat: np.ndarray) -> np.ndarray:
+    """中东部城市/工业热源抑制掩码（与训练侧一致）。"""
+    return (
+        ((lon >= 114.0) & (lon <= 120.5) & (lat >= 36.0) & (lat <= 41.5))
+        | ((lon >= 118.0) & (lon <= 122.5) & (lat >= 29.5) & (lat <= 33.0))
+        | ((lon >= 112.5) & (lon <= 115.5) & (lat >= 22.0) & (lat <= 24.5))
+        | ((lon >= 103.5) & (lon <= 107.5) & (lat >= 28.5) & (lat <= 32.0))
+        | ((lon >= 112.0) & (lon <= 115.0) & (lat >= 27.5) & (lat <= 31.0))
+    ).astype(np.float32)
+
+
+def add_mideast_special_features(df: pd.DataFrame) -> pd.DataFrame:
+    """中东部专模的额外特征：urban_industrial_suppress / east_day_risk。
+
+    与训练侧 add_scene_rank_features（mideast phaseb）定义一致，供中东部模型使用。
+    """
+    out = df.copy()
+    if "center_lon" not in out.columns or "center_lat" not in out.columns:
+        return out
+    lon = out["center_lon"].to_numpy(dtype=float)
+    lat = out["center_lat"].to_numpy(dtype=float)
+    out["urban_industrial_suppress"] = _urban_industrial_suppress(lon, lat)
+    east_flag = out["region_east"].to_numpy(dtype=np.float32) if "region_east" in out.columns else (lon >= 115.0).astype(np.float32)
+    day_flag = out["dn_day"].to_numpy(dtype=np.float32) if "dn_day" in out.columns else np.zeros(len(out), dtype=np.float32)
+    out["east_day_risk"] = (east_flag * day_flag * out["urban_industrial_suppress"].to_numpy(dtype=np.float32)).astype(np.float32)
+    for c in ("urban_industrial_suppress", "east_day_risk"):
+        out[c] = out[c].replace([np.inf, -np.inf], np.nan).fillna(0.0).astype(np.float32)
+    return out
+
+
 def add_scene_rank_features(df: pd.DataFrame) -> pd.DataFrame:
     out = df.copy()
     if "scene_slot" not in out.columns or len(out) == 0:
@@ -196,10 +226,15 @@ def add_scene_rank_features(df: pd.DataFrame) -> pd.DataFrame:
         ((lon > 76.8) & (lon < 88.5) & (lat > 36.0) & (lat < 42.5))
         | ((lon > 99.0) & (lon < 105.0) & (lat > 37.0) & (lat < 42.0))
     ).astype(np.float32)
+    out["urban_industrial_suppress"] = _urban_industrial_suppress(lon, lat)
+    east_flag = out["region_east"].to_numpy(dtype=np.float32) if "region_east" in out.columns else (lon >= 115.0).astype(np.float32)
+    day_flag = out["dn_day"].to_numpy(dtype=np.float32) if "dn_day" in out.columns else np.zeros(len(out), dtype=np.float32)
+    out["east_day_risk"] = (east_flag * day_flag * out["urban_industrial_suppress"].to_numpy(dtype=np.float32)).astype(np.float32)
     for c in [
         "bt07_to_scene_max", "bt07_minus_scene_mean", "bt07_scene_rank_pct",
         "t713_to_scene_max", "t713_scene_rank_pct", "area_scene_rank_pct",
         "scene_candidate_count_log", "scene_peak_x_t713", "thermal_rank_fuse", "desert_suppress",
+        "urban_industrial_suppress", "east_day_risk",
     ]:
         out[c] = out[c].replace([np.inf, -np.inf], np.nan).fillna(0.0).astype(np.float32)
     return out
@@ -366,11 +401,32 @@ def apply_v15_west_scorer(
     score_scale = float(scorer_cfg.get("scoreScale", 10.0))
     conf_high = float(scorer_cfg.get("confidenceHighProb", 0.65))
     conf_medium = float(scorer_cfg.get("confidenceMediumProb", 0.35))
+    rescue_min_probability = float(scorer_cfg.get("rescueMinProbability", conf_medium))
     grid_deg = float(scorer_cfg.get("gridDeg", DEFAULT_GRID_DEG))
     keep_slots = int(scorer_cfg.get("temporalKeepSlots", 400))
 
+    # 中东部专模（PhaseB）：lon>=west_lon_max 走该模型而非物理规则
+    mideast_cfg_path = scorer_cfg.get("mideastModelPath")
+    mideast_card_path = scorer_cfg.get("mideastModelCardPath")
+    mideast_budget = int(scorer_cfg.get("mideastBudget", west_budget))
+    mideast_enabled = bool(scorer_cfg.get("mideastEnabled", False)) and bool(mideast_cfg_path)
+    mideast_bundle: dict[str, Any] | None = None
+    mideast_feature_columns: list[str] = []
+    if mideast_enabled:
+        me_path = project_root / str(mideast_cfg_path)
+        me_card = project_root / str(mideast_card_path) if mideast_card_path else None
+        if me_path.exists():
+            try:
+                mideast_bundle = load_production_bundle(me_path, me_card if (me_card and me_card.exists()) else None)
+                mideast_feature_columns = list(mideast_bundle.get("featureColumns") or [])
+            except Exception as exc:  # noqa: BLE001
+                mideast_enabled = False
+                mideast_bundle = None
+                print(f"[v15Scorer] mideast model load failed, fallback physics-rule: {exc}")
+
     if not fires:
-        return fires, {"enabled": True, "scoredCount": 0, "westCount": 0, "keptWest": 0}
+        return fires, {"enabled": True, "scoredCount": 0, "westCount": 0, "keptWest": 0,
+                       "mideastEnabled": mideast_enabled}
 
     bundle = load_production_bundle(model_path, card_path if card_path.exists() else None)
     booster = bundle["booster"]
@@ -381,6 +437,7 @@ def apply_v15_west_scorer(
     frame = add_scene_rank_features(frame)
     grid_agg = update_online_temporal_state(temporal_path, frame, grid_deg=grid_deg, keep_slots=keep_slots)
     frame = add_grid_temporal_features(frame, grid_agg, grid_deg=grid_deg)
+    # 中东部专模依赖 urban_industrial_suppress / east_day_risk（add_scene_rank_features 已构建）
 
     for col in feature_columns:
         if col not in frame.columns:
@@ -390,64 +447,150 @@ def apply_v15_west_scorer(
     probs = booster.predict(frame[feature_columns].to_numpy(dtype=np.float32))
     frame["model_prob"] = np.asarray(probs, dtype=np.float64)
 
+    # 中东部模型打分（若启用）
+    if mideast_enabled and mideast_bundle is not None:
+        me_booster = mideast_bundle["booster"]
+        for col in mideast_feature_columns:
+            if col not in frame.columns:
+                frame[col] = 0.0
+            frame[col] = pd.to_numeric(frame[col], errors="coerce").replace([np.inf, -np.inf], np.nan).fillna(0.0)
+        me_probs = me_booster.predict(frame[mideast_feature_columns].to_numpy(dtype=np.float32))
+        frame["mideast_prob"] = np.asarray(me_probs, dtype=np.float64)
+    else:
+        frame["mideast_prob"] = np.nan
+
     out_fires: list[dict[str, Any]] = []
     west_idx = []
+    mideast_idx = []
     for i, fire in enumerate(fires):
         row = frame.iloc[i]
         lon = float(row["center_lon"])
         is_west = lon < west_lon_max
+        is_mideast = (not is_west) and mideast_enabled and mideast_bundle is not None
         item = dict(fire)
         diagnostics = dict(item.get("diagnostics") or {})
         diagnostics["physicsScore"] = float(item.get("score") or 0.0)
-        diagnostics["v15ModelProb"] = round(float(row["model_prob"]), 6)
         diagnostics["v15Scorer"] = "west-b70-production"
         diagnostics["v15ModelPath"] = bundle["modelPath"]
-        diagnostics["regionForScorer"] = "west" if is_west else "non-west"
+        diagnostics["regionForScorer"] = "west" if is_west else ("mideast" if is_mideast else "non-west")
 
-        if is_west or apply_non_west:
+        if is_west:
             prob = float(row["model_prob"])
+            diagnostics["v15ModelProb"] = round(prob, 6)
             item["score"] = round(prob * score_scale, 4)
             item["confidence"] = classify_model_confidence(prob, conf_high, conf_medium)
             diagnostics["scoreSource"] = "v15-west-b70"
-            if is_west:
-                west_idx.append(len(out_fires))
+            west_idx.append(len(out_fires))
+        elif is_mideast:
+            prob = float(row["mideast_prob"])
+            diagnostics["v15ModelProb"] = round(prob, 6)
+            diagnostics["v15Scorer"] = "mideast-phaseb-production"
+            diagnostics["v15ModelPath"] = mideast_bundle["modelPath"]
+            item["score"] = round(prob * score_scale, 4)
+            item["confidence"] = classify_model_confidence(prob, conf_high, conf_medium)
+            diagnostics["scoreSource"] = "v15-mideast-phaseb"
+            mideast_idx.append(len(out_fires))
+        elif apply_non_west:
+            prob = float(row["model_prob"])
+            diagnostics["v15ModelProb"] = round(prob, 6)
+            item["score"] = round(prob * score_scale, 4)
+            item["confidence"] = classify_model_confidence(prob, conf_high, conf_medium)
+            diagnostics["scoreSource"] = "v15-west-b70"
         else:
             diagnostics["scoreSource"] = "physics-rule"
         item["diagnostics"] = diagnostics
         # 官方确认火点永不因 budget 丢弃
         item["_keep_forced"] = bool(diagnostics.get("officialConfirmed"))
+        item["_drop_rescue"] = bool(
+            diagnostics.get("candidateTier") == "model-rescue"
+            and not item["_keep_forced"]
+            and float(diagnostics.get("v15ModelProb") or 0.0) < rescue_min_probability
+        )
         out_fires.append(item)
 
-    kept_west = len(west_idx)
-    dropped_west = 0
-    if west_budget > 0 and len(west_idx) > west_budget:
-        # TopK：按模型分排序，强制保留 officialConfirmed
+    def _apply_budget(idx_list: list[int], budget: int) -> tuple[int, int]:
+        """对指定索引列表做 TopK budget 截断；返回 (kept, dropped)。"""
+        if budget <= 0 or len(idx_list) <= budget:
+            return len(idx_list), 0
         ranked = sorted(
-            west_idx,
+            idx_list,
             key=lambda j: (
                 1 if out_fires[j].get("_keep_forced") else 0,
                 float(out_fires[j].get("score") or 0.0),
             ),
             reverse=True,
         )
-        keep_set = set(ranked[:west_budget])
-        # 强制把 official 也塞进 keep
-        for j in west_idx:
+        keep_set = set(ranked[:budget])
+        for j in idx_list:
             if out_fires[j].get("_keep_forced"):
                 keep_set.add(j)
-        new_list: list[dict[str, Any]] = []
-        for j, item in enumerate(out_fires):
-            lon = float(item.get("lon") or 0.0)
-            is_west = lon < west_lon_max
-            if is_west and j not in keep_set:
-                dropped_west += 1
-                continue
-            new_list.append(item)
-        out_fires = new_list
-        kept_west = sum(1 for f in out_fires if float(f.get("lon") or 0.0) < west_lon_max)
+        return len(keep_set), len(idx_list) - len(keep_set)
+
+    eligible_west_idx = [index for index in west_idx if not out_fires[index].get("_drop_rescue")]
+    eligible_mideast_idx = [index for index in mideast_idx if not out_fires[index].get("_drop_rescue")]
+    kept_west = len(eligible_west_idx)
+    dropped_west = 0
+    kept_mideast = len(eligible_mideast_idx)
+    dropped_mideast = 0
+    if west_budget > 0 and len(eligible_west_idx) > west_budget:
+        kept_west, dropped_west = _apply_budget(eligible_west_idx, west_budget)
+    if mideast_enabled and mideast_budget > 0 and len(eligible_mideast_idx) > mideast_budget:
+        kept_mideast, dropped_mideast = _apply_budget(eligible_mideast_idx, mideast_budget)
+
+    # 合并保留集：西部 keep + 中东部 keep + 非西部非中东部（物理规则，全保留）
+    west_keep: set[int] = set()
+    if west_budget > 0 and len(eligible_west_idx) > west_budget:
+        ranked = sorted(
+            eligible_west_idx,
+            key=lambda j: (1 if out_fires[j].get("_keep_forced") else 0, float(out_fires[j].get("score") or 0.0)),
+            reverse=True,
+        )
+        west_keep = set(ranked[:west_budget])
+        for j in west_idx:
+            if out_fires[j].get("_keep_forced"):
+                west_keep.add(j)
+    else:
+        west_keep = set(eligible_west_idx)
+
+    mideast_keep: set[int] = set()
+    if mideast_enabled:
+        if mideast_budget > 0 and len(eligible_mideast_idx) > mideast_budget:
+            ranked = sorted(
+                eligible_mideast_idx,
+                key=lambda j: (1 if out_fires[j].get("_keep_forced") else 0, float(out_fires[j].get("score") or 0.0)),
+                reverse=True,
+            )
+            mideast_keep = set(ranked[:mideast_budget])
+            for j in mideast_idx:
+                if out_fires[j].get("_keep_forced"):
+                    mideast_keep.add(j)
+        else:
+            mideast_keep = set(eligible_mideast_idx)
+
+    rescue_dropped_by_probability = sum(1 for item in out_fires if item.get("_drop_rescue"))
+    new_list: list[dict[str, Any]] = []
+    for j, item in enumerate(out_fires):
+        lon = float(item.get("lon") or 0.0)
+        is_west = lon < west_lon_max
+        is_mideast_item = (not is_west) and mideast_enabled
+        if is_west and j not in west_keep:
+            continue
+        if is_mideast_item and j not in mideast_keep:
+            continue
+        if item.get("_drop_rescue"):
+            continue
+        new_list.append(item)
+    out_fires = new_list
+    kept_west = sum(1 for f in out_fires if float(f.get("lon") or 0.0) < west_lon_max)
+    kept_mideast = sum(1 for f in out_fires if float(f.get("lon") or 0.0) >= west_lon_max) if mideast_enabled else 0
+    rescue_input_count = sum(
+        1 for item in fires
+        if (item.get("diagnostics") or {}).get("candidateTier") == "model-rescue"
+    )
 
     for item in out_fires:
         item.pop("_keep_forced", None)
+        item.pop("_drop_rescue", None)
 
     # 最终按分数排序，稳定输出
     out_fires = sorted(
@@ -466,13 +609,29 @@ def apply_v15_west_scorer(
             "seed": (bundle.get("card") or {}).get("seed"),
             "eventRecallAtBudget50": (bundle.get("card") or {}).get("eventRecallAtBudget50"),
         },
+        "mideastEnabled": mideast_enabled,
+        "mideastModelPath": (mideast_bundle or {}).get("modelPath") if mideast_enabled else None,
+        "mideastModelCard": {
+            "sourceExperiment": (mideast_bundle or {}).get("card", {}).get("sourceExperiment") if mideast_enabled else None,
+            "fold": (mideast_bundle or {}).get("card", {}).get("fold") if mideast_enabled else None,
+            "seed": (mideast_bundle or {}).get("card", {}).get("seed") if mideast_enabled else None,
+            "eventRecallAtBudget50": (mideast_bundle or {}).get("card", {}).get("eventRecallAtBudget50") if mideast_enabled else None,
+        } if mideast_enabled else None,
         "featureCount": len(feature_columns),
+        "mideastFeatureCount": len(mideast_feature_columns) if mideast_enabled else 0,
         "inputCount": len(fires),
         "outputCount": len(out_fires),
         "westInputCount": int((frame["center_lon"] < west_lon_max).sum()),
         "westKeptCount": kept_west,
         "westDroppedByBudget": dropped_west,
         "westBudget": west_budget,
+        "mideastInputCount": int((frame["center_lon"] >= west_lon_max).sum()) if mideast_enabled else 0,
+        "mideastKeptCount": kept_mideast,
+        "mideastDroppedByBudget": dropped_mideast,
+        "mideastBudget": mideast_budget if mideast_enabled else 0,
+        "modelRescueInputCount": rescue_input_count,
+        "modelRescueDroppedByProbability": rescue_dropped_by_probability,
+        "rescueMinProbability": rescue_min_probability,
         "westLonMax": west_lon_max,
         "scoreScale": score_scale,
         "temporalStatePath": str(temporal_path),
