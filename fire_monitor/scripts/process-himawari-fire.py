@@ -226,6 +226,10 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
         non_vegetation_mask=non_vegetation_mask,
         thermal_source_db=thermal_source_db,
     )
+    boundary_rejected_pixels = [
+        fire for fire in detection["firePixels"]
+        if not point_in_any_polygon(fire["lon"], fire["lat"], china_polygons)
+    ]
     filtered_fire_pixels = [
         fire for fire in detection["firePixels"]
         if point_in_any_polygon(fire["lon"], fire["lat"], china_polygons)
@@ -414,6 +418,18 @@ def process_latest_snapshot(config: dict[str, Any]) -> None:
         ),
         "cloudPixelCount": detection["cloudPixelCount"],
         "detectionStageCounts": detection["stageCounts"],
+        "boundaryFilteredPixels": len(boundary_rejected_pixels),
+        "boundaryFilteredSample": [
+            {
+                "lon": fire["lon"],
+                "lat": fire["lat"],
+                "daynight": fire.get("daynight"),
+                "btTir": fire.get("btTir"),
+                "btDif": fire.get("btDif"),
+                "candidateTier": (fire.get("diagnostics") or {}).get("candidateTier"),
+            }
+            for fire in boundary_rejected_pixels[:5]
+        ],
         "stale": stale,
         "snapshotAgeMinutes": round(snapshot_age_minutes, 1),
         "confidenceCounts": summarize_confidence_counts(detection["fires"]),
